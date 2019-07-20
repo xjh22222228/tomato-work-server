@@ -1,0 +1,63 @@
+{
+  "name": "tomato-work-server",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "egg": {
+    "declarations": true
+  },
+  "dependencies": {
+    "dayjs": "^1.8.15",
+    "egg": "^2.15.1",
+    "egg-crypto": "^1.0.0",
+    "egg-jwt": "^3.1.6",
+    "egg-mailer": "^1.0.1",
+    "egg-passport": "^2.0.2",
+    "egg-passport-github": "^1.0.0",
+    "egg-passport-local": "^1.2.1",
+    "egg-scripts": "^2.11.0",
+    "egg-sequelize": "^5.1.0",
+    "egg-validate": "^2.0.2",
+    "lodash": "^4.17.11",
+    "mysql2": "^1.6.5",
+    "node-xlsx": "^0.15.0",
+    "svg-captcha": "^1.4.0",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "autod": "^3.0.1",
+    "autod-egg": "^1.1.0",
+    "egg-bin": "^4.11.0",
+    "egg-ci": "^1.11.0",
+    "egg-mock": "^3.21.0",
+    "eslint": "^5.13.0",
+    "eslint-config-egg": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon --title=egg-server-server",
+    "start:product": "EGG_SERVER_ENV=product egg-scripts start --daemon --title=egg-server-server",
+    "stop": "egg-scripts stop --title=egg-server-server",
+    "dev:locale": "EGG_SERVER_ENV=locale egg-bin dev",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug",
+    "test": "npm run lint -- --fix && npm run test-local",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "ci": "npm run lint && npm run cov",
+    "autod": "autod",
+    "restart": "npm run stop && npm run start:product"
+  },
+  "ci": {
+    "version": "10"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "xiejiahe",
+  "license": "MIT"
+}

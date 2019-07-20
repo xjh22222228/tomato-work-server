@@ -1,0 +1,35 @@
+module.exports = app => {
+  const { INTEGER, BOOLEAN, UUIDV4, UUID } = app.Sequelize;
+
+  const Schema = app.model.define('user_configure', {
+    id: {
+      type: UUID,
+      defaultValue: UUIDV4,
+      primaryKey: true
+    },
+    uid: {
+      type: INTEGER,
+      allowNull: false,
+      unique: true,
+    },
+    isTaskNotify: {
+      type: BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+      comment: '待办任务通知'
+    },
+    isMatterNotify: {
+      type: BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+      comment: '提醒事项通知'
+    },
+  }, {
+    underscored: true,
+    comment: '用户配置表',
+    charset: 'utf8',
+    engine: 'InnoDB'
+  });
+
+  return Schema;
+};
