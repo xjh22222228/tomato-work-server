@@ -56,9 +56,6 @@ module.exports = app => {
       type: STRING(50),
       allowNull: false,
       defaultValue: '',
-      validate: {
-        isEmail: true
-      }
     },
     ipAddr: {
       type: STRING(20),

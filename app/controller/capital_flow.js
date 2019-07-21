@@ -146,11 +146,11 @@ class CapitalFlow extends Controller {
         
         const idx = data.findIndex(el => el.date === item.date);
 
+        if (idx === -1) return;
+
         if (item.type === 1) {
-          data[idx].name = '收入';
           data[idx].price = item.price;
         } else {
-          data[idx + 1].name = '支出';
           data[idx + 1].price = item.price;
         }
       });

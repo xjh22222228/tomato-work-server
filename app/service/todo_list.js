@@ -28,6 +28,22 @@ class TodoList extends Service {
     });
   }
 
+  // 检索所有未完成的数据
+  async findUnfinishedByUid(options = {}) {
+    const { ctx } = this;
+    const uid = ctx.user.uid;
+    return ctx.model.TodoList.findAndCountAll({
+      where: {
+        status: 1,
+        uid,
+      },
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      ...options
+    });
+  }
+
   /**
    * @param {String} id
    */

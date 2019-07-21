@@ -34,6 +34,7 @@ tomato-work-server 是 [tomato-work](https://github.com/xjh22222228/tomato-work)
 
 
 ## Build Setup
+启动项目之前请配置数据库信息  config/config.default.js
 
 ``` bash
 # 安装依赖包
