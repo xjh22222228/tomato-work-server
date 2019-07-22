@@ -15,7 +15,7 @@ class MailService extends Service {
       desp: data.text || data.html || '无内容'
     });
     
-    ctx.curl(`https://sc.ftqq.com/SCU37343T07f5e314b9ef4032b3dc2f56f039cddb5c0cba55acf7b.send?${httpData}`, {
+    ctx.curl(`https://sc.ftqq.com/${data.sckey}.send?${httpData}`, {
       dataType: 'json'
     });
   }
@@ -52,31 +52,34 @@ class MailService extends Service {
       const user = {};
       // 合并同一用户多个事项
       data.forEach(item => {
-        const { email, content, id } = item;
+        const { email, content, id, sckey } = item;
+
         if (email in user) {
           user[email].content.push(content);
           user[email].ids.push(id);
         } else {
           user[email] = {
             content: [content],
-            ids: [id]
+            ids: [id],
+            sckey
           };
         }
       });
 
       // 推送
       for (let k in user) {
-        const { content, ids } = user[k];
+        const { content, ids, sckey } = user[k];
         let html = '';
         
         content.forEach((text, idx) => {
           html += `<p>${idx + 1}：${text}</p>`;
         });
 
-        const data  ={
+        const data = {
           to: k,
           subject: `您有${content.length}项提醒事项 - ${config.title}`,
-          html
+          html,
+          sckey
         };
 
         service.mail.wechatPush(data);
