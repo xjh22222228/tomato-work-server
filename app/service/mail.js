@@ -72,7 +72,7 @@ class MailService extends Service {
         let html = '';
         
         content.forEach((text, idx) => {
-          html += `<p>${idx + 1}：${text}</p>`;
+          html += `<h2>${idx + 1}：${text}</h2>`;
         });
 
         const data = {

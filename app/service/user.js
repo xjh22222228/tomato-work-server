@@ -33,6 +33,7 @@ class UserService extends Service {
   async findUserByLocal(data) {
     const { ctx } = this;
     return ctx.model.User.findOne({
+      exclude: ['password'],
       where: { loginName: data.loginName, password: data.password }
     });
   }
@@ -45,6 +46,7 @@ class UserService extends Service {
   async findUserByUid(uid) {
     const { ctx } = this;
     return ctx.model.User.findOne({
+      exclude: ['password'],
       where: { uid: uid }
     });
   }
@@ -57,6 +59,7 @@ class UserService extends Service {
   async findUserByToken(token) {
     const { ctx } = this;
     return ctx.model.User.findOne({
+      exclude: ['password'],
       where: { token: token }
     });
   }
