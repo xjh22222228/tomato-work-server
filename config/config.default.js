@@ -6,16 +6,11 @@
  * @param {Egg.EggAppInfo} appInfo app info
  */
 module.exports = appInfo => {
-  /**
-   * built-in config
-   * @type {Egg.EggAppConfig}
-   **/
+  
   const config = exports = {};
 
-  // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1557145862828_145';
 
-  // add your middleware config here
   config.middleware = [];
 
   config.cluster = {
@@ -40,7 +35,7 @@ module.exports = appInfo => {
 
   config.title = 'Tomato Work';
 
-  // 数据库配置
+  // 数据库配置 [必须]
   config.sequelize = {
     dialect: 'mysql',
     database: 'tomato_work',
@@ -50,7 +45,7 @@ module.exports = appInfo => {
     password: '123456',
   };
 
-  // github配置信息
+  // github配置信息 [可选, 默认使用作者的信息, 但启动端口不可修改]
   config.passportGithub = {
     key: '489b39e1f91d934128c8',
     secret: '9ec2cf95bee7f1451792ce8124075cce7b66450d',
@@ -59,7 +54,7 @@ module.exports = appInfo => {
     failureRedirect: '/?state=0'
   };
 
-  // 邮箱配置信息
+  // 邮箱配置信息 [可选]
   config.mailer = {
     host: 'smtp.mxhichina.com',
     port: 465,

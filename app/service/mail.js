@@ -1,8 +1,25 @@
 'use strict';
 
 const Service = require('egg').Service;
+const qs = require('querystring');
 
 class MailService extends Service {
+
+  /**
+   * 微信推送
+   */
+  wechatPush(data = {}) {
+    const { ctx } = this;
+    const httpData = qs.stringify({
+      text: data.subject || '无标题',
+      desp: data.text || data.html || '无内容'
+    });
+    
+    ctx.curl(`https://sc.ftqq.com/SCU37343T07f5e314b9ef4032b3dc2f56f039cddb5c0cba55acf7b.send?${httpData}`, {
+      dataType: 'json'
+    });
+  }
+
 
   /**
    * 发送邮件， 总是使用这个service进行发送
@@ -18,7 +35,7 @@ class MailService extends Service {
         const result = await app.mailer.send(data);
         return Promise.resolve(result);
       } catch (err) {
-        ctx.logger.warn(`邮箱：${data.to} 发送失败，原因：可能超出邮件发送频率。`);
+        ctx.logger.warn(`邮箱：${data.to} 发送失败，原因：账号错误或超出邮件发送频率。`);
         if (i <= 0) {
           return Promise.reject(err);
         }
@@ -56,16 +73,19 @@ class MailService extends Service {
           html += `<p>${idx + 1}：${text}</p>`;
         });
 
-        service.mail.send({
+        const data  ={
           to: k,
           subject: `您有${content.length}项提醒事项 - ${config.title}`,
           html
-        })
+        };
+
+        service.mail.wechatPush(data);
+
+        service.mail.send(data)
         .then(() => {
           ctx.logger.debug(`${k} 发送成功!`);
           service.reminder.updateTypeById(ids, 2);
-        })
-        .catch(_ => {});
+        });
       }
     } catch (err) {
       ctx.logger.error(err);

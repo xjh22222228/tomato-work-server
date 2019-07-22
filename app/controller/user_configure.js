@@ -4,7 +4,7 @@ const Controller = require('egg').Controller;
 
 class UserConfigure extends Controller {
 
-  // 取用户配置信息
+  // 检索用户配置信息
   async index() {
     const { ctx, service } = this;
     const result = await service.userConfigure.findUserConfigByUid();
@@ -14,11 +14,13 @@ class UserConfigure extends Controller {
   // 更新用户配置表
   async update() {
     const { ctx, service } = this;
-    const { isTaskNotify, isMatterNotify } = ctx.request.body;
+    const { isTaskNotify, isMatterNotify, sckey } = ctx.request.body;
     const updateFileds = {
       isTaskNotify,
-      isMatterNotify
+      isMatterNotify,
+      serverChanSckey: sckey
     };
+    
     for (let k in updateFileds) {
       updateFileds[k] === undefined && delete updateFileds[k];
     }
@@ -28,8 +30,9 @@ class UserConfigure extends Controller {
         throw new Error();
       }
       ctx.validate({
-        isTaskNotify: { type: 'boolean', required: false },
-        isMatterNotify: { type: 'boolean', required: false }
+        isTaskNotify: { type: 'boolean?' },
+        isMatterNotify: { type: 'boolean?' },
+        sckey: { type: 'string?', max: 200 }
       });
     } catch (err) {
       ctx.print = { errorCode: 422 };

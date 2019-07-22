@@ -65,12 +65,11 @@ module.exports = app => {
         isIP: true
       }
     },
-    // 账号角色权限，目前暂无用到，预留以后需要
     role: {
       type: TINYINT(1),
       allowNull: false,
       defaultValue: 1,
-      comment: '权限，1=正常'
+      comment: '权限: 0=超级管理员(只能有一个), 1=普通用户'
     }
   }, {
     underscored: true,

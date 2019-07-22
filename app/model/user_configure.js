@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, BOOLEAN, UUIDV4, UUID } = app.Sequelize;
+  const { INTEGER, BOOLEAN, UUIDV4, UUID, STRING } = app.Sequelize;
 
   const Schema = app.model.define('user_configure', {
     id: {
@@ -24,6 +24,12 @@ module.exports = app => {
       defaultValue: true,
       comment: '提醒事项通知'
     },
+    serverChanSckey: {
+      type: STRING(200),
+      allowNull: false,
+      defaultValue: '',
+      comment: 'server酱SCKEY'
+    }
   }, {
     underscored: true,
     comment: '用户配置表',
