@@ -23,7 +23,7 @@ module.exports = app => {
 
   // 公共接口
   router.get('/api/captcha', common.captcha);
-  router.get('/api/panel', common.getPanelData);
+  router.get('/api/panel', userRequired, common.getPanelData);
   
   // 系统
   router.get('/api/system/info', userRequired, system.index);
