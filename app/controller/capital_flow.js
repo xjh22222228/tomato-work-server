@@ -3,8 +3,6 @@
 const Controller = require('egg').Controller;
 const dayjs = require('dayjs');
 
-const enumTypeValues = [1, 2];
-
 class CapitalFlow extends Controller {
 
   async index() {
@@ -84,32 +82,23 @@ class CapitalFlow extends Controller {
 
     try {
       ctx.validate({
-        name: { type: 'string?', convertType: 'string', min: 1, max: 20 },
-        type: { type: 'enum', values: enumTypeValues }
+        date: { type: 'int' },
+        typeId: { type: 'string' },
+        price: { type: 'number' },
+        remarks: { type: 'string?', min: 0, max: 250 },
       });
     } catch (_) {
       ctx.print = { errorCode: 422 };
       return;
     }
+
+    const { date, typeId, price, remarks } = ctx.request.body;
     
-    const { name, type } = ctx.request.body;
-    const updateFields = { name, type };
-    const findResult = await await service.capitalFlow.findOneByName(name);
-
-    if (findResult && findResult.name === name) {
-
-      if (findResult.type === type) {
-        ctx.print = { errorCode: 3, msg: '无变动' };
-        return;
-      }
-      delete updateFields.name;
-    }
-
     try {
-      await service.capitalFlow.updateById(id, updateFields);
-      ctx.print = { msg: '更新成功' };
+      const result = await service.capitalFlow.updateById(id, { date, typeId, price, remarks });
+      ctx.print = result;
     } catch (_) {
-      ctx.print = { errorCode: 3, msg: '更新失败' };
+      ctx.print = { errorCode: 5, msg: '更新失败' };
     }
   }
 

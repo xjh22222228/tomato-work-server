@@ -39,7 +39,7 @@ class CapitalFlow extends Service {
     const limit = options.limit || Number.MAX_SAFE_INTEGER;
     const typeQuery = type ? 'AND b.type = ?' : `AND ''=?`;
     const typeNameQuery = typeNameId ? 'AND b.id = ?' : `AND ''=?`;
-    const query = `SELECT a.id, a.created_at, a.date, a.remarks, a.price, b.name, b.type from capital_flows AS a, capital_flow_types AS b WHERE a.date BETWEEN ? AND ? AND a.type_id = b.id AND a.uid = ? ${typeQuery} ${typeNameQuery} ORDER BY created_at DESC limit ?,?`;
+    const query = `SELECT a.id, a.type_id AS typeId, a.created_at, a.date, a.remarks, a.price, b.name, b.type from capital_flows AS a, capital_flow_types AS b WHERE a.date BETWEEN ? AND ? AND a.type_id = b.id AND a.uid = ? ${typeQuery} ${typeNameQuery} ORDER BY created_at DESC limit ?,?`;
     
     
     const count = await ctx.model.CapitalFlow.count({ where: { uid } });
