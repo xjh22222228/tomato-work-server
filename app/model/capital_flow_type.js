@@ -21,7 +21,6 @@ module.exports = app => {
       type: STRING(20),
       allowNull: false,
       defaultValue: '',
-      unique: true
     },
     type: {
       type: TINYINT,
