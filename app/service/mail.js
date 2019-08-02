@@ -10,14 +10,12 @@ class MailService extends Service {
    */
   wechatPush(data = {}) {
     const { ctx } = this;
-    const httpData = qs.stringify({
+    const params = qs.stringify({
       text: data.subject || '无标题',
       desp: data.text || data.html || '无内容'
     });
     
-    ctx.curl(`https://sc.ftqq.com/${data.sckey}.send?${httpData}`, {
-      dataType: 'json'
-    });
+    ctx.curl(`https://sc.ftqq.com/${data.sckey}.send?${params}`);
   }
 
 

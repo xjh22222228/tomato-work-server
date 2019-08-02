@@ -1,7 +1,6 @@
 'use strict';
 
 const Controller = require('egg').Controller;
-const dayjs = require('dayjs');
 
 class CapitalFlow extends Controller {
 
@@ -105,46 +104,11 @@ class CapitalFlow extends Controller {
   // 统计金额
   async sumPrice() {
     const { ctx, service } = this;
-    const todayStartTimestamp = ctx.helper.getTodayStartTimestamp();
-    const {
-      startDate = dayjs(todayStartTimestamp).subtract(7, 'd').valueOf(),
-      endDate = Date.now()
-    } = ctx.query;
-    const formatStartDate = dayjs(startDate);
-    const formatEndDate = dayjs(endDate);
-    // 两个日期的时间差
-    const diffDay = formatEndDate.diff(formatStartDate, 'day');
+    const { startDate, endDate } = ctx.query;
 
     try {
       const result = await service.capitalFlow.findSumPriceByDate(startDate, endDate);
-      const data = [];
-
-      // 初始化数据
-      for (let i = 0; i < diffDay; i++) {
-        const payload = {
-          date: dayjs(startDate).add(i, 'd').format('YYYY-MM-DD'),
-          price: '0.00',
-          labelPrice: 0,
-          name: '收入',
-          type: 1
-        };
-        data.push(payload, { ...payload, name: '支出', type: 2 });
-      }
-
-      result.forEach(item => {
-        
-        const idx = data.findIndex(el => el.date === item.date);
-
-        if (idx === -1) return;
-
-        if (item.type === 1) {
-          data[idx].price = item.price;
-        } else {
-          data[idx + 1].price = item.price;
-        }
-      });
-
-      ctx.print = data;
+      ctx.print = result;
     } catch (_) {
       ctx.print = { errorCode: 2 };
     }

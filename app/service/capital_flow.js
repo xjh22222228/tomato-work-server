@@ -22,13 +22,45 @@ class CapitalFlow extends Service {
     const todayStartTimestamp = ctx.helper.getTodayStartTimestamp();
     // 7天前时间戳
     startDate = startDate || dayjs(todayStartTimestamp).subtract(7, 'd').valueOf();
+    
     const query = 'SELECT SUM(a.`price`) AS `price`, b.`type`, FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d") AS `date` from `capital_flows` AS a, `capital_flow_types` AS b WHERE a.type_id = b.id AND a.`uid` = ? AND a.`date` BETWEEN ? AND ?  GROUP BY b.`type`, FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d") ORDER BY FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d");';
 
-    return ctx.model.query(query, {
+    const result = await ctx.model.query(query, {
       replacements: [uid, startDate, endDate],
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
     });
+
+    // 两个日期的时间差
+    const startDateObject = dayjs(startDate);
+    const endDateObject = dayjs(endDate);
+    const diffDay = endDateObject.diff(startDateObject, 'day');
+    const data = [];
+
+    // 初始化数据
+    for (let i = 0; i < diffDay; i++) {
+      const payload = {
+        date: dayjs(startDate).add(i, 'd').format('YYYY-MM-DD'),
+        price: '0.00',
+        name: '收入',
+        type: 1
+      };
+      data.push(payload, { ...payload, name: '支出', type: 2 });
+    }
+
+    result.forEach(item => {
+      const idx = data.findIndex(el => el.date === item.date);
+
+      if (~idx) return;
+
+      if (item.type === 1) {
+        data[idx].price = item.price;
+      } else {
+        data[idx + 1].price = item.price;
+      }
+    });
+
+    return data;
   }
 
   async findAndCountAllByUid(options = {}) {
@@ -61,7 +93,7 @@ class CapitalFlow extends Service {
       } else {
         priceParams.consumption += price;
       }
-    })
+    });
 
     return { count, rows: result, ...priceParams };
   }
