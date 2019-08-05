@@ -6,9 +6,11 @@ const svgCaptcha = require('svg-captcha');
 class Common extends Controller {
   async captcha() {
     const { ctx } = this;
-    const captcha = svgCaptcha.create();
+    const code = ctx.query.code || '1234';
+    const data = svgCaptcha(code);
+
     ctx.type = 'svg';
-    ctx.body = captcha.data;
+    ctx.body = data;
   }
 
   // 获取后台首页面板数据
