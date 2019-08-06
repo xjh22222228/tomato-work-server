@@ -41,7 +41,7 @@ class CapitalFlow extends Service {
     for (let i = 0; i < diffDay; i++) {
       const payload = {
         date: dayjs(startDate).add(i, 'd').format('YYYY-MM-DD'),
-        price: '0.00',
+        price: 0,
         name: '收入',
         type: 1
       };
@@ -51,12 +51,12 @@ class CapitalFlow extends Service {
     result.forEach(item => {
       const idx = data.findIndex(el => el.date === item.date);
 
-      if (~idx) return;
-
-      if (item.type === 1) {
-        data[idx].price = item.price;
-      } else {
-        data[idx + 1].price = item.price;
+      if (~idx) {
+        if (item.type === 1) {
+          data[idx].price = item.price;
+        } else {
+          data[idx + 1].price = item.price;
+        }
       }
     });
 
