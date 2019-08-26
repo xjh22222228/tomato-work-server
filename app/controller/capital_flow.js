@@ -30,7 +30,7 @@ class CapitalFlow extends Controller {
     try {
       const result = await service.capitalFlow.findAndCountAllByUid({
         offset: pageNo * pageSize,
-        limit: (pageNo + 1) * pageSize,
+        limit: pageSize,
         startDate,
         endDate,
         typeNameId,

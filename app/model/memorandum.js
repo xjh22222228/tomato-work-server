@@ -26,9 +26,8 @@ module.exports = app => {
       defaultValue: ''
     },
     markdown: {
-      type: TEXT,
+      type: TEXT('long'),
       allowNull: false,
-      defaultValue: ''
     }
   }, {
     underscored: true,

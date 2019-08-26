@@ -43,5 +43,9 @@ module.exports = app => {
     engine: 'InnoDB'
   });
 
+  Schema.associate = function associate() {
+    app.model.CapitalFlow.belongsTo(app.model.CapitalFlowType, { as: 'capitalFlowType', foreignKey: 'type_id' });
+  }
+
   return Schema;
 };

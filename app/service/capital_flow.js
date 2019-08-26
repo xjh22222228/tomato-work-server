@@ -69,16 +69,38 @@ class CapitalFlow extends Service {
     const uid = ctx.user.uid;
     const offset = options.offset || 0;
     const limit = options.limit || Number.MAX_SAFE_INTEGER;
-    const typeQuery = type ? 'AND b.type = ?' : `AND ''=?`;
-    const typeNameQuery = typeNameId ? 'AND b.id = ?' : `AND ''=?`;
-    const query = `SELECT a.id, a.type_id AS typeId, a.created_at, a.date, a.remarks, a.price, b.name, b.type from capital_flows AS a, capital_flow_types AS b WHERE a.date BETWEEN ? AND ? AND a.type_id = b.id AND a.uid = ? ${typeQuery} ${typeNameQuery} ORDER BY created_at DESC limit ?,?`;
     
-    
-    const count = await ctx.model.CapitalFlow.count({ where: { uid } });
-    const result = await ctx.model.query(query, {
-      replacements: [startDate, endDate, uid, type, typeNameId, offset, limit],
+    const capitalFlowTypeWhere = {
+      id: typeNameId,
+      type
+    };
+
+    (!typeNameId && delete capitalFlowTypeWhere.id);
+    (!type && delete capitalFlowTypeWhere.type);
+
+    const result = await ctx.model.CapitalFlow.findAndCountAll({
+      attributes: [
+        'id', 'uid', 'price', 'date', 'typeId', 'remarks', 'createdAt', 'updatedAt',
+        [app.Sequelize.col('capitalFlowType.name'), 'name'],
+        [app.Sequelize.col('capitalFlowType.type'), 'type'],
+      ],
+      where: {
+        date: {
+          [ctx.Op.between]: [startDate, endDate]
+        },
+        uid
+      },
+      include: [{
+        model: ctx.model.CapitalFlowType,
+        as: 'capitalFlowType',
+        where: capitalFlowTypeWhere
+      }],
+      order: [
+        ['createdAt', 'DESC']
+      ],
       raw: true,
-      type: app.Sequelize.QueryTypes.SELECT
+      offset,
+      limit
     });
 
     const priceParams = {
@@ -86,16 +108,17 @@ class CapitalFlow extends Service {
       income: 0
     };
 
-    result.forEach(item => {
+    result.rows.forEach(item => {
       const price = Number(item.price);
       if (item.type === 1) {
         priceParams.income += price;
       } else {
         priceParams.consumption += price;
       }
+      return item;
     });
 
-    return { count, rows: result, ...priceParams };
+    return { ...result, ...priceParams };
   }
 
   /**
