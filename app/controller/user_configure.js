@@ -34,7 +34,7 @@ class UserConfigure extends Controller {
         isMatterNotify: { type: 'boolean?' },
         sckey: { type: 'string?', max: 200 }
       });
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }

@@ -25,7 +25,7 @@ class Memorandum extends Controller {
         title: { type: 'string?', max: 50, min: 1 },
         markdown: { type: 'string?' }
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -35,7 +35,7 @@ class Memorandum extends Controller {
     try {
       const result = await service.memorandum.create({ title, markdown });
       ctx.print = { msg: '创建成功', data: result };
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 3, data: err, msg: '创建失败' };
     }
   }
@@ -49,7 +49,7 @@ class Memorandum extends Controller {
         title: { type: 'string?', max: 50, min: 1 },
         markdown: { type: 'string?' }
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -71,7 +71,7 @@ class Memorandum extends Controller {
     try {
       await service.memorandum.deleteById(id);
       ctx.print = { msg: '删除成功' };
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 4, msg: '删除失败' };
     }
   }

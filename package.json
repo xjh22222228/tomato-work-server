@@ -1,5 +1,6 @@
 {
   "name": "tomato-work-server",
+  "author": "xiejiahe",
   "version": "1.2.1",
   "bugs": {
     "url": "https://github.com/xjh22222228/tomato-work-server/issues"
@@ -46,7 +47,6 @@
     "start": "egg-scripts start --daemon --title=egg-server-server",
     "start:product": "EGG_SERVER_ENV=product egg-scripts start --daemon --title=egg-server-server",
     "stop": "egg-scripts stop --title=egg-server-server",
-    "dev:locale": "EGG_SERVER_ENV=locale egg-bin dev",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
@@ -60,10 +60,5 @@
   "ci": {
     "version": "10"
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "xiejiahe",
   "license": "MIT"
 }

@@ -12,7 +12,7 @@ class TodoList extends Controller {
         startDate: { type: 'int?', convertType: 'int', default: Date.now() },
         endDate: { type: 'int?', convertType: 'int', default: Date.now() },
       }, ctx.query);
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -32,7 +32,7 @@ class TodoList extends Controller {
         endDate,
       });
       ctx.print = result;
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 2 };
     }
   }
@@ -44,7 +44,7 @@ class TodoList extends Controller {
     try {
       const result = await service.todoList.create({ content });
       ctx.print = result;
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' };
     }
   }
@@ -57,7 +57,7 @@ class TodoList extends Controller {
       ctx.validate({
         status: { type: 'enum?', values: [1, 2] }
       });
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -72,7 +72,7 @@ class TodoList extends Controller {
     try {
       await service.todoList.updateById(id, data);
       ctx.print = { msg: '更新成功' };
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
     }
   }

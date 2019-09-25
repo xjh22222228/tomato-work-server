@@ -13,7 +13,7 @@ class CapitalFlowType extends Controller {
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
         pageSize: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER - 1 },
       }, ctx.query);
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -26,7 +26,7 @@ class CapitalFlowType extends Controller {
         limit: (pageNo + 1) * pageSize
       });
       ctx.print = result;
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 2 };
     }
   }
@@ -39,7 +39,7 @@ class CapitalFlowType extends Controller {
         name: { type: 'string?', convertType: 'string', min: 1, max: 20 },
         type: { type: 'enum', values: enumTypeValues }
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -55,7 +55,7 @@ class CapitalFlowType extends Controller {
     try {
       const result = await service.capitalFlowType.create({ name, type });
       ctx.print = result;
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' };
     }
   }
@@ -67,7 +67,7 @@ class CapitalFlowType extends Controller {
     try {
       const result = await service.capitalFlowType.deleteById(id);
       ctx.print = { ...result, msg: '删除成功' };
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 4 };
     }
   }
@@ -81,7 +81,7 @@ class CapitalFlowType extends Controller {
         name: { type: 'string?', convertType: 'string', min: 1, max: 20 },
         type: { type: 'enum', values: enumTypeValues }
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -91,7 +91,6 @@ class CapitalFlowType extends Controller {
     const findResult = await await service.capitalFlowType.findOneByName(name);
 
     if (findResult && findResult.name === name) {
-
       if (findResult.type === type) {
         ctx.print = { errorCode: 3, msg: '无变动' };
         return;
@@ -102,7 +101,7 @@ class CapitalFlowType extends Controller {
     try {
       await service.capitalFlowType.updateById(id, updateFields);
       ctx.print = { msg: '更新成功' };
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 3, msg: '更新失败' };
     }
   }

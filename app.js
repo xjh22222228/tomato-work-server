@@ -13,7 +13,7 @@ module.exports = class App {
         if (!loginName || !password || !validator.isMD5(password)) {
           throw new Error();
         }
-      } catch (err) {
+      } catch {
         ctx.print = { errorCode: 422 };
         return {};
       }

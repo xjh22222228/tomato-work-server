@@ -15,7 +15,7 @@ module.exports = appInfo => {
 
   config.cluster = {
     listen: {
-      port: 7003,
+      port: 7003
     }
   };
 
@@ -42,7 +42,7 @@ module.exports = appInfo => {
     host: '127.0.0.1',
     port: 3306,
     username: 'root',
-    password: '123456',
+    password: '123456'
   };
 
   // github配置信息 [可选, 默认使用作者的信息, 但启动端口不可修改]
@@ -54,16 +54,15 @@ module.exports = appInfo => {
     failureRedirect: '/?state=0'
   };
 
-  // 邮箱配置信息 [可选]
+  // 邮箱配置信息 [可选, 默认使用测试账号]
   config.mailer = {
-    host: 'smtp.mxhichina.com',
-    port: 465,
-    secure: true,
+    host: 'smtp.2980.com',
+    port: 25,
+    secure: false,
     auth: {
-      user: 'system@example.com',
-      // 注意： 163/QQ是授权密码， 阿里云是登录密码
-      pass: 'hello',
-    },
+      user: 'tomatowork@2980.com',
+      pass: 'a123456'
+    }
   };
 
   return config;

@@ -13,7 +13,7 @@ class ReminderController extends Controller {
         startDate: { type: 'number', convertType: 'number', required: false },
         endDate: { type: 'number', convertType: 'number', required: false },
       }, ctx.query);
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -54,7 +54,7 @@ class ReminderController extends Controller {
         date: { type: 'number', required: true },
         content: { type: 'string', required: true, max: 200, trim: true }
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -84,7 +84,7 @@ class ReminderController extends Controller {
         date: { type: 'number', convertType: 'number' },
         content: { type: 'string', min: 0, max: 200 },
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -93,7 +93,7 @@ class ReminderController extends Controller {
     try {
       await service.reminder.updateById(id, { date, content });
       ctx.print = null;
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 5 };
     }
   }

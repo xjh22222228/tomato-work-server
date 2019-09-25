@@ -49,7 +49,7 @@ class UserController extends Controller {
     try {
       const userInfo = await ctx.service.user.updateUser(uid, { password });
       ctx.print = { msg: '更新成功', userInfo: userInfo };
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 3, msg: '更新失败' };
     }
   }

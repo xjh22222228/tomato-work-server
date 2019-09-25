@@ -49,7 +49,7 @@ class TaskController extends Controller {
         content: { type: 'string', convertType: 'string', max: 200 },
         count: { type: 'number', convertType: 'number', min: 0, max: 5 },
       });
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -58,7 +58,7 @@ class TaskController extends Controller {
     try {
       await service.task.create(null, { date, content, count });
       ctx.print = { msg: '新增成功' };
-    } catch (err) {
+    } catch {
       ctx.print = { errorCode: 3 };
     }
   }

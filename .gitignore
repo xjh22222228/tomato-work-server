@@ -17,5 +17,5 @@ check.js
 build.js
 config/config.localhost.js
 config/config.production.js
-config/config.locale.js
 config/config.product.js
+config/config.locale.js

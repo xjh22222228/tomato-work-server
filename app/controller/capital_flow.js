@@ -13,7 +13,7 @@ class CapitalFlow extends Controller {
         startDate: { type: 'int?', convertType: 'int', default: 0 },
         endDate: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER },
       }, ctx.query);
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -37,7 +37,7 @@ class CapitalFlow extends Controller {
         type
       });
       ctx.print = result;
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 2 };
     }
   }
@@ -52,7 +52,7 @@ class CapitalFlow extends Controller {
         price: { type: 'number' },
         remarks: { type: 'string?', min: 0, max: 250 },
       });
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -62,7 +62,7 @@ class CapitalFlow extends Controller {
     try {
       const result = await service.capitalFlow.create({ date, typeId, price, remarks });
       ctx.print = result;
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' };
     }
   }
@@ -86,7 +86,7 @@ class CapitalFlow extends Controller {
         price: { type: 'number' },
         remarks: { type: 'string?', min: 0, max: 250 },
       });
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
@@ -96,7 +96,7 @@ class CapitalFlow extends Controller {
     try {
       const result = await service.capitalFlow.updateById(id, { date, typeId, price, remarks });
       ctx.print = result;
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 5, msg: '更新失败' };
     }
   }
@@ -109,7 +109,7 @@ class CapitalFlow extends Controller {
     try {
       const result = await service.capitalFlow.findSumPriceByDate(startDate, endDate);
       ctx.print = result;
-    } catch (_) {
+    } catch {
       ctx.print = { errorCode: 2 };
     }
   }
