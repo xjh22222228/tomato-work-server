@@ -12,11 +12,10 @@ module.exports = {
     return this.app.Sequelize.Op;
   },
   get print() {
-    return this.ctx.body;
+    return this.body;
   },
   get realIP() {
-    const { ctx } = this;
-    return ctx.headers['X-Real-IP'] || ctx.headers['X-Forwarded-For'] || ctx.ip;
+    return this.get['X-Real-IP'] || this.get['X-Forwarded-For'] || this.ip;
   },
   /**
    * @param {*} responseData
