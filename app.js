@@ -41,7 +41,7 @@ module.exports = class App {
         location: user._profile.location,
         bio: user._profile.bio,
         email: user._profile.email,
-        ipAddr: ctx.ip,
+        ipAddr: ctx.realIP,
         password: ctx.crypto.MD5('123456').toString()
       };
 

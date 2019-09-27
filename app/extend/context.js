@@ -14,6 +14,10 @@ module.exports = {
   get print() {
     return this.ctx.body;
   },
+  get realIP() {
+    const { ctx } = this;
+    return ctx.headers['X-Real-IP'] || ctx.headers['X-Forwarded-For'] || ctx.ip;
+  },
   /**
    * @param {*} responseData
    * @example 
