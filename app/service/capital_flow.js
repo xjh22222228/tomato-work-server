@@ -103,12 +103,14 @@ class CapitalFlow extends Service {
       limit
     });
 
+    const sumPrice = await this.findSumPriceByDate(startDate, endDate);
+
     const priceParams = {
       consumption: 0,
       income: 0
     };
 
-    result.rows.forEach(item => {
+    sumPrice.forEach(item => {
       const price = Number(item.price);
       if (item.type === 1) {
         priceParams.income += price;
