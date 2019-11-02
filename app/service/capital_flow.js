@@ -103,7 +103,8 @@ class CapitalFlow extends Service {
       limit
     });
 
-    const sumPrice = await this.findSumPriceByDate(startDate, endDate);
+    const dayTimestamp = 86400000 - 1000;
+    const sumPrice = await this.findSumPriceByDate(startDate, endDate + dayTimestamp);
 
     const priceParams = {
       consumption: 0,

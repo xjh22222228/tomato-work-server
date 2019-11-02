@@ -16,7 +16,7 @@ class CapitalFlowType extends Service {
     return ctx.model.CapitalFlowType.findAll({
       where: { uid },
       order: [
-        ['createdAt', 'DESC']
+        ['type', 'DESC']
       ],
       ...options
     });
