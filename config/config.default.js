@@ -38,7 +38,7 @@ module.exports = appInfo => {
   // 数据库配置 [必须]
   config.sequelize = {
     dialect: 'mysql',
-    database: 'tomatowork88',
+    database: 'tomato_work',
     host: '127.0.0.1',
     port: 3306,
     username: 'root',
