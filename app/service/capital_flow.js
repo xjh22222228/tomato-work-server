@@ -65,7 +65,7 @@ class CapitalFlow extends Service {
 
   async findAndCountAllByUid(options = {}) {
     const { ctx, app } = this;
-    const { startDate, endDate, type, typeNameId } = options;
+    const { startDate, endDate, type, typeNameId, keyword } = options;
     const uid = ctx.user.uid;
     const offset = options.offset || 0;
     const limit = options.limit || Number.MAX_SAFE_INTEGER;
@@ -88,6 +88,9 @@ class CapitalFlow extends Service {
         date: {
           [ctx.Op.between]: [startDate, endDate]
         },
+        remarks: {
+          [ctx.Op.like]: `%${keyword}%`
+        },
         uid
       },
       include: [{
@@ -96,27 +99,50 @@ class CapitalFlow extends Service {
         where: capitalFlowTypeWhere
       }],
       order: [
-        ['createdAt', 'DESC']
+        ['date', 'DESC']
       ],
       raw: true,
       offset,
       limit
     });
 
-    const dayTimestamp = 86400000 - 1000;
-    const sumPrice = await this.findSumPriceByDate(startDate, endDate + dayTimestamp);
+    const momenySum = await ctx.model.CapitalFlow.findAll({
+      attributes: [
+        [app.Sequelize.fn('sum', app.Sequelize.col('price')), 'price'],
+        [app.Sequelize.col('capitalFlowType.type'), 'type'],
+      ],
+      where: {
+        date: {
+          [ctx.Op.between]: [startDate, endDate]
+        },
+        remarks: {
+          [ctx.Op.like]: `%${keyword}%`
+        },
+        uid
+      },
+      include: [{
+        attributes: [],
+        model: ctx.model.CapitalFlowType,
+        as: 'capitalFlowType',
+        where: {
+          ...capitalFlowTypeWhere,
+          uid
+        }
+      }],
+      raw: true,
+      group: 'capitalFlowType.type'
+    });
 
     const priceParams = {
       consumption: 0,
       income: 0
     };
 
-    sumPrice.forEach(item => {
-      const price = Number(item.price);
+    momenySum.forEach(item => {
       if (item.type === 1) {
-        priceParams.income += price;
+        priceParams.income = item.price;
       } else {
-        priceParams.consumption += price;
+        priceParams.consumption = item.price;
       }
       return item;
     });

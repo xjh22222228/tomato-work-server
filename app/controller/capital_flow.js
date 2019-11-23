@@ -24,7 +24,8 @@ class CapitalFlow extends Controller {
       startDate,
       endDate,
       typeNameId,
-      type
+      type,
+      keyword
     } = ctx.query;
 
     try {
@@ -34,7 +35,8 @@ class CapitalFlow extends Controller {
         startDate,
         endDate,
         typeNameId,
-        type
+        type,
+        keyword
       });
       ctx.print = result;
     } catch {
