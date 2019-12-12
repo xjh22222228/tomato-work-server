@@ -22,7 +22,9 @@ tomato-work-server 是 [tomato-work](https://github.com/xjh22222228/tomato-work)
 "svg-captcha": "^1.4.0",
 "validator": "^11.0.0",
 "node-xlsx": "^0.15.0",
-"dayjs": "^1.8.15"
+"dayjs": "^1.8.15",
+"markdown-it": "^10.0.0",
+"highlight.js": "^9.17.0"
 ```
 
 ## MySQL Setup

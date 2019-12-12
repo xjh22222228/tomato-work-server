@@ -13,18 +13,28 @@ class Memorandum extends Service {
   async findAllByUid() {
     const { ctx } = this;
     const uid = ctx.user.uid;
-    return ctx.model.Memorandum.findAll({
+    let result = await ctx.model.Memorandum.findAll({
       where: { uid },
       order: [
         ['createdAt', 'DESC']
-      ]
+      ],
+      raw: true
     });
+
+    result = result.map(item => {
+      item.html = ctx.helper.markdown().render(item.markdown);
+      return item;
+    });
+
+    return result;
   }
 
   async findByPk(id) {
     const { ctx } = this;
     const uid = ctx.user.uid;
-    return ctx.model.Memorandum.findByPk(id, { where: { uid } });
+    const result = await ctx.model.Memorandum.findByPk(id, { where: { uid }, raw: true });
+    result.html = ctx.helper.markdown().render(result.markdown);
+    return result;
   }
 
   /**
