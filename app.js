@@ -56,6 +56,7 @@ module.exports = class App {
       const existsUser = await ctx.service.user.findUserByUid(userInfo.uid);
       if (existsUser) {
         // 更新用户信息
+        delete userInfo.password;
         await ctx.service.user.updateUser(userInfo.uid, userInfo);
         return await ctx.service.user.findUserByUid(userInfo.uid);
       }
