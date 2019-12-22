@@ -135,7 +135,8 @@ class CapitalFlow extends Service {
 
     const priceParams = {
       consumption: 0,
-      income: 0
+      income: 0,
+      available: 0
     };
 
     momenySum.forEach(item => {
@@ -146,6 +147,8 @@ class CapitalFlow extends Service {
       }
       return item;
     });
+
+    priceParams.available = (priceParams.income - priceParams.consumption).toFixed(2);
 
     return { ...result, ...priceParams };
   }

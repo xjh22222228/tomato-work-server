@@ -1,12 +1,14 @@
 # tomato-work-server
 
-tomato-work-server 是 [tomato-work](https://github.com/xjh22222228/tomato-work) 的服务端。
+WEB：[tomato-work](https://github.com/xjh22222228/tomato-work)
 
+小程序：[tomato-work-weapp](https://github.com/xjh22222228/tomato-work-weapp)
 
+服务端：[tomato-work-server](https://github.com/xjh22222228/tomato-work-server)
 
 
 ## 开发技术
-核心技术：node.js(v10) + egg.js + mysql +  sequelize...
+核心技术：node.js(v10+) + egg.js + mysql +  sequelize...
 ``` json
 "egg": "^2.15.1",
 "egg-crypto": "^1.0.0",
@@ -51,13 +53,13 @@ mysql -u root -p
 启动项目之前请配置数据库信息  config/config.default.js
 
 ``` bash
-# 安装依赖包
+# Install
 npm i
 
-# 启动 Port: 7003
+# Port: 7003
 npm run dev
 
-# 部署
+# Build start
 npm start
 ```
 
