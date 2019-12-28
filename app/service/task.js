@@ -10,7 +10,7 @@ class TaskService extends Service {
    * @param {Object} data
    * @return {Promise}
    */
-  async create(uid, data = {}) {
+  async create(uid, data) {
     const { ctx } = this;
     uid = uid || ctx.user.uid;
     return ctx.model.Task.create({ uid, ...data });
@@ -21,7 +21,7 @@ class TaskService extends Service {
    * @param {Object} where
    * @return {Promise}
    */
-  async findAllByUid(where = {}) {
+  async findAllByUid(where) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.Task.findAll({ where: { uid, ...where }, order: [ ['createdAt', 'DESC'] ] });

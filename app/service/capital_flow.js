@@ -5,7 +5,7 @@ const dayjs = require('dayjs');
 
 class CapitalFlow extends Service {
 
-  async create(data = {}) {
+  async create(data) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.CapitalFlow.create({ uid, ...data });

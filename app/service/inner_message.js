@@ -4,13 +4,13 @@ const Service = require('egg').Service;
 
 class InnerMessage extends Service {
 
-  async create(uid, data = {}, option) {
+  async create(uid, data, option) {
     const { ctx } = this;
     uid = uid || ctx.user.uid;
     return ctx.model.InnerMessage.create({ uid, ...data }, option);
   }
 
-  async findAndCountAllByUid(options = {}) {
+  async findAndCountAllByUid(options) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.InnerMessage.findAndCountAll({

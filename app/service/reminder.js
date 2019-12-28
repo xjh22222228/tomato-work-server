@@ -61,8 +61,8 @@ class ReminderService extends Service {
    * @param {Object} [where]
    * @return {Promise}
    */
-  async findAll(where = {}) {
-    return this.ctx.model.Reminder.findAll({ where });
+  async findAll(where) {
+    return this.ctx.model.Reminder.findAll({ where: { ...where } });
   }
 
   /**
@@ -72,7 +72,7 @@ class ReminderService extends Service {
    * @param {Object} [where]
    * @return {Promise}
    */
-  async updateByUid(uid, updateFields, where = {}) {
+  async updateByUid(uid, updateFields, where) {
     const { ctx } = this;
     uid = (ctx.user && ctx.user.uid) || uid;
 
@@ -93,7 +93,7 @@ class ReminderService extends Service {
    * @param {Object} [where]
    * @return {Promise}
    */
-  async updateById(id, updateFields, where = {}) {
+  async updateById(id, updateFields, where) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.Reminder.update(updateFields, { where: { uid, id, ...where } });

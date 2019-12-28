@@ -4,13 +4,13 @@ const Service = require('egg').Service;
 
 class CapitalFlowType extends Service {
 
-  async create(data = {}) {
+  async create(data) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.CapitalFlowType.create({ uid, ...data });
   }
 
-  async findAllByUid(options = {}) {
+  async findAllByUid(options) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.CapitalFlowType.findAll({

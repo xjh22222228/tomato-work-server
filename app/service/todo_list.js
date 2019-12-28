@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 
 class TodoList extends Service {
 
-  async create(data = {}) {
+  async create(data) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.TodoList.create({ uid, ...data });
@@ -29,7 +29,7 @@ class TodoList extends Service {
   }
 
   // 检索所有未完成的数据
-  async findUnfinishedByUid(options = {}) {
+  async findUnfinishedByUid(options) {
     const { ctx } = this;
     const uid = ctx.user.uid;
     return ctx.model.TodoList.findAndCountAll({
