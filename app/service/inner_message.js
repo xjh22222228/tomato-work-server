@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const { MessageTitle } = require('../constants');
 
 class InnerMessage extends Service {
 
@@ -13,13 +14,21 @@ class InnerMessage extends Service {
   async findAndCountAllByUid(options) {
     const { ctx } = this;
     const uid = ctx.user.uid;
-    return ctx.model.InnerMessage.findAndCountAll({
+    let res = await ctx.model.InnerMessage.findAndCountAll({
       where: { uid },
       order: [
         ['createdAt', 'DESC']
       ],
-      ...options
+      ...options,
+      raw: true
     });
+
+    res.rows = res.rows.map(msg => {
+      msg.title = MessageTitle[msg.type];
+      return msg;
+    });
+
+    return res;
   }
 
   /**

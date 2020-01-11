@@ -22,6 +22,11 @@ exports.errorCode = {
   500: '服务器内部错误'
 };
 
+// 消息枚举
+exports.MessageTitle = {
+  0: '系统消息'
+};
+
 // 站内消息类型
 exports.messageType = {
   // 系统消息
