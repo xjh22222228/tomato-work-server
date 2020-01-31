@@ -9,9 +9,10 @@ class CapitalFlow extends Controller {
     try {
       ctx.validate({
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
-        pageSize: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER - 1 },
+        pageSize: { type: 'int?', convertType: 'int', default: 30 },
         startDate: { type: 'int?', convertType: 'int', default: 0 },
         endDate: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER },
+        sort: { type: 'string?', default: 'date-desc' }
       }, ctx.query);
     } catch {
       ctx.print = { errorCode: 422 };
@@ -25,13 +26,15 @@ class CapitalFlow extends Controller {
       endDate,
       typeNameId,
       type,
-      keyword
+      keyword,
+      sort
     } = ctx.query;
 
     try {
       const result = await service.capitalFlow.findAndCountAllByUid({
         offset: pageNo * pageSize,
         limit: pageSize,
+        sort: sort.split('-'),
         startDate,
         endDate,
         typeNameId,

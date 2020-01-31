@@ -65,7 +65,7 @@ class CapitalFlow extends Service {
 
   async findAndCountAllByUid(options = {}) {
     const { ctx, app } = this;
-    const { startDate, endDate, type, typeNameId, keyword } = options;
+    const { startDate, endDate, type, typeNameId, keyword, sort } = options;
     const uid = ctx.user.uid;
     const offset = options.offset || 0;
     const limit = options.limit || Number.MAX_SAFE_INTEGER;
@@ -99,7 +99,7 @@ class CapitalFlow extends Service {
         where: capitalFlowTypeWhere
       }],
       order: [
-        ['date', 'DESC']
+        [sort[0], sort[1]]
       ],
       raw: true,
       offset,
