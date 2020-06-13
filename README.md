@@ -4,9 +4,6 @@ WEB：[tomato-work](https://github.com/xjh22222228/tomato-work)
 
 小程序：[tomato-work-weapp](https://github.com/xjh22222228/tomato-work-weapp)
 
-服务端：[tomato-work-server](https://github.com/xjh22222228/tomato-work-server)
-
-
 ## 开发技术
 核心技术：node.js(v10+) + egg.js + mysql +  sequelize...
 ``` json
