@@ -7,7 +7,8 @@ class SystemController extends Controller {
   async index() {
     const { ctx } = this;
     const mysqlVersion = await ctx.model.query('SELECT VERSION() as mysqlVersion', {
-      raw: true, plain: true
+      raw: true,
+      plain: true
     });
     
     const params = {

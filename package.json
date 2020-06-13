@@ -14,33 +14,33 @@
     "declarations": true
   },
   "dependencies": {
-    "dayjs": "^1.8.15",
-    "egg": "^2.15.1",
+    "dayjs": "^1.8.28",
+    "egg": "^2.26.1",
     "egg-crypto": "^1.0.0",
-    "egg-jwt": "^3.1.6",
-    "egg-mailer": "^1.0.1",
-    "egg-passport": "^2.0.2",
+    "egg-jwt": "^3.1.7",
+    "egg-mailer": "^1.1.0",
+    "egg-passport": "^2.1.1",
     "egg-passport-github": "^1.0.0",
     "egg-passport-local": "^1.2.1",
-    "egg-scripts": "^2.11.0",
-    "egg-sequelize": "^5.1.0",
+    "egg-scripts": "^2.13.0",
+    "egg-sequelize": "^5.2.1",
     "egg-validate": "^2.0.2",
-    "highlight.js": "^9.17.0",
-    "lodash": "^4.17.11",
-    "markdown-it": "^10.0.0",
-    "mysql2": "^1.6.5",
+    "highlight.js": "^10.1.0",
+    "lodash": "^4.17.15",
+    "markdown-it": "^11.0.0",
+    "mysql2": "^2.1.0",
     "node-xlsx": "^0.15.0",
     "svg-captcha": "^1.4.0",
-    "validator": "^11.0.0"
+    "validator": "^13.1.1"
   },
   "devDependencies": {
-    "autod": "^3.0.1",
+    "autod": "^3.1.0",
     "autod-egg": "^1.1.0",
-    "egg-bin": "^4.11.0",
-    "egg-ci": "^1.11.0",
-    "egg-mock": "^3.21.0",
-    "eslint": "^5.13.0",
-    "eslint-config-egg": "^7.1.0"
+    "egg-bin": "^4.14.1",
+    "egg-ci": "^1.15.0",
+    "egg-mock": "^4.0.0",
+    "eslint": "^7.2.0",
+    "eslint-config-egg": "^8.0.1"
   },
   "engines": {
     "node": ">=10.0.0"

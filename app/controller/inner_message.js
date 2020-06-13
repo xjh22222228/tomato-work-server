@@ -10,7 +10,7 @@ class InnerMessage extends Controller {
 
     const query = {
       offset: pageNo * pageSize,
-      limit: (+pageNo + 1) * pageSize
+      limit: Number(pageNo + 1) * pageSize
     };
 
     const result = await service.innerMessage.findAndCountAllByUid(query);

@@ -4,7 +4,7 @@ module.exports = () => {
   // 验证用户是否登录
   return async function(ctx, next) {
     const { user } = ctx;
-    const token = ctx.headers.token || ctx.request.body.token || ctx.query.token;
+    const token = ctx.headers.token || ctx.request.body.token;
 
     if (!user || !user.uid) {
       if (token) {
@@ -14,7 +14,10 @@ module.exports = () => {
           return await next();;
         }
       }
-      ctx.print = { errorCode: 401, msg: '登录失效，请重新登录' };
+      ctx.print = {
+        errorCode: 401,
+        msg: '登录失效，请重新登录'
+      };
       return;
     }
 
