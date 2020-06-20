@@ -81,17 +81,18 @@ class ReminderController extends Controller {
     
     try {
       ctx.validate({
-        date: { type: 'number', convertType: 'number' },
-        content: { type: 'string', min: 0, max: 200 },
+        date: { type: 'number', convertType: 'number', required: false },
+        type: { type: 'number', convertType: 'number', required: false },
+        content: { type: 'string', min: 0, max: 200, required: false },
       });
     } catch {
       ctx.print = { errorCode: 422 };
       return;
     }
 
-    const { date, content } = ctx.request.body;
+    const { date, content, type } = ctx.request.body;
     try {
-      await service.reminder.updateById(id, { date, content });
+      await service.reminder.updateById(id, { date, content, type });
       ctx.print = null;
     } catch {
       ctx.print = { errorCode: 5 };

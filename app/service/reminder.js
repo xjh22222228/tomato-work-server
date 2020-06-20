@@ -96,7 +96,13 @@ class ReminderService extends Service {
   async updateById(id, updateFields, where) {
     const { ctx } = this;
     const uid = ctx.user.uid;
-    return ctx.model.Reminder.update(updateFields, { where: { uid, id, ...where } });
+    return ctx.model.Reminder.update(updateFields, {
+      where: {
+        uid,
+        id,
+        ...where
+      }
+    });
   }
 
   /**
