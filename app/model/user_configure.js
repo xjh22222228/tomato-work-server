@@ -33,7 +33,7 @@ module.exports = app => {
   }, {
     underscored: true,
     comment: '用户配置表',
-    charset: 'utf8',
+    charset: 'utf8mb4',
     engine: 'InnoDB'
   });
 

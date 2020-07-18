@@ -73,7 +73,7 @@ module.exports = app => {
     }
   }, {
     underscored: true,
-    charset: 'utf8',
+    charset: 'utf8mb4',
     engine: 'InnoDB'
   });
 

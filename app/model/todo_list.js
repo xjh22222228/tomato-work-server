@@ -26,7 +26,7 @@ module.exports = app => {
   }, {
     underscored: true,
     comment: '活动清单',
-    charset: 'utf8',
+    charset: 'utf8mb4',
     engine: 'InnoDB'
   });
 

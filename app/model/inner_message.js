@@ -31,7 +31,7 @@ module.exports = app => {
   }, {
     underscored: true,
     comment: '站内消息',
-    charset: 'utf8',
+    charset: 'utf8mb4',
     engine: 'InnoDB'
   });
 
