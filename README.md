@@ -1,8 +1,22 @@
-# tomato-work-server
+<p align="center">
+  <img src="https://raw.githubusercontent.com/xjh22222228/tomato-work/master/public/poster.png" width="150" />
+  <br />
+  <b>Tomato Work 个人事务管理系统</b>
+  <p align="center">
+    <a href="https://github.com/xjh22222228/tomato-work">WEB </a>
+    <a href="https://github.com/xjh22222228/tomato-work-weapp"> 小程序</a>
+  </p>
+  <p align="center">
+    <a href="https://github.com/xjh22222228/tomato-work-server/stargazers"><img src="https://img.shields.io/github/stars/xjh22222228/tomato-work-server" alt="Stars Badge"/></a>
+    <img src="https://img.shields.io/github/package-json/v/xjh22222228/tomato-work-server" />
+    <img src="https://img.shields.io/github/license/xjh22222228/tomato-work-server" />
+    <a href="https://hits.dwyl.com/xjh22222228/tomato-work-server">
+      <img src="https://hits.dwyl.com/xjh22222228/tomato-work-server.svg" />
+    </a>
+  </p>
+</p>
 
-WEB：[tomato-work](https://github.com/xjh22222228/tomato-work)
 
-小程序：[tomato-work-weapp](https://github.com/xjh22222228/tomato-work-weapp)
 
 ## 开发技术
 核心技术：node.js(v10+) + egg.js + mysql +  sequelize...
