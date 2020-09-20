@@ -31,12 +31,16 @@ class Memorandum extends Controller {
     }
 
     const { title, markdown } = ctx.request.body;
-    
+
     try {
       const result = await service.memorandum.create({ title, markdown });
       ctx.print = { msg: '创建成功', data: result };
-    } catch {
-      ctx.print = { errorCode: 3, data: err, msg: '创建失败' };
+    } catch(err) {
+      ctx.print = {
+        errorCode: 3,
+        data: err,
+        msg: '创建失败'
+      };
     }
   }
 
@@ -55,7 +59,7 @@ class Memorandum extends Controller {
     }
 
     const { title, markdown } = ctx.request.body;
-    
+
     try {
       const result = await service.memorandum.updateById(id, { title, markdown });
       ctx.print = { msg: '更新成功', data: result };

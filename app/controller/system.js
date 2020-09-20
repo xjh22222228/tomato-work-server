@@ -10,7 +10,7 @@ class SystemController extends Controller {
       raw: true,
       plain: true
     });
-    
+
     const params = {
       ...mysqlVersion,
       currentSystemTime: Date.now(),

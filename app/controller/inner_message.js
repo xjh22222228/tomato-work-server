@@ -24,6 +24,6 @@ class InnerMessage extends Controller {
     await service.innerMessage.updateUnRead(id);
     ctx.print = { msg: '已标记已读' };
   }
-};
+}
 
 module.exports = InnerMessage;

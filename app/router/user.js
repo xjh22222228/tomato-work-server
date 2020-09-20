@@ -15,11 +15,11 @@ module.exports = app => {
     successRedirect: config.passportGithub.successRedirect,
     failureRedirect: config.passportGithub.failureRedirect,
   });
-  
+
   router.get('/api/passport/github/callback', github);
   router.get('/api/passport/github/success', controller.user.passportSuccessCallback);
   router.post('/api/passport/local', localStrategy);
-  
+
   router.get('/api/user', userRequired, controller.user.getUser);
   router.get('/api/logout', userRequired, controller.user.logout);
   router.get('/api/accessToken', controller.user.accessToken);

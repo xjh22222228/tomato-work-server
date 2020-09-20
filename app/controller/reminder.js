@@ -5,7 +5,7 @@ const Controller = require('egg').Controller;
 class ReminderController extends Controller {
   async index() {
     const { ctx, service } = this;
-    
+
     try {
       ctx.validate({
         pageSize: { type: 'number', convertType: 'number', required: false },
@@ -25,7 +25,7 @@ class ReminderController extends Controller {
       endDate = Number.MAX_SAFE_INTEGER,
       type
     } = ctx.query;
-    
+
     try {
       const where = {
         type: Number(type) || undefined,
@@ -37,7 +37,7 @@ class ReminderController extends Controller {
         limit: Number(pageSize),
         offset: Number(pageNo)
       });
-  
+
       ctx.print = result;
     } catch (err) {
       ctx.logger.error(err);
@@ -58,7 +58,7 @@ class ReminderController extends Controller {
       ctx.print = { errorCode: 422 };
       return;
     }
-    
+
     const result = await service.reminder.create({ date, content });
     ctx.print = { msg: '新增成功', ...result.toJSON() };
   }
@@ -78,7 +78,7 @@ class ReminderController extends Controller {
   async update() {
     const { ctx, service } = this;
     const id = ctx.params.id;
-    
+
     try {
       ctx.validate({
         date: { type: 'number', convertType: 'number', required: false },

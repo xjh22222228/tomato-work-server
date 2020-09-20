@@ -16,7 +16,7 @@ class MailService extends Service {
       text: data.subject || '无标题',
       desp: data.text || data.html || '无内容'
     });
-    
+
     ctx.curl(`https://sc.ftqq.com/${data.sckey}.send?${params}`);
   }
 
@@ -82,7 +82,7 @@ class MailService extends Service {
       for (let email in user) {
         const { content, ids, sckey } = user[email];
         let html = '';
-        
+
         content.forEach((text, idx) => {
           html += `<h2>${idx + 1}：${text}</h2>`;
         });

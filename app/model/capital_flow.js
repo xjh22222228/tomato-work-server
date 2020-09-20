@@ -48,7 +48,7 @@ module.exports = app => {
       as: 'capitalFlowType',
       foreignKey: 'type_id'
     });
-  }
+  };
 
   return Schema;
 };

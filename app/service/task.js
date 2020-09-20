@@ -30,7 +30,7 @@ class TaskService extends Service {
   // 根据id查找某一项
   async findById(id) {
     const { ctx } = this;
-    return ctx.model.Task.findOne({ where: { id } })
+    return ctx.model.Task.findOne({ where: { id } });
   }
 
   // 将已过期的任务全部更新为未完成

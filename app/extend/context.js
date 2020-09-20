@@ -19,7 +19,7 @@ module.exports = {
   },
   /**
    * @param {*} responseData
-   * @example 
+   * @example
    * ctx.print = 'Hello';
    * ctx.print = null;
    * ctx.print = { name: 'Hello' };
@@ -34,14 +34,14 @@ module.exports = {
     };
 
     if (_.isPlainObject(responseData)) {
-      
+
       if (responseData.errorCode !== undefined && responseData.errorCode !== 0) {
         body.errorCode = responseData.errorCode;
         body.success = false;
-        body.msg =  errorCode[body.errorCode] || 'error';
+        body.msg = errorCode[body.errorCode] || 'error';
         body.data = null;
       }
-      
+
       body.msg = responseData.msg || body.msg;
 
       // 删除重复定义字段
@@ -52,7 +52,7 @@ module.exports = {
         delete body.data.success;
       }
     }
-    
+
     this.body = body;
   }
 };

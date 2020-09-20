@@ -20,7 +20,7 @@ class UserConfigure extends Controller {
       isMatterNotify,
       serverChanSckey: sckey
     };
-    
+
     for (let k in updateFileds) {
       updateFileds[k] === undefined && delete updateFileds[k];
     }
@@ -38,7 +38,7 @@ class UserConfigure extends Controller {
       ctx.print = { errorCode: 422 };
       return;
     }
-    
+
     const result = await service.userConfigure.update(null, updateFileds);
     ctx.print = { msg: '更新成功', data: result };
   }

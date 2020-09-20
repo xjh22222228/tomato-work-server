@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - name: Install
+      uses: sergioramos/yarn-actions/install@v6
+      with:
+        frozen-lockfile: true
+    - name: Lint
+      run: |
+        npm run lint

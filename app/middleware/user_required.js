@@ -11,7 +11,7 @@ module.exports = () => {
         const existsUser = await ctx.service.user.findUserByToken(token);
         if (existsUser) {
           ctx.login(existsUser);
-          return await next();;
+          return await next();
         }
       }
       ctx.print = {

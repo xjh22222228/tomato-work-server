@@ -33,6 +33,6 @@ class Common extends Controller {
       reminderCount: reminder.count
     };
   }
-};
+}
 
 module.exports = Common;

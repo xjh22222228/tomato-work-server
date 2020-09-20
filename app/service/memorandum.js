@@ -39,8 +39,8 @@ class Memorandum extends Service {
 
   /**
    * 更新
-   * @param {String} id 
-   * @param {Object} updateFields 
+   * @param {String} id
+   * @param {Object} updateFields
    * @return {Promise}
    */
   async updateById(id, updateFields) {

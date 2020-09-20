@@ -22,7 +22,10 @@ module.exports = class App {
         password
       });
       if (!user) {
-        ctx.print = { errorCode: 2, msg: '账号或密码错误' };
+        ctx.print = {
+          errorCode: 2,
+          msg: '账号或密码错误'
+        };
         return {};
       }
       ctx.print = { userInfo: user };
@@ -51,7 +54,7 @@ module.exports = class App {
           delete userInfo[k];
         }
       }
-      
+
       // 从数据库中查找用户信息
       const existsUser = await ctx.service.user.findUserByUid(userInfo.uid);
       if (existsUser) {
@@ -60,12 +63,12 @@ module.exports = class App {
         await ctx.service.user.updateUser(userInfo.uid, userInfo);
         return await ctx.service.user.findUserByUid(userInfo.uid);
       }
-      
+
       // 注册新用户
       const newUser = await ctx.service.user.register(userInfo);
       return newUser;
     };
-    
+
     app.passport.verify(async (ctx, user) => {
       const handler = user.provider === 'github' ? githubHandler : localHandler;
       try {
@@ -76,12 +79,12 @@ module.exports = class App {
         return null;
       }
     });
-  
+
     // 将用户信息序列化后存进 session 里面，一般需要精简，只保存个别字段
     app.passport.serializeUser(async (ctx, user) => {
       return user;
     });
-  
+
     // 反序列化后把用户信息从 session 中取出来，反查数据库拿到完整信息
     app.passport.deserializeUser(async (ctx, user) => {
       return user;
@@ -101,4 +104,4 @@ module.exports = class App {
     // 执行授权
     this.passport();
   }
-}
+};

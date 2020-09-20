@@ -29,7 +29,7 @@ class UserController extends Controller {
       ctx.print = { errorCode: 422, msg: 'token不能为空' };
       return;
     }
-    const user  = await ctx.service.user.findUserByToken(token);
+    const user = await ctx.service.user.findUserByToken(token);
     if (!user) {
       ctx.print = { errorCode: 2, msg: 'token失效' };
       return;

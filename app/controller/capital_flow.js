@@ -63,7 +63,7 @@ class CapitalFlow extends Controller {
     }
 
     const { date, typeId, price, remarks } = ctx.request.body;
-    
+
     try {
       const result = await service.capitalFlow.create({ date, typeId, price, remarks });
       ctx.print = result;
@@ -97,7 +97,7 @@ class CapitalFlow extends Controller {
     }
 
     const { date, typeId, price, remarks } = ctx.request.body;
-    
+
     try {
       const result = await service.capitalFlow.updateById(id, { date, typeId, price, remarks });
       ctx.print = result;

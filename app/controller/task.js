@@ -42,7 +42,7 @@ class TaskController extends Controller {
 
   async create() {
     const { ctx, service } = this;
-    
+
     try {
       ctx.validate({
         date: { type: 'number', convertType: 'number', default: Date.now() },
@@ -80,7 +80,7 @@ class TaskController extends Controller {
     }
 
     const type = rollback ? result.type - 1 : result.type + 1;
-    
+
     await service.task.updateDataById(id, { type });
     ctx.print = null;
   }

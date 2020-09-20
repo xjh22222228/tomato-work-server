@@ -22,7 +22,7 @@ class CapitalFlow extends Service {
     const todayStartTimestamp = ctx.helper.getTodayStartTimestamp();
     // 7天前时间戳
     startDate = startDate || dayjs(todayStartTimestamp).subtract(7, 'd').valueOf();
-    
+
     const query = 'SELECT SUM(a.`price`) AS `price`, b.`type`, FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d") AS `date` from `capital_flows` AS a, `capital_flow_types` AS b WHERE a.type_id = b.id AND a.`uid` = ? AND a.`date` BETWEEN ? AND ?  GROUP BY b.`type`, FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d") ORDER BY FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d");';
 
     const result = await ctx.model.query(query, {
@@ -69,7 +69,7 @@ class CapitalFlow extends Service {
     const uid = ctx.user.uid;
     const offset = options.offset || 0;
     const limit = options.limit || Number.MAX_SAFE_INTEGER;
-    
+
     const capitalFlowTypeWhere = {
       id: typeNameId,
       type

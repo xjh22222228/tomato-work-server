@@ -43,7 +43,7 @@ class CapitalFlowType extends Controller {
       ctx.print = { errorCode: 422 };
       return;
     }
-    
+
     const { name, type } = ctx.request.body;
     const findResult = await await service.capitalFlowType.findOneByName(name);
 
@@ -51,7 +51,7 @@ class CapitalFlowType extends Controller {
       ctx.print = { errorCode: 3, msg: '不可重复创建' };
       return;
     }
-    
+
     try {
       const result = await service.capitalFlowType.create({ name, type });
       ctx.print = result;
@@ -85,7 +85,7 @@ class CapitalFlowType extends Controller {
       ctx.print = { errorCode: 422 };
       return;
     }
-    
+
     const { name, type } = ctx.request.body;
     const updateFields = { name, type };
     const findResult = await await service.capitalFlowType.findOneByName(name);
