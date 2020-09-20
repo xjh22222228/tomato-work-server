@@ -12,17 +12,19 @@ class UserService extends Service {
    */
   async register(user) {
     const { ctx, service } = this;
-    const result = await ctx.model.transaction(t => {
-
-      return Promise.all([
+    const result = await ctx.model.transaction(async t => {
+      const [userRes] = await Promise.all([
         ctx.model.User.create(user, { transaction: t }),
         service.userConfigure.create({ uid: user.uid }, { transaction: t }),
         service.innerMessage.create(user.uid, messageType.system.welcome, { transaction: t })
       ]);
 
+      return userRes;
     });
 
-    return result[0];
+    service.mail.register(user.loginName);
+
+    return result;
   }
 
   /**

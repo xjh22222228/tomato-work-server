@@ -7,10 +7,10 @@ class Common extends Controller {
   async captcha() {
     const { ctx } = this;
     const code = ctx.query.code || '1234';
-    const data = svgCaptcha(code);
+    const svg = svgCaptcha(code);
 
     ctx.type = 'svg';
-    ctx.body = data;
+    ctx.body = svg;
   }
 
   // 获取后台首页面板数据

@@ -1,7 +1,7 @@
 {
   "name": "tomato-work-server",
   "author": "xiejiahe",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "bugs": {
     "url": "https://github.com/xjh22222228/tomato-work-server/issues"
   },
@@ -14,8 +14,8 @@
     "declarations": true
   },
   "dependencies": {
-    "dayjs": "^1.8.29",
-    "egg": "^2.27.0",
+    "dayjs": "^1.8.36",
+    "egg": "^2.28.0",
     "egg-crypto": "^1.0.0",
     "egg-jwt": "^3.1.7",
     "egg-mailer": "^1.1.0",
@@ -23,24 +23,24 @@
     "egg-passport-github": "^1.0.0",
     "egg-passport-local": "^1.2.1",
     "egg-scripts": "^2.13.0",
-    "egg-sequelize": "^5.2.2",
+    "egg-sequelize": "^6.0.0",
     "egg-validate": "^2.0.2",
-    "highlight.js": "^10.1.1",
-    "lodash": "^4.17.19",
-    "markdown-it": "^11.0.0",
-    "mysql2": "^2.1.0",
+    "highlight.js": "^10.2.0",
+    "lodash": "^4.17.20",
+    "markdown-it": "^11.0.1",
+    "mysql2": "^2.2.2",
     "node-xlsx": "^0.15.0",
     "svg-captcha": "^1.4.0",
-    "validator": "^13.1.1"
+    "validator": "^13.1.17"
   },
   "devDependencies": {
     "autod": "^3.1.0",
     "autod-egg": "^1.1.0",
     "egg-bin": "^4.15.0",
-    "egg-ci": "^1.15.0",
-    "egg-mock": "^4.0.0",
-    "eslint": "^7.4.0",
-    "eslint-config-egg": "^8.0.1"
+    "egg-ci": "^1.18.0",
+    "egg-mock": "^4.0.1",
+    "eslint": "^7.9.0",
+    "eslint-config-egg": "^8.1.2"
   },
   "engines": {
     "node": ">=10.0.0"
