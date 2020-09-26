@@ -6,8 +6,8 @@
  * @param {Egg.EggAppInfo} appInfo app info
  */
 module.exports = appInfo => {
-  
-  const config = exports = {};
+
+  const config = {};
 
   config.keys = appInfo.name + '_1557145862828_145';
 

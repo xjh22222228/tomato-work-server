@@ -43,7 +43,7 @@ exports.markdown = function () {
     }
   };
 
-  const md = MarkdownIt(config);
+  const md = new MarkdownIt(config);
 
   const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
     return self.renderToken(tokens, idx, options);
