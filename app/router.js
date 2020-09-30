@@ -21,6 +21,8 @@ module.exports = app => {
   require('./router/user')(app);
   require('./router/user_configure')(app);
 
+  router.get('/', common.index);
+
   // 公共接口
   router.get('/api/captcha', common.captcha);
   router.get('/api/panel', userRequired, common.getPanelData);

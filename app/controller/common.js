@@ -4,6 +4,12 @@ const Controller = require('egg').Controller;
 const svgCaptcha = require('svg-captcha');
 
 class Common extends Controller {
+
+  async index() {
+    const { ctx } = this;
+    ctx.body = 'Welcome to Tomaro Work !';
+  }
+
   async captcha() {
     const { ctx } = this;
     const code = ctx.query.code || '1234';

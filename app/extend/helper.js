@@ -2,6 +2,7 @@
 
 const { isPlainObject } = require('lodash');
 const MarkdownIt = require('markdown-it');
+const anchor = require('markdown-it-anchor');
 const hljs = require('highlight.js');
 
 /**
@@ -39,27 +40,28 @@ exports.markdown = function () {
         } catch {}
       }
 
-      return ''; // use external default escaping
+      return '';
     }
   };
 
-  const md = new MarkdownIt(config);
+  const md = new MarkdownIt(config).use(anchor);
 
   const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
     return self.renderToken(tokens, idx, options);
   };
 
   md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
-    // If you are sure other plugins can't add `target` - drop check below
     const aIndex = tokens[idx].attrIndex('target');
+    const isAnchor = tokens[idx].attrs[0][1].startsWith('#');
 
-    if (aIndex < 0) {
-      tokens[idx].attrPush(['target', '_blank']); // add new attribute
-    } else {
-      tokens[idx].attrs[aIndex][1] = '_blank'; // replace value of existing attr
+    if (!isAnchor) {
+      if (aIndex < 0) {
+        tokens[idx].attrPush(['target', '_blank']);
+      } else {
+        tokens[idx].attrs[aIndex][1] = '_blank';
+      }
     }
 
-    // pass token to default renderer.
     return defaultRender(tokens, idx, options, env, self);
   };
 
