@@ -23,9 +23,20 @@ class CapitalFlow extends Service {
     // 7天前时间戳
     startDate = startDate || dayjs(todayStartTimestamp).subtract(7, 'd').valueOf();
 
-    const query = 'SELECT SUM(a.`price`) AS `price`, b.`type`, FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d") AS `date` from `capital_flows` AS a, `capital_flow_types` AS b WHERE a.type_id = b.id AND a.`uid` = ? AND a.`date` BETWEEN ? AND ?  GROUP BY b.`type`, FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d") ORDER BY FROM_UNIXTIME(a.`date` / 1000, "%Y-%m-%d");';
+    const SQLQuery = `
+      SELECT 
+      SUM(a.price) AS price,
+      b.type,
+      FROM_UNIXTIME(a.date / 1000, "%Y-%m-%d") AS date
+      from capital_flows AS a,
+      capital_flow_types AS b
+      WHERE a.type_id = b.id AND a.uid = ? AND a.date BETWEEN ? AND ? 
+      GROUP BY b.type,
+      FROM_UNIXTIME(a.date / 1000, "%Y-%m-%d")
+      ORDER BY FROM_UNIXTIME(a.date / 1000, "%Y-%m-%d");
+    `;
 
-    const result = await ctx.model.query(query, {
+    const result = await ctx.model.query(SQLQuery, {
       replacements: [uid, startDate, endDate],
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
@@ -150,7 +161,10 @@ class CapitalFlow extends Service {
 
     priceParams.available = (priceParams.income - priceParams.consumption).toFixed(2);
 
-    return { ...result, ...priceParams };
+    return {
+      ...result,
+      ...priceParams
+    };
   }
 
   /**
