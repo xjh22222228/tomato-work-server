@@ -16,24 +16,23 @@ class CapitalFlow extends Service {
    * @param {Number} [startDate] - 默认前一周
    * @param {Number} [endDate] - 默认今天
    */
-  async findSumPriceByDate(startDate, endDate = Date.now()) {
+  async findSumPriceByDate(startDate, endDate) {
     const { ctx, app } = this;
     const uid = ctx.user.uid;
-    const todayStartTimestamp = ctx.helper.getTodayStartTimestamp();
-    // 7天前时间戳
-    startDate = startDate || dayjs(todayStartTimestamp).subtract(7, 'd').valueOf();
+    startDate = startDate || dayjs().startOf('hour').subtract(7, 'd').format('YYYY-MM-DD');
+    endDate = endDate || dayjs().format('YYYY-MM-DD');
 
     const SQLQuery = `
       SELECT 
       SUM(a.price) AS price,
       b.type,
-      FROM_UNIXTIME(a.date / 1000, "%Y-%m-%d") AS date
+      DATE(a.created_at) AS date
       from capital_flows AS a,
       capital_flow_types AS b
-      WHERE a.type_id = b.id AND a.uid = ? AND a.date BETWEEN ? AND ? 
+      WHERE a.type_id = b.id AND a.uid = ? AND DATE(a.created_at) >= ? AND DATE(a.created_at) <= ? 
       GROUP BY b.type,
-      FROM_UNIXTIME(a.date / 1000, "%Y-%m-%d")
-      ORDER BY FROM_UNIXTIME(a.date / 1000, "%Y-%m-%d");
+      DATE(a.created_at)
+      ORDER BY DATE(a.created_at);
     `;
 
     const result = await ctx.model.query(SQLQuery, {
@@ -56,7 +55,11 @@ class CapitalFlow extends Service {
         name: '收入',
         type: 1
       };
-      data.push(payload, { ...payload, name: '支出', type: 2 });
+      data.push(payload, {
+        ...payload,
+        name: '支出',
+        type: 2
+      });
     }
 
     result.forEach(item => {
@@ -96,9 +99,18 @@ class CapitalFlow extends Service {
         [app.Sequelize.col('capitalFlowType.type'), 'type'],
       ],
       where: {
-        date: {
-          [ctx.Op.between]: [startDate, endDate]
-        },
+        [ctx.Op.and]: [
+          app.Sequelize.where(
+            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            '<=',
+            endDate
+          ),
+          app.Sequelize.where(
+            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            '>=',
+            startDate
+          )
+        ],
         remarks: {
           [ctx.Op.like]: `%${keyword}%`
         },
@@ -110,22 +122,32 @@ class CapitalFlow extends Service {
         where: capitalFlowTypeWhere
       }],
       order: [
-        [sort[0], sort[1]]
+        sort
       ],
       raw: true,
       offset,
       limit
     });
 
-    const momenySum = await ctx.model.CapitalFlow.findAll({
+    // 计算资金
+    const amount = await ctx.model.CapitalFlow.findAll({
       attributes: [
         [app.Sequelize.fn('sum', app.Sequelize.col('price')), 'price'],
         [app.Sequelize.col('capitalFlowType.type'), 'type'],
       ],
       where: {
-        date: {
-          [ctx.Op.between]: [startDate, endDate]
-        },
+        [ctx.Op.and]: [
+          app.Sequelize.where(
+            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            '<=',
+            endDate
+          ),
+          app.Sequelize.where(
+            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            '>=',
+            startDate
+          )
+        ],
         remarks: {
           [ctx.Op.like]: `%${keyword}%`
         },
@@ -144,26 +166,26 @@ class CapitalFlow extends Service {
       group: 'capitalFlowType.type'
     });
 
-    const priceParams = {
+    const amountParams = {
       consumption: 0,
       income: 0,
       available: 0
     };
 
-    momenySum.forEach(item => {
+    amount.forEach(item => {
       if (item.type === 1) {
-        priceParams.income = item.price;
+        amountParams.income = item.price;
       } else {
-        priceParams.consumption = item.price;
+        amountParams.consumption = item.price;
       }
       return item;
     });
 
-    priceParams.available = (priceParams.income - priceParams.consumption).toFixed(2);
+    amountParams.available = (amountParams.income - amountParams.consumption).toFixed(2);
 
     return {
       ...result,
-      ...priceParams
+      ...amountParams
     };
   }
 

@@ -42,7 +42,8 @@ module.exports = appInfo => {
     host: '127.0.0.1',
     port: 3306,
     username: 'root',
-    password: '123456'
+    password: 'a123123..',
+    timezone: '+08:00'
   };
 
   // github配置信息 [可选, 默认使用作者的信息, 但启动端口不可修改]

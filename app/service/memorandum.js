@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const { markdown } = require('js-ant');
 
 class Memorandum extends Service {
 
@@ -22,7 +23,7 @@ class Memorandum extends Service {
     });
 
     result = result.map(item => {
-      item.html = ctx.helper.markdown().render(item.markdown);
+      item.html = markdown.render(item.markdown);
       return item;
     });
 
@@ -33,7 +34,7 @@ class Memorandum extends Service {
     const { ctx } = this;
     const uid = ctx.user.uid;
     const result = await ctx.model.Memorandum.findByPk(id, { where: { uid }, raw: true });
-    result.html = ctx.helper.markdown().render(result.markdown);
+    result.html = markdown.render(result.markdown);
     return result;
   }
 

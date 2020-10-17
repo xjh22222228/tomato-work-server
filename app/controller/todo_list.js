@@ -8,12 +8,16 @@ class TodoList extends Controller {
     try {
       ctx.validate({
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
-        pageSize: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER - 1 },
-        startDate: { type: 'int?', convertType: 'int', default: Date.now() },
-        endDate: { type: 'int?', convertType: 'int', default: Date.now() },
+        pageSize: { type: 'int?', convertType: 'int', default: 10 },
+        startDate: { type: 'date', default: new Date() },
+        endDate: { type: 'date', default: new Date() },
       }, ctx.query);
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -43,7 +47,10 @@ class TodoList extends Controller {
 
     try {
       const result = await service.todoList.create({ content });
-      ctx.print = result;
+      ctx.print = {
+        data: result,
+        msg: '创建成功'
+      };
     } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' };
     }
@@ -57,8 +64,12 @@ class TodoList extends Controller {
       ctx.validate({
         status: { type: 'enum?', values: [1, 2] }
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -72,8 +83,12 @@ class TodoList extends Controller {
     try {
       await service.todoList.updateById(id, data);
       ctx.print = { msg: '更新成功' };
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
     }
   }
 

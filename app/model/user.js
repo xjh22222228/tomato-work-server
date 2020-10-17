@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { STRING, INTEGER, NOW, TINYINT, UUIDV4, UUID } = app.Sequelize;
+  const { STRING, INTEGER, TINYINT, UUIDV4, UUID } = app.Sequelize;
 
   const Schema = app.model.define('user', {
     id: {
@@ -9,8 +9,7 @@ module.exports = app => {
     },
     uid: {
       type: INTEGER,
-      allowNull: false,
-      defaultValue: NOW
+      allowNull: false
     },
     provider: {
       type: STRING(10),

@@ -26,7 +26,7 @@ class UserController extends Controller {
     const { ctx } = this;
     const token = ctx.query.token;
     if (!token) {
-      ctx.print = { errorCode: 422, msg: 'token不能为空' };
+      ctx.print = { errorCode: 400, msg: 'token不能为空' };
       return;
     }
     const user = await ctx.service.user.findUserByToken(token);
@@ -43,7 +43,7 @@ class UserController extends Controller {
     const { password } = ctx.request.body;
     const uid = ctx.user.uid;
     if (!password) {
-      ctx.print = ctx.helper.body({ errorCode: 422 });
+      ctx.print = { errorCode: 400 };
       return;
     }
     try {

@@ -18,31 +18,32 @@ module.exports = {
     return this.get['X-Real-IP'] || this.get['X-Forwarded-For'] || this.ip;
   },
   /**
-   * @param {*} responseData
+   * @param {*} val
    * @example
    * ctx.print = 'Hello';
    * ctx.print = null;
    * ctx.print = { name: 'Hello' };
    * @return {Object}
    */
-  set print(responseData) {
+  set print(val) {
     const body = {
-      data: responseData,
+      data: val,
       errorCode: 0,
       msg: errorCode[0],
       success: true
     };
 
-    if (_.isPlainObject(responseData)) {
+    if (_.isPlainObject(val)) {
 
-      if (responseData.errorCode !== undefined && responseData.errorCode !== 0) {
-        body.errorCode = responseData.errorCode;
+      if (val.errorCode !== undefined && val.errorCode !== 0) {
+        body.errorCode = val.errorCode;
         body.success = false;
         body.msg = errorCode[body.errorCode] || 'error';
         body.data = null;
       }
 
-      body.msg = responseData.msg || body.msg;
+      body.msg = val.msg || body.msg;
+      body.errorMsg = val.errorMsg || body.msg;
 
       // 删除重复定义字段
       if (_.isPlainObject(body.data)) {

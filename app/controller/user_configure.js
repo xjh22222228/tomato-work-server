@@ -34,9 +34,12 @@ class UserConfigure extends Controller {
         isMatterNotify: { type: 'boolean?' },
         sckey: { type: 'string?', max: 200 }
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
-      return;
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
     }
 
     const result = await service.userConfigure.update(null, updateFileds);

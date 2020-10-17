@@ -11,14 +11,22 @@ class TodoList extends Service {
   }
 
   async findAndCountAllByUid(options = {}) {
-    const { ctx } = this;
+    const { ctx, app } = this;
     const uid = ctx.user.uid;
     return ctx.model.TodoList.findAndCountAll({
       where: {
-        createdAt: {
-          [ctx.Op.lt]: new Date(options.endDate),
-          [ctx.Op.gt]: new Date(options.startDate),
-        },
+        [ctx.Op.and]: [
+          app.Sequelize.where(
+            app.Sequelize.fn('DATE', app.Sequelize.col('created_at')),
+            '<=',
+            options.endDate
+          ),
+          app.Sequelize.where(
+            app.Sequelize.fn('DATE', app.Sequelize.col('created_at')),
+            '>=',
+            options.startDate
+          )
+        ],
         uid,
       },
       order: [

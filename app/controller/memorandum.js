@@ -25,8 +25,12 @@ class Memorandum extends Controller {
         title: { type: 'string?', max: 50, min: 1 },
         markdown: { type: 'string?' }
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -53,8 +57,12 @@ class Memorandum extends Controller {
         title: { type: 'string?', max: 50, min: 1 },
         markdown: { type: 'string?' }
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -64,7 +72,11 @@ class Memorandum extends Controller {
       const result = await service.memorandum.updateById(id, { title, markdown });
       ctx.print = { msg: '更新成功', data: result };
     } catch (err) {
-      ctx.print = { errorCode: 5, data: err, msg: '更新失败' };
+      ctx.print = {
+        errorCode: 5,
+        data: err,
+        msg: '更新失败'
+      };
     }
   }
 

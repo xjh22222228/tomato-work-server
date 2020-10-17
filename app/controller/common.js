@@ -22,10 +22,9 @@ class Common extends Controller {
   // 获取后台首页面板数据
   async getPanelData() {
     const { ctx, service } = this;
-    const todayStartTimestamp = ctx.helper.getTodayStartTimestamp();
 
     let [price, todayTask, unfinishedTodoList, reminder] = await Promise.all([
-      service.capitalFlow.findSumPriceByDate(todayStartTimestamp),
+      service.capitalFlow.findSumPriceByDate(),
       service.task.findAllByUid({ type: { [ctx.Op.in]: [1, 2] } }),
       service.todoList.findUnfinishedByUid(),
       service.reminder.findAllByUid(null, { type: 1 })

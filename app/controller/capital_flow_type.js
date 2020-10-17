@@ -13,8 +13,12 @@ class CapitalFlowType extends Controller {
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
         pageSize: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER - 1 },
       }, ctx.query);
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -39,8 +43,12 @@ class CapitalFlowType extends Controller {
         name: { type: 'string?', convertType: 'string', min: 1, max: 20 },
         type: { type: 'enum', values: enumTypeValues }
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -81,8 +89,12 @@ class CapitalFlowType extends Controller {
         name: { type: 'string?', convertType: 'string', min: 1, max: 20 },
         type: { type: 'enum', values: enumTypeValues }
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 

@@ -10,12 +10,16 @@ class CapitalFlow extends Controller {
       ctx.validate({
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
         pageSize: { type: 'int?', convertType: 'int', default: 30 },
-        startDate: { type: 'int?', convertType: 'int', default: 0 },
-        endDate: { type: 'int?', convertType: 'int', default: Number.MAX_SAFE_INTEGER },
+        startDate: { type: 'date', default: new Date() },
+        endDate: { type: 'date', default: new Date() },
         sort: { type: 'string?', default: 'date-desc' }
       }, ctx.query);
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
@@ -42,7 +46,8 @@ class CapitalFlow extends Controller {
         keyword
       });
       ctx.print = result;
-    } catch {
+    } catch (e) {
+      ctx.logger.error(e);
       ctx.print = { errorCode: 2 };
     }
   }
@@ -52,21 +57,33 @@ class CapitalFlow extends Controller {
 
     try {
       ctx.validate({
-        date: { type: 'int' },
+        date: { type: 'datetime' },
         typeId: { type: 'string' },
         price: { type: 'number' },
         remarks: { type: 'string?', min: 0, max: 250 },
-      });
-    } catch {
-      ctx.print = { errorCode: 422 };
+      }, ctx.request.body);
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
     const { date, typeId, price, remarks } = ctx.request.body;
 
     try {
-      const result = await service.capitalFlow.create({ date, typeId, price, remarks });
-      ctx.print = result;
+      const result = await service.capitalFlow.create({
+        createdAt: date,
+        typeId,
+        price,
+        remarks
+      });
+      ctx.print = {
+        ...result,
+        msg: '创建成功'
+      };
     } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' };
     }
@@ -77,7 +94,10 @@ class CapitalFlow extends Controller {
     const id = ctx.params.id;
 
     const result = await service.capitalFlow.deleteById(id);
-    ctx.print = { ...result, msg: '删除成功' };
+    ctx.print = {
+      ...result,
+      msg: '删除成功'
+    };
   }
 
   async update() {
@@ -86,23 +106,38 @@ class CapitalFlow extends Controller {
 
     try {
       ctx.validate({
-        date: { type: 'int' },
+        date: { type: 'datetime' },
         typeId: { type: 'string' },
         price: { type: 'number' },
         remarks: { type: 'string?', min: 0, max: 250 },
-      });
-    } catch {
-      ctx.print = { errorCode: 422 };
+      }, ctx.request.body);
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
     const { date, typeId, price, remarks } = ctx.request.body;
 
     try {
-      const result = await service.capitalFlow.updateById(id, { date, typeId, price, remarks });
-      ctx.print = result;
+      const result = await service.capitalFlow.updateById(id, {
+        createdAt: date,
+        typeId,
+        price,
+        remarks
+      });
+      ctx.print = {
+        ...result,
+        msg: '保存成功'
+      };
     } catch {
-      ctx.print = { errorCode: 5, msg: '更新失败' };
+      ctx.print = {
+        errorCode: 5,
+        msg: '更新失败'
+      };
     }
   }
 

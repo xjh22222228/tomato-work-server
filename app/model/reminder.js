@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, NOW, BIGINT, TINYINT, UUID, UUIDV4 } = app.Sequelize;
+  const { INTEGER, STRING, BIGINT, TINYINT, UUID, UUIDV4 } = app.Sequelize;
 
   const Schema = app.model.define('reminder', {
     id: {
@@ -20,7 +20,7 @@ module.exports = app => {
     date: {
       type: BIGINT(13),
       allowNull: false,
-      defaultValue: NOW,
+      defaultValue: Date.now,
     },
     type: {
       type: TINYINT(1),

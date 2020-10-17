@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const dayjs = require('dayjs');
 
 class TaskService extends Service {
 
@@ -24,7 +25,12 @@ class TaskService extends Service {
   async findAllByUid(where) {
     const { ctx } = this;
     const uid = ctx.user.uid;
-    return ctx.model.Task.findAll({ where: { uid, ...where }, order: [ ['createdAt', 'DESC'] ] });
+    return ctx.model.Task.findAll({
+      where: { uid, ...where },
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    });
   }
 
   // 根据id查找某一项
@@ -40,8 +46,8 @@ class TaskService extends Service {
       type: 4
     }, {
       where: {
-        date: {
-          [ctx.Op.lt]: ctx.helper.getTodayStartTimestamp()
+        createdAt: {
+          [ctx.Op.lt]: dayjs().startOf('hour').format('YYYY-MM-DD HH:mm:ss')
         },
         type: {
           [ctx.Op.notIn]: [3, 4]

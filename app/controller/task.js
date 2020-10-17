@@ -4,12 +4,21 @@ const Controller = require('egg').Controller;
 
 class TaskController extends Controller {
   async index() {
-    const { ctx, service } = this;
+    const { ctx, service, app } = this;
     const { startDate, endDate } = ctx.query;
     const result = await service.task.findAllByUid({
-      date: {
-        [ctx.Op.between]: [startDate, endDate]
-      }
+      [ctx.Op.and]: [
+        app.Sequelize.where(
+          app.Sequelize.fn('DATE', app.Sequelize.col('created_at')),
+          '<=',
+          endDate
+        ),
+        app.Sequelize.where(
+          app.Sequelize.fn('DATE', app.Sequelize.col('created_at')),
+          '>=',
+          startDate
+        )
+      ]
     });
 
     const data = {
@@ -37,7 +46,7 @@ class TaskController extends Controller {
       }
     });
 
-    ctx.print = { ...data };
+    ctx.print = data;
   }
 
   async create() {
@@ -45,18 +54,26 @@ class TaskController extends Controller {
 
     try {
       ctx.validate({
-        date: { type: 'number', convertType: 'number', default: Date.now() },
+        date: { type: 'datetime', default: new Date() },
         content: { type: 'string', convertType: 'string', max: 200 },
         count: { type: 'number', convertType: 'number', min: 0, max: 5 },
       });
-    } catch {
-      ctx.print = { errorCode: 422 };
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      };
       return;
     }
 
     const { date, content, count } = ctx.request.body;
     try {
-      await service.task.create(null, { date, content, count });
+      await service.task.create(null, {
+        createdAt: date,
+        content,
+        count
+      });
       ctx.print = { msg: '新增成功' };
     } catch {
       ctx.print = { errorCode: 3 };

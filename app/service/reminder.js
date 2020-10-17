@@ -1,6 +1,7 @@
 'use strict';
 
 const Service = require('egg').Service;
+const dayjs = require('dayjs');
 
 class ReminderService extends Service {
 
@@ -24,12 +25,15 @@ class ReminderService extends Service {
       options.offset = options.offset * options.limit;
     }
 
-    return ctx.model.Reminder.findAndCountAll(Object.assign({
-      where: Object.assign({}, { uid }, where)
-    }, {
+    return ctx.model.Reminder.findAndCountAll({
+      where: {
+        uid,
+        ...where
+      },
       raw: true,
-      order: [['date', 'DESC']],
-    }, options));
+      order: [['createdAt', 'DESC']],
+      ...options
+    });
   }
 
   /**
@@ -124,10 +128,15 @@ class ReminderService extends Service {
    */
   async findAllNotSend() {
     const { ctx, app } = this;
-    const query = 'SELECT r.`content`, r.`id`, u.`email`, c.`server_chan_sckey` AS `sckey` FROM `reminders` AS r, `users` AS u, `user_configures` as c WHERE r.type = 1 AND u.email != "" AND r.`uid` = u.`uid` AND c.`uid` = r.`uid` AND r.`date` <= ?';
+    const query = `
+      SELECT
+      r.content, r.id, u.email, c.server_chan_sckey AS sckey
+      FROM reminders AS r, users AS u, user_configures as c
+      WHERE r.type = 1 AND u.email != "" AND r.uid = u.uid AND c.uid = r.uid AND r.created_at <= ?
+    `;
 
     return ctx.model.query(query, {
-      replacements: [Date.now()],
+      replacements: [dayjs().format('YYYY-MM-DD HH:mm:ss')],
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
     });

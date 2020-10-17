@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, NOW, BIGINT, TINYINT, UUIDV4, UUID } = app.Sequelize;
+  const { INTEGER, STRING, BIGINT, TINYINT, UUIDV4, UUID } = app.Sequelize;
 
   const Schema = app.model.define('task', {
     id: {
@@ -20,7 +20,7 @@ module.exports = app => {
     date: {
       type: BIGINT(13),
       allowNull: false,
-      defaultValue: NOW,
+      defaultValue: Date.now,
     },
     type: {
       type: TINYINT(1),

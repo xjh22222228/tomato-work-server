@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, UUIDV4, UUID, DECIMAL, BIGINT, NOW } = app.Sequelize;
+  const { INTEGER, STRING, UUIDV4, UUID, DECIMAL, BIGINT } = app.Sequelize;
 
   const Schema = app.model.define('capital_flow', {
     id: {
@@ -19,7 +19,7 @@ module.exports = app => {
     date: {
       type: BIGINT(13),
       allowNull: false,
-      defaultValue: NOW,
+      defaultValue: Date.now,
     },
     typeId: {
       type: UUID,
