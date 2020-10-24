@@ -8,7 +8,9 @@ class UserConfigure extends Controller {
   async index() {
     const { ctx, service } = this;
     const result = await service.userConfigure.findUserConfigByUid();
-    ctx.print = result;
+    ctx.print = {
+      data: result
+    };
   }
 
   // 更新用户配置表
@@ -43,7 +45,10 @@ class UserConfigure extends Controller {
     }
 
     const result = await service.userConfigure.update(null, updateFileds);
-    ctx.print = { msg: '更新成功', data: result };
+    ctx.print = {
+      msg: '更新成功',
+      data: result
+    };
   }
 }
 
