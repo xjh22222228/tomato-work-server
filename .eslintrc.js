@@ -11,7 +11,7 @@ module.exports = {
     jasmine: true,
   },
   rules: {
-    'semi': ['error', 'always'],
+    'semi': ['error', 'never'],
     'no-var': 2,
     'constructor-super': 2,
     'no-class-assign': 2,
@@ -90,4 +90,4 @@ module.exports = {
     // support import modules from TypeScript files in JavaScript files
     'import/resolver': { node: { extensions: ['.js', '.ts'] } },
   },
-};
+}

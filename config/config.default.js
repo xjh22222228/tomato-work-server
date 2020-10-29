@@ -1,39 +1,39 @@
 /* eslint valid-jsdoc: "off" */
 
-'use strict';
+'use strict'
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
 module.exports = appInfo => {
 
-  const config = {};
+  const config = {}
 
-  config.keys = appInfo.name + '_1557145862828_145';
+  config.keys = appInfo.name + '_1557145862828_145'
 
-  config.middleware = [];
+  config.middleware = []
 
   config.cluster = {
     listen: {
       port: 7003
     }
-  };
+  }
 
   config.bodyParser = {
     jsonLimit: '10mb',
     formLimit: '10mb',
-  };
+  }
 
   config.security = {
     csrf: false
-  };
+  }
 
   config.passportLocal = {
     usernameField: 'loginName',
     passwordField: 'password'
-  };
+  }
 
-  config.title = 'Tomato Work';
+  config.title = 'Tomato Work'
 
   // 数据库配置 [必须]
   config.sequelize = {
@@ -44,7 +44,7 @@ module.exports = appInfo => {
     username: 'root',
     password: 'a123123..',
     timezone: '+08:00'
-  };
+  }
 
   // github配置信息 [可选, 默认使用作者的信息, 但启动端口不可修改]
   config.passportGithub = {
@@ -53,7 +53,7 @@ module.exports = appInfo => {
     callbackURL: 'http://localhost:9663/api/passport/github/callback',
     successRedirect: '/api/passport/github/success',
     failureRedirect: '/?state=0'
-  };
+  }
 
   // 邮箱配置信息 [可选, 默认使用测试账号]
   config.mailer = {
@@ -64,10 +64,10 @@ module.exports = appInfo => {
       user: 'tomatowork@2980.com',
       pass: 'a123456'
     }
-  };
+  }
 
   // 自己邮箱, 用于通知报告
-  config.email = 'xjh22222228@gmail.com';
+  config.email = 'xjh22222228@gmail.com'
 
-  return config;
-};
+  return config
+}

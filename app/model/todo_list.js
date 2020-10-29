@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, TEXT, TINYINT, UUIDV4, UUID } = app.Sequelize;
+  const { INTEGER, TEXT, TINYINT, UUIDV4, UUID } = app.Sequelize
 
   const Schema = app.model.define('todo_list', {
     id: {
@@ -28,7 +28,7 @@ module.exports = app => {
     comment: '活动清单',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

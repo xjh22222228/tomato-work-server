@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { STRING, INTEGER, TINYINT, UUIDV4, UUID } = app.Sequelize;
+  const { STRING, INTEGER, TINYINT, UUIDV4, UUID } = app.Sequelize
 
   const Schema = app.model.define('user', {
     id: {
@@ -74,7 +74,7 @@ module.exports = app => {
     underscored: true,
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

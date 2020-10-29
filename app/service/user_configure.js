@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const Service = require('egg').Service;
+const Service = require('egg').Service
 
 class UserConfigureService extends Service {
 
@@ -10,12 +10,12 @@ class UserConfigureService extends Service {
    * @return {Promise}
    */
   async findUserConfigByUid(uid) {
-    const { ctx } = this;
-    uid = uid || ctx.user.uid;
+    const { ctx } = this
+    uid = uid || ctx.user.uid
     return ctx.model.UserConfigure.findOne({
       attributes: { exclude: ['id', 'uid', 'createdAt', 'updatedAt'] },
       where: { uid }
-    });
+    })
   }
 
   /**
@@ -25,8 +25,8 @@ class UserConfigureService extends Service {
    * @return {Promise}
    */
   async create(data, options) {
-    const { ctx } = this;
-    return ctx.model.UserConfigure.create(data, options);
+    const { ctx } = this
+    return ctx.model.UserConfigure.create(data, options)
   }
 
   /**
@@ -36,12 +36,12 @@ class UserConfigureService extends Service {
    * @return {Promise}
    */
   async update(uid, data) {
-    const { ctx } = this;
-    uid = uid || ctx.user.uid;
+    const { ctx } = this
+    uid = uid || ctx.user.uid
     return ctx.model.UserConfigure.update(data, {
       where: { uid }
-    });
+    })
   }
 }
 
-module.exports = UserConfigureService;
+module.exports = UserConfigureService

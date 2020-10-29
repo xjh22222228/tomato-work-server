@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const Service = require('egg').Service;
-const dayjs = require('dayjs');
+const Service = require('egg').Service
+const dayjs = require('dayjs')
 
 class ReminderService extends Service {
 
@@ -13,16 +13,16 @@ class ReminderService extends Service {
    * @return {Promise}
    */
   async findAllByUid(uid, where, options = {}) {
-    const { ctx } = this;
-    uid = uid || ctx.user.uid;
-    where = ctx.helper.filterUndefindAndEmptyByObject(where);
+    const { ctx } = this
+    uid = uid || ctx.user.uid
+    where = ctx.helper.filterUndefindAndEmptyByObject(where)
 
     // 处理分页
     if (Number.isNaN(options.offset) || !options.limit) {
-      delete options.offset;
-      delete options.limit;
+      delete options.offset
+      delete options.limit
     } else {
-      options.offset = options.offset * options.limit;
+      options.offset = options.offset * options.limit
     }
 
     return ctx.model.Reminder.findAndCountAll({
@@ -33,7 +33,7 @@ class ReminderService extends Service {
       raw: true,
       order: [['createdAt', 'DESC']],
       ...options
-    });
+    })
   }
 
   /**
@@ -42,10 +42,10 @@ class ReminderService extends Service {
    * @return {Promise}
    */
   async create(data) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
-    data.uid === undefined && (data.uid = uid);
-    return ctx.model.Reminder.create(data);
+    const { ctx } = this
+    const uid = ctx.user.uid
+    data.uid === undefined && (data.uid = uid)
+    return ctx.model.Reminder.create(data)
   }
 
   /**
@@ -54,10 +54,10 @@ class ReminderService extends Service {
    * @return {Promise}
    */
   async deleteById(id) {
-    const uid = this.ctx.user.uid;
+    const uid = this.ctx.user.uid
     return this.ctx.model.Reminder.destroy({
       where: { uid, id }
-    });
+    })
   }
 
   /**
@@ -66,7 +66,7 @@ class ReminderService extends Service {
    * @return {Promise}
    */
   async findAll(where) {
-    return this.ctx.model.Reminder.findAll({ where: { ...where } });
+    return this.ctx.model.Reminder.findAll({ where: { ...where } })
   }
 
   /**
@@ -77,8 +77,8 @@ class ReminderService extends Service {
    * @return {Promise}
    */
   async updateByUid(uid, updateFields, where) {
-    const { ctx } = this;
-    uid = (ctx.user && ctx.user.uid) || uid;
+    const { ctx } = this
+    uid = (ctx.user && ctx.user.uid) || uid
 
     return ctx.model.Reminder.update(updateFields, {
       where: {
@@ -87,7 +87,7 @@ class ReminderService extends Service {
         },
         ...where
       }
-    });
+    })
   }
 
   /**
@@ -98,15 +98,15 @@ class ReminderService extends Service {
    * @return {Promise}
    */
   async updateById(id, updateFields, where) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
+    const { ctx } = this
+    const uid = ctx.user.uid
     return ctx.model.Reminder.update(updateFields, {
       where: {
         uid,
         id,
         ...where
       }
-    });
+    })
   }
 
   /**
@@ -114,33 +114,33 @@ class ReminderService extends Service {
    * @param {String|Array} id
    */
   async updateTypeById(id, type) {
-    const { ctx } = this;
-    const ids = String(id).split(',');
+    const { ctx } = this
+    const ids = String(id).split(',')
     return ctx.model.Reminder.update({ type }, {
       where: {
         id: { [ctx.Op.in]: ids }
       }
-    });
+    })
   }
 
   /**
    * 检索所有未提醒事项
    */
   async findAllNotSend() {
-    const { ctx, app } = this;
+    const { ctx, app } = this
     const query = `
       SELECT
       r.content, r.id, u.email, c.server_chan_sckey AS sckey
       FROM reminders AS r, users AS u, user_configures as c
       WHERE r.type = 1 AND u.email != "" AND r.uid = u.uid AND c.uid = r.uid AND r.created_at <= ?
-    `;
+    `
 
     return ctx.model.query(query, {
       replacements: [dayjs().format('YYYY-MM-DD HH:mm:ss')],
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
-    });
+    })
   }
 }
 
-module.exports = ReminderService;
+module.exports = ReminderService

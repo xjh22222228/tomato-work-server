@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, TINYINT, UUIDV4, UUID } = app.Sequelize;
+  const { INTEGER, STRING, TINYINT, UUIDV4, UUID } = app.Sequelize
 
   const Schema = app.model.define('capital_flow_type', {
     id: {
@@ -33,7 +33,7 @@ module.exports = app => {
     comment: '资金流动类型',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

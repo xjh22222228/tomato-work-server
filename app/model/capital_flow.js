@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, UUIDV4, UUID, DECIMAL, BIGINT } = app.Sequelize;
+  const { INTEGER, STRING, UUIDV4, UUID, DECIMAL, BIGINT } = app.Sequelize
 
   const Schema = app.model.define('capital_flow', {
     id: {
@@ -41,14 +41,14 @@ module.exports = app => {
     comment: '资金流动',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
   Schema.associate = function associate() {
     app.model.CapitalFlow.belongsTo(app.model.CapitalFlowType, {
       as: 'capitalFlowType',
       foreignKey: 'type_id'
-    });
-  };
+    })
+  }
 
-  return Schema;
-};
+  return Schema
+}

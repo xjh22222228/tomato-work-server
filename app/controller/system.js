@@ -1,15 +1,15 @@
-'use strict';
+'use strict'
 
-const Controller = require('egg').Controller;
-const os = require('os');
+const Controller = require('egg').Controller
+const os = require('os')
 
 class SystemController extends Controller {
   async index() {
-    const { ctx } = this;
+    const { ctx } = this
     const mysqlVersion = await ctx.model.query('SELECT VERSION() as mysqlVersion', {
       raw: true,
       plain: true
-    });
+    })
 
     const params = {
       ...mysqlVersion,
@@ -22,9 +22,9 @@ class SystemController extends Controller {
       arch: os.arch(),
       nodeVersion: process.version,
       cpus: os.cpus(),
-    };
-    ctx.print = params;
+    }
+    ctx.print = params
   }
 }
 
-module.exports = SystemController;
+module.exports = SystemController

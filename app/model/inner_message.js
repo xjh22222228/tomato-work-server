@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, TINYINT, UUIDV4, UUID, BOOLEAN } = app.Sequelize;
+  const { INTEGER, STRING, TINYINT, UUIDV4, UUID, BOOLEAN } = app.Sequelize
 
   const Schema = app.model.define('inner_message', {
     id: {
@@ -33,7 +33,7 @@ module.exports = app => {
     comment: '站内消息',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

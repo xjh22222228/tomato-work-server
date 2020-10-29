@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, BOOLEAN, UUIDV4, UUID, STRING } = app.Sequelize;
+  const { INTEGER, BOOLEAN, UUIDV4, UUID, STRING } = app.Sequelize
 
   const Schema = app.model.define('user_configure', {
     id: {
@@ -35,7 +35,7 @@ module.exports = app => {
     comment: '用户配置表',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

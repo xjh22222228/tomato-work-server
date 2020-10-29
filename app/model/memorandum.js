@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, TINYINT, TEXT, UUIDV4, UUID } = app.Sequelize;
+  const { INTEGER, STRING, TINYINT, TEXT, UUIDV4, UUID } = app.Sequelize
 
   /**
    * 备忘录创建不能大于100个
@@ -34,7 +34,7 @@ module.exports = app => {
     comment: '备忘录',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

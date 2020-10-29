@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, BIGINT, TINYINT, UUID, UUIDV4 } = app.Sequelize;
+  const { INTEGER, STRING, BIGINT, TINYINT, UUID, UUIDV4 } = app.Sequelize
 
   const Schema = app.model.define('reminder', {
     id: {
@@ -33,7 +33,7 @@ module.exports = app => {
     comment: '事项提醒',
     charset: 'utf8mb4',
     engine: 'InnoDB'
-  });
+  })
 
-  return Schema;
-};
+  return Schema
+}

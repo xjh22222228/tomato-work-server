@@ -20,12 +20,12 @@ exports.errorCode = {
   400: '参数效验失败',
 
   500: '服务器内部错误'
-};
+}
 
 // 消息枚举
 exports.MessageTitle = {
   0: '系统消息'
-};
+}
 
 // 站内消息类型
 exports.messageType = {
@@ -36,4 +36,4 @@ exports.messageType = {
       content: '欢迎来到Tomato Work, 这将为您提供一站式服务！'
     }
   }
-};
+}

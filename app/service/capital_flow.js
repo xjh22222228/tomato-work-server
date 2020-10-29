@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-const Service = require('egg').Service;
-const dayjs = require('dayjs');
+const Service = require('egg').Service
+const dayjs = require('dayjs')
 
 class CapitalFlow extends Service {
 
   async create(data) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
-    return ctx.model.CapitalFlow.create({ uid, ...data });
+    const { ctx } = this
+    const uid = ctx.user.uid
+    return ctx.model.CapitalFlow.create({ uid, ...data })
   }
 
   /**
@@ -17,10 +17,10 @@ class CapitalFlow extends Service {
    * @param {Number} [endDate] - 默认今天
    */
   async findSumPriceByDate(startDate, endDate) {
-    const { ctx, app } = this;
-    const uid = ctx.user.uid;
-    startDate = startDate || dayjs().startOf('hour').subtract(7, 'd').format('YYYY-MM-DD');
-    endDate = endDate || dayjs().format('YYYY-MM-DD');
+    const { ctx, app } = this
+    const uid = ctx.user.uid
+    startDate = startDate || dayjs().startOf('hour').subtract(7, 'd').format('YYYY-MM-DD')
+    endDate = endDate || dayjs().format('YYYY-MM-DD')
 
     const SQLQuery = `
       SELECT 
@@ -33,19 +33,19 @@ class CapitalFlow extends Service {
       GROUP BY b.type,
       DATE(a.created_at)
       ORDER BY DATE(a.created_at);
-    `;
+    `
 
     const result = await ctx.model.query(SQLQuery, {
       replacements: [uid, startDate, endDate],
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
-    });
+    })
 
     // 两个日期的时间差
-    const startDateObject = dayjs(startDate);
-    const endDateObject = dayjs(endDate);
-    const diffDay = endDateObject.diff(startDateObject, 'day');
-    const data = [];
+    const startDateObject = dayjs(startDate)
+    const endDateObject = dayjs(endDate)
+    const diffDay = endDateObject.diff(startDateObject, 'day')
+    const data = []
 
     // 初始化数据
     for (let i = 0; i < diffDay; i++) {
@@ -54,35 +54,35 @@ class CapitalFlow extends Service {
         price: 0,
         name: '收入',
         type: 1
-      };
+      }
       data.push(payload, {
         ...payload,
         name: '支出',
         type: 2
-      });
+      })
     }
 
     result.forEach(item => {
-      const idx = data.findIndex(el => el.date === item.date);
+      const idx = data.findIndex(el => el.date === item.date)
 
       if (~idx) {
         if (item.type === 1) {
-          data[idx].price = item.price;
+          data[idx].price = item.price
         } else {
-          data[idx + 1].price = item.price;
+          data[idx + 1].price = item.price
         }
       }
-    });
+    })
 
-    return data;
+    return data
   }
 
   async findAndCountAllByUid(options = {}) {
-    const { ctx, app } = this;
-    const { startDate, endDate, type, typeNameId, keyword, sort } = options;
-    const uid = ctx.user.uid;
-    const offset = options.offset || 0;
-    const limit = options.limit || Number.MAX_SAFE_INTEGER;
+    const { ctx, app } = this
+    const { startDate, endDate, type, typeNameId, keyword, sort } = options
+    const uid = ctx.user.uid
+    const offset = options.offset || 0
+    const limit = options.limit || Number.MAX_SAFE_INTEGER
 
     const capitalFlowTypeWhere = {
       id: typeNameId,
@@ -90,7 +90,7 @@ class CapitalFlow extends Service {
     };
 
     (!typeNameId && delete capitalFlowTypeWhere.id);
-    (!type && delete capitalFlowTypeWhere.type);
+    (!type && delete capitalFlowTypeWhere.type)
 
     const result = await ctx.model.CapitalFlow.findAndCountAll({
       attributes: [
@@ -127,7 +127,7 @@ class CapitalFlow extends Service {
       raw: true,
       offset,
       limit
-    });
+    })
 
     // 计算资金
     const amount = await ctx.model.CapitalFlow.findAll({
@@ -164,53 +164,53 @@ class CapitalFlow extends Service {
       }],
       raw: true,
       group: 'capitalFlowType.type'
-    });
+    })
 
     const amountParams = {
       consumption: 0,
       income: 0,
       available: 0
-    };
+    }
 
     amount.forEach(item => {
       if (item.type === 1) {
-        amountParams.income = item.price;
+        amountParams.income = item.price
       } else {
-        amountParams.consumption = item.price;
+        amountParams.consumption = item.price
       }
-      return item;
-    });
+      return item
+    })
 
-    amountParams.available = (amountParams.income - amountParams.consumption).toFixed(2);
+    amountParams.available = (amountParams.income - amountParams.consumption).toFixed(2)
 
     return {
       ...result,
       ...amountParams
-    };
+    }
   }
 
   /**
    * @param {String} id
    */
   async deleteById(id) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
-    id = String(id).split(',');
+    const { ctx } = this
+    const uid = ctx.user.uid
+    id = String(id).split(',')
     return ctx.model.CapitalFlow.destroy({ where: {
       uid,
       id: { [ctx.Op.in]: id }
-    } });
+    }})
   }
 
   /**
    * @param {String} name
    */
   async findOneByName(name) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
+    const { ctx } = this
+    const uid = ctx.user.uid
     return ctx.model.CapitalFlow.findOne({
       where: { name, uid }
-    });
+    })
   }
 
   /**
@@ -218,12 +218,12 @@ class CapitalFlow extends Service {
    * @param {Object} updateFields
    */
   async updateById(id, updateFields) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
+    const { ctx } = this
+    const uid = ctx.user.uid
     return ctx.model.CapitalFlow.update(updateFields, {
       where: { uid, id }
-    });
+    })
   }
 }
 
-module.exports = CapitalFlow;
+module.exports = CapitalFlow

@@ -1,4 +1,4 @@
-const Subscription = require('egg').Subscription;
+const Subscription = require('egg').Subscription
 
 class Reminder extends Subscription {
   static get schedule() {
@@ -6,13 +6,13 @@ class Reminder extends Subscription {
       interval: '60s',
       type: 'all',
       immediate: true
-    };
+    }
   }
 
   async subscribe() {
-    const { service } = this;
-    service.mail.sendReminder();
+    const { service } = this
+    service.mail.sendReminder()
   }
 }
 
-module.exports = Reminder;
+module.exports = Reminder

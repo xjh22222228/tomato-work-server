@@ -1,18 +1,18 @@
-'use strict';
+'use strict'
 
-const Service = require('egg').Service;
+const Service = require('egg').Service
 
 class TodoList extends Service {
 
   async create(data) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
-    return ctx.model.TodoList.create({ uid, ...data });
+    const { ctx } = this
+    const uid = ctx.user.uid
+    return ctx.model.TodoList.create({ uid, ...data })
   }
 
   async findAndCountAllByUid(options = {}) {
-    const { ctx, app } = this;
-    const uid = ctx.user.uid;
+    const { ctx, app } = this
+    const uid = ctx.user.uid
     return ctx.model.TodoList.findAndCountAll({
       where: {
         [ctx.Op.and]: [
@@ -33,13 +33,13 @@ class TodoList extends Service {
         ['createdAt', 'DESC']
       ],
       ...options
-    });
+    })
   }
 
   // 检索所有未完成的数据
   async findUnfinishedByUid(options) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
+    const { ctx } = this
+    const uid = ctx.user.uid
     return ctx.model.TodoList.findAndCountAll({
       where: {
         status: 1,
@@ -49,33 +49,33 @@ class TodoList extends Service {
         ['createdAt', 'DESC']
       ],
       ...options
-    });
+    })
   }
 
   /**
    * @param {String} id
    */
   async deleteById(id) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
-    id = String(id).split(',');
+    const { ctx } = this
+    const uid = ctx.user.uid
+    id = String(id).split(',')
     return ctx.model.TodoList.destroy({ where: {
       uid,
       id: {
         [ctx.Op.in]: id
       }
-    } });
+    } })
   }
 
   /**
    * @param {String} name
    */
   async findOneByName(name) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
+    const { ctx } = this
+    const uid = ctx.user.uid
     return ctx.model.TodoList.findOne({
       where: { name, uid }
-    });
+    })
   }
 
   /**
@@ -83,12 +83,12 @@ class TodoList extends Service {
    * @param {Object} updateFields
    */
   async updateById(id, updateFields) {
-    const { ctx } = this;
-    const uid = ctx.user.uid;
+    const { ctx } = this
+    const uid = ctx.user.uid
     return ctx.model.TodoList.update(updateFields, {
       where: { uid, id }
-    });
+    })
   }
 }
 
-module.exports = TodoList;
+module.exports = TodoList

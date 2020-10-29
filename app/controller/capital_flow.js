@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-const Controller = require('egg').Controller;
+const Controller = require('egg').Controller
 
 class CapitalFlow extends Controller {
 
   async index() {
-    const { ctx, service } = this;
+    const { ctx, service } = this
     try {
       ctx.validate({
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
@@ -13,14 +13,14 @@ class CapitalFlow extends Controller {
         startDate: { type: 'date', default: new Date() },
         endDate: { type: 'date', default: new Date() },
         sort: { type: 'string?', default: 'date-desc' }
-      }, ctx.query);
+      }, ctx.query)
     } catch (e) {
       ctx.print = {
         errorCode: 400,
         msg: e.message,
         errorMsg: e
-      };
-      return;
+      }
+      return
     }
 
     const {
@@ -32,7 +32,7 @@ class CapitalFlow extends Controller {
       type,
       keyword,
       sort
-    } = ctx.query;
+    } = ctx.query
 
     try {
       const result = await service.capitalFlow.findAndCountAllByUid({
@@ -44,16 +44,16 @@ class CapitalFlow extends Controller {
         typeNameId,
         type,
         keyword
-      });
-      ctx.print = result;
+      })
+      ctx.print = result
     } catch (e) {
-      ctx.logger.error(e);
-      ctx.print = { errorCode: 2 };
+      ctx.logger.error(e)
+      ctx.print = { errorCode: 2 }
     }
   }
 
   async create() {
-    const { ctx, service } = this;
+    const { ctx, service } = this
 
     try {
       ctx.validate({
@@ -61,17 +61,17 @@ class CapitalFlow extends Controller {
         typeId: { type: 'string' },
         price: { type: 'number' },
         remarks: { type: 'string?', min: 0, max: 250 },
-      }, ctx.request.body);
+      }, ctx.request.body)
     } catch (e) {
       ctx.print = {
         errorCode: 400,
         msg: e.message,
         errorMsg: e
-      };
-      return;
+      }
+      return
     }
 
-    const { date, typeId, price, remarks } = ctx.request.body;
+    const { date, typeId, price, remarks } = ctx.request.body
 
     try {
       const result = await service.capitalFlow.create({
@@ -79,30 +79,30 @@ class CapitalFlow extends Controller {
         typeId,
         price,
         remarks
-      });
+      })
       ctx.print = {
         ...result,
         msg: '创建成功'
-      };
+      }
     } catch {
-      ctx.print = { errorCode: 3, msg: '创建失败' };
+      ctx.print = { errorCode: 3, msg: '创建失败' }
     }
   }
 
   async destroy() {
-    const { ctx, service } = this;
-    const id = ctx.params.id;
+    const { ctx, service } = this
+    const id = ctx.params.id
 
-    const result = await service.capitalFlow.deleteById(id);
+    const result = await service.capitalFlow.deleteById(id)
     ctx.print = {
       ...result,
       msg: '删除成功'
-    };
+    }
   }
 
   async update() {
-    const { ctx, service } = this;
-    const id = ctx.params.id;
+    const { ctx, service } = this
+    const id = ctx.params.id
 
     try {
       ctx.validate({
@@ -110,17 +110,17 @@ class CapitalFlow extends Controller {
         typeId: { type: 'string' },
         price: { type: 'number' },
         remarks: { type: 'string?', min: 0, max: 250 },
-      }, ctx.request.body);
+      }, ctx.request.body)
     } catch (e) {
       ctx.print = {
         errorCode: 400,
         msg: e.message,
         errorMsg: e
-      };
-      return;
+      }
+      return
     }
 
-    const { date, typeId, price, remarks } = ctx.request.body;
+    const { date, typeId, price, remarks } = ctx.request.body
 
     try {
       const result = await service.capitalFlow.updateById(id, {
@@ -128,31 +128,31 @@ class CapitalFlow extends Controller {
         typeId,
         price,
         remarks
-      });
+      })
       ctx.print = {
         ...result,
         msg: '保存成功'
-      };
+      }
     } catch {
       ctx.print = {
         errorCode: 5,
         msg: '更新失败'
-      };
+      }
     }
   }
 
   // 统计金额
   async sumPrice() {
-    const { ctx, service } = this;
-    const { startDate, endDate } = ctx.query;
+    const { ctx, service } = this
+    const { startDate, endDate } = ctx.query
 
     try {
-      const result = await service.capitalFlow.findSumPriceByDate(startDate, endDate);
-      ctx.print = result;
+      const result = await service.capitalFlow.findSumPriceByDate(startDate, endDate)
+      ctx.print = result
     } catch {
-      ctx.print = { errorCode: 2 };
+      ctx.print = { errorCode: 2 }
     }
   }
 }
 
-module.exports = CapitalFlow;
+module.exports = CapitalFlow

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const Service = require('egg').Service;
-const { messageType } = require('../constants');
+const Service = require('egg').Service
+const { messageType } = require('../constants')
 
 class UserService extends Service {
 
@@ -11,20 +11,20 @@ class UserService extends Service {
    * @return {Promise}
    */
   async register(user) {
-    const { ctx, service } = this;
+    const { ctx, service } = this
     const result = await ctx.model.transaction(async t => {
       const [userRes] = await Promise.all([
         ctx.model.User.create(user, { transaction: t }),
         service.userConfigure.create({ uid: user.uid }, { transaction: t }),
         service.innerMessage.create(user.uid, messageType.system.welcome, { transaction: t })
-      ]);
+      ])
 
-      return userRes;
-    });
+      return userRes
+    })
 
-    service.mail.register(user.loginName);
+    service.mail.register(user.loginName)
 
-    return result;
+    return result
   }
 
   /**
@@ -33,11 +33,14 @@ class UserService extends Service {
    * @return {Promise}
    */
   async findUserByLocal(data) {
-    const { ctx } = this;
+    const { ctx } = this
     return ctx.model.User.findOne({
       exclude: ['password'],
-      where: { loginName: data.loginName, password: data.password }
-    });
+      where: {
+        loginName: data.loginName,
+        password: data.password
+      }
+    })
   }
 
   /**
@@ -46,11 +49,11 @@ class UserService extends Service {
    * @return {Promise}
    */
   async findUserByUid(uid) {
-    const { ctx } = this;
+    const { ctx } = this
     return ctx.model.User.findOne({
       exclude: ['password'],
-      where: { uid: uid }
-    });
+      where: { uid }
+    })
   }
 
   /**
@@ -59,11 +62,11 @@ class UserService extends Service {
    * @return {Promise}
    */
   async findUserByToken(token) {
-    const { ctx } = this;
+    const { ctx } = this
     return ctx.model.User.findOne({
       exclude: ['password'],
-      where: { token: token }
-    });
+      where: { token }
+    })
   }
 
   /**
@@ -73,10 +76,10 @@ class UserService extends Service {
    * @return {Promise}
    */
   async updateUser(uid, data) {
-    const { ctx } = this;
+    const { ctx } = this
     return ctx.model.User.update(data, {
-      where: { uid: uid }
-    });
+      where: { uid }
+    })
   }
 
   /**
@@ -85,7 +88,7 @@ class UserService extends Service {
    * @return {Promise}
    */
   async findEmailByUid(uid) {
-    const { ctx } = this;
+    const { ctx } = this
     return ctx.model.User.findAll({
       attributes: ['email'],
       where: {
@@ -94,8 +97,8 @@ class UserService extends Service {
         }
       },
       raw: true
-    });
+    })
   }
 }
 
-module.exports = UserService;
+module.exports = UserService
