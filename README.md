@@ -51,13 +51,13 @@ mysql -u root -p
 
 ``` bash
 # Install
-npm i
+yarn
 
 # Port: 7003
-npm run dev
+yarn dev
 
 # Build start
-npm start
+yarn start
 ```
 
 ---
