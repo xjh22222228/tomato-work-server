@@ -14,8 +14,8 @@
     "declarations": true
   },
   "dependencies": {
-    "dayjs": "^1.9.3",
-    "egg": "^2.28.0",
+    "dayjs": "^1.9.6",
+    "egg": "^2.29.1",
     "egg-crypto": "^1.0.0",
     "egg-jwt": "^3.1.7",
     "egg-mailer": "^1.1.0",
@@ -30,16 +30,16 @@
     "mysql2": "^2.2.5",
     "node-xlsx": "^0.15.0",
     "svg-captcha": "^1.4.0",
-    "validator": "^13.1.17"
+    "validator": "^13.5.1"
   },
   "devDependencies": {
-    "autod": "^3.1.0",
+    "autod": "^3.1.1",
     "autod-egg": "^1.1.0",
     "egg-bin": "^4.15.0",
     "egg-ci": "^1.18.0",
     "egg-mock": "^4.0.1",
-    "eslint": "^7.11.0",
-    "eslint-config-egg": "^8.1.2"
+    "eslint": "^7.14.0",
+    "eslint-config-egg": "^9.0.0"
   },
   "engines": {
     "node": ">=10.0.0"

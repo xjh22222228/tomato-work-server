@@ -18,8 +18,12 @@
 
 
 
-## Tech
-node.js(v14.x+) + egg.js + mysql +  sequelize...
+## Built with
+- [Node.js >= 14](https://nodejs.org/en/)
+- [Egg.js](https://eggjs.org/zh-cn/intro/)
+- [MySQL](https://www.mysql.com/)
+- [Sequelize](https://github.com/sequelize/sequelize)
+- [js-ant](https://github.com/xjh22222228/js-ant)
 
 
 
@@ -50,6 +54,9 @@ mysql -u root -p
 启动项目之前请配置数据库信息  config/config.default.js
 
 ``` bash
+# Download
+git clone --depth=1 https://github.com/xjh22222228/tomato-work-server.git
+
 # Install
 yarn
 

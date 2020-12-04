@@ -12,7 +12,7 @@ class CapitalFlow extends Controller {
         pageSize: { type: 'int?', convertType: 'int', default: 30 },
         startDate: { type: 'date', default: new Date() },
         endDate: { type: 'date', default: new Date() },
-        sort: { type: 'string?', default: 'date-desc' }
+        sort: { type: 'string?', default: 'createdAt-desc' }
       }, ctx.query)
     } catch (e) {
       ctx.print = {

@@ -77,7 +77,7 @@ class CapitalFlow extends Service {
     return data
   }
 
-  async findAndCountAllByUid(options = {}) {
+  async findAndCountAllByUid(options) {
     const { ctx, app } = this
     const { startDate, endDate, type, typeNameId, keyword, sort } = options
     const uid = ctx.user.uid
