@@ -13,8 +13,8 @@ class CapitalFlow extends Service {
 
   /**
    * 统计某个时间段金额数据
-   * @param {Number} [startDate] - 默认前一周
-   * @param {Number} [endDate] - 默认今天
+   * @param {String} [startDate] - 默认前一周
+   * @param {String} [endDate] - 默认今天
    */
   async findSumPriceByDate(startDate, endDate) {
     const { ctx, app } = this

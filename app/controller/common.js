@@ -2,6 +2,7 @@
 
 const Controller = require('egg').Controller
 const svgCaptcha = require('svg-captcha')
+const dayjs = require('dayjs')
 
 class Common extends Controller {
 
@@ -24,12 +25,13 @@ class Common extends Controller {
     const { ctx, service } = this
 
     let [price, todayTask, unfinishedTodoList, reminder] = await Promise.all([
-      service.capitalFlow.findSumPriceByDate(),
+      service.capitalFlow.findSumPriceByDate(dayjs().format('YYYY-MM-DD')),
       service.task.findAllByUid({ type: { [ctx.Op.in]: [1, 2] } }),
       service.todoList.findUnfinishedByUid(),
       service.reminder.findAllByUid(null, { type: 1 })
     ])
 
+    // 过滤支出
     price = price.filter(item => item.type === 2)
     ctx.print = {
       consumption: price.length > 0 ? price[0].price : '0.00',
