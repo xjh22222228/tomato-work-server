@@ -44,10 +44,10 @@ class CapitalFlow extends Service {
     // 两个日期的时间差
     const startDateObject = dayjs(startDate)
     const endDateObject = dayjs(endDate)
-    const diffDay = endDateObject.diff(startDateObject, 'day')
+    const diffDay = endDateObject.diff(startDateObject, 'day') + 1
     const data = []
 
-    // 初始化数据
+    // 补录日期, 查出来的数据有些日期没有
     for (let i = 0; i < diffDay; i++) {
       const payload = {
         date: dayjs(startDate).add(i, 'd').format('YYYY-MM-DD'),
