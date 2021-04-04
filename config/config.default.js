@@ -69,5 +69,11 @@ module.exports = appInfo => {
   // 自己邮箱, 用于通知报告
   config.email = 'xjh22222228@gmail.com'
 
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+    allowHeaders: 'Content-Type,X-Requested-With,Authorization,Origin,Accept,cancelRequest,isLoading,errorAlert,successAlert,token'
+  }
+
   return config
 }

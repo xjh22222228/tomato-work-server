@@ -4,7 +4,10 @@ module.exports = () => {
   // 验证用户是否登录
   return async function(ctx, next) {
     const { user } = ctx
-    const token = ctx.headers.token || ctx.request.body.token
+    const token =
+      ctx.headers.token ||
+      ctx.headers.Authorization ||
+      ctx.body.token
 
     if (!user || !user.uid) {
       if (token) {

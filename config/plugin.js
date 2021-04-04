@@ -29,5 +29,9 @@ module.exports = {
   crypto: {
     enable: true,
     package: 'egg-crypto',
+  },
+  cors: {
+    enable: true,
+    package: 'egg-cors',
   }
 }
