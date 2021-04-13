@@ -94,6 +94,7 @@ class TaskController extends Controller {
     const result = await service.task.findById(id)
     if (!result) {
       ctx.print = { errorCode: 2 }
+      return
     }
 
     const type = rollback ? result.type - 1 : result.type + 1
