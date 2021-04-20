@@ -5,7 +5,8 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
@@ -15,12 +16,13 @@ module.exports = app => {
     content: {
       type: STRING(200),
       allowNull: false,
-      defaultValue: '',
+      defaultValue: '待办内容',
     },
     date: {
       type: BIGINT(13),
       allowNull: false,
       defaultValue: Date.now,
+      comment: '待办日期'
     },
     type: {
       type: TINYINT(1),
@@ -32,6 +34,7 @@ module.exports = app => {
       type: TINYINT(1),
       allowNull: false,
       defaultValue: 0,
+      comment: '待办优先级, 0-5'
     },
   }, {
     underscored: true,

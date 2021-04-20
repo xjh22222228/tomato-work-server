@@ -5,7 +5,8 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
@@ -16,11 +17,13 @@ module.exports = app => {
       type: STRING(200),
       allowNull: false,
       defaultValue: '',
+      comment: '提醒内容'
     },
     date: {
       type: BIGINT(13),
       allowNull: false,
       defaultValue: Date.now,
+      comment: '提醒日期'
     },
     type: {
       type: TINYINT(1),
@@ -30,7 +33,7 @@ module.exports = app => {
     },
   }, {
     underscored: true,
-    comment: '事项提醒',
+    comment: '事项提醒, 目前支持微信提醒和邮件提醒',
     charset: 'utf8mb4',
     engine: 'InnoDB'
   })

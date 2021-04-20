@@ -5,11 +5,13 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
       allowNull: false,
+      comment: '用户ID'
     },
     sortIndex: {
       type: TINYINT,
@@ -20,7 +22,7 @@ module.exports = app => {
     name: {
       type: STRING(20),
       allowNull: false,
-      defaultValue: '',
+      defaultValue: '类型名称',
     },
     type: {
       type: TINYINT,

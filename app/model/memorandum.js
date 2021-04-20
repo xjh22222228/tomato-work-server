@@ -8,11 +8,13 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
       allowNull: false,
+      comment: '用户ID'
     },
     sortIndex: {
       type: TINYINT,
@@ -23,11 +25,13 @@ module.exports = app => {
     title: {
       type: STRING(50),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      comment: '备忘录标题'
     },
     markdown: {
       type: TEXT('long'),
       allowNull: false,
+      comment: 'Markdown内容'
     }
   }, {
     underscored: true,

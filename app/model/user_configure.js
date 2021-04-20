@@ -5,12 +5,14 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
       allowNull: false,
       unique: true,
+      comment: '用户ID'
     },
     isTaskNotify: {
       type: BOOLEAN,

@@ -5,21 +5,25 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
       allowNull: false,
+      comment: '用户ID'
     },
     price: {
       type: DECIMAL(19, 2),
       allowNull: false,
-      defaultValue: 0
+      defaultValue: 0,
+      comment: '金额'
     },
     date: {
       type: BIGINT(13),
       allowNull: false,
       defaultValue: Date.now,
+      comment: '日期'
     },
     typeId: {
       type: UUID,
@@ -29,6 +33,7 @@ module.exports = app => {
         model: 'capital_flow_types',
         key: 'id',
       },
+      comment: '外键ID'
     },
     remarks: {
       type: STRING(250),

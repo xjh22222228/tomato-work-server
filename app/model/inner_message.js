@@ -5,16 +5,19 @@ module.exports = app => {
     id: {
       type: UUID,
       defaultValue: UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      comment: '唯一ID'
     },
     uid: {
       type: INTEGER,
       allowNull: false,
+      comment: '用户ID'
     },
     content: {
       type: STRING(250),
       allowNull: false,
-      defaultValue: ''
+      defaultValue: '',
+      comment: '消息内容'
     },
     type: {
       type: TINYINT,
