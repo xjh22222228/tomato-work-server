@@ -55,8 +55,12 @@ class ReminderService extends Service {
    */
   async deleteById(id) {
     const uid = this.ctx.user.uid
+    const ids = String(id).split(',')
     return this.ctx.model.Reminder.destroy({
-      where: { uid, id }
+      where: {
+        uid,
+        id: { [this.ctx.Op.in]: ids }
+      }
     })
   }
 
