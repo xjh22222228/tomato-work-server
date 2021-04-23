@@ -16,9 +16,10 @@ class UserController extends Controller {
 
   // 授权成功回调方法
   async passportSuccessCallback() {
-    const { ctx } = this
+    const { ctx, config } = this
     const user = ctx.user || {}
-    ctx.redirect(`/?token=${user.token}`)
+    const url = config.passportGithub.redirectURL || '/'
+    ctx.redirect(`${url}?token=${user.token}`)
   }
 
   // 通过token登录

@@ -51,6 +51,7 @@ module.exports = appInfo => {
     key: '489b39e1f91d934128c8',
     secret: '9ec2cf95bee7f1451792ce8124075cce7b66450d',
     callbackURL: 'http://localhost:9663/api/passport/github/callback',
+    redirectURL: '/',
     successRedirect: '/api/passport/github/success',
     failureRedirect: '/?state=0'
   }
