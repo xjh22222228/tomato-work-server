@@ -1,7 +1,7 @@
 {
   "name": "tomato-work-server",
   "author": "xiejiahe",
-  "version": "2.3.0",
+  "version": "2.5.0",
   "bugs": {
     "url": "https://github.com/xjh22222228/tomato-work-server/issues"
   },
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "dayjs": "^1.10.4",
-    "egg": "^2.29.3",
+    "egg": "^2.29.4",
     "egg-cors": "^2.2.3",
     "egg-crypto": "^1.0.0",
     "egg-jwt": "^3.1.7",
@@ -31,19 +31,19 @@
     "mysql2": "^2.2.5",
     "node-xlsx": "^0.16.1",
     "svg-captcha": "^1.4.0",
-    "validator": "^13.5.2"
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "autod": "^3.1.1",
     "autod-egg": "^1.1.0",
-    "egg-bin": "^4.15.0",
+    "egg-bin": "^4.16.1",
     "egg-ci": "^1.18.0",
-    "egg-mock": "^4.0.1",
-    "eslint": "^7.23.0",
+    "egg-mock": "^4.1.0",
+    "eslint": "^7.25.0",
     "eslint-config-egg": "^9.0.0"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "start": "egg-scripts start --daemon --title=egg-server-server",
