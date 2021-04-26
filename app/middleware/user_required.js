@@ -7,7 +7,7 @@ module.exports = () => {
     const token =
       ctx.headers.token ||
       ctx.headers.Authorization ||
-      ctx.body.token
+      ctx.body?.token
 
     if (!user || !user.uid) {
       if (token) {

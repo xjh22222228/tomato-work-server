@@ -53,6 +53,7 @@ module.exports = app => {
     underscored: true,
     comment: '公司单位',
     charset: 'utf8mb4',
+    freezeTableName: true,
     engine: 'InnoDB'
   })
 
