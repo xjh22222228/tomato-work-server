@@ -29,12 +29,12 @@ module.exports = app => {
       defaultValue: '',
       comment: '单位名称'
     },
-    startTime: {
+    startDate: {
       type: DATE,
       allowNull: false,
       comment: '入职日期'
     },
-    endTime: {
+    endDate: {
       type: DATE,
       comment: '离职日期, null 为至今'
     },

@@ -13,16 +13,16 @@ class CompanyController extends Controller {
   async create() {
     const { ctx, service } = this
     const {
-      startTime,
-      endTime,
+      startDate,
+      endDate,
       companyName,
       remark
     } = ctx.request.body
 
     try {
       ctx.validate({
-        startTime: { type: 'dateTime', required: true },
-        endTime: { type: 'dateTime', required: true },
+        startDate: { type: 'date', required: true },
+        endDate: { type: 'date', required: true },
         companyName: { type: 'string', required: true, max: 200, trim: true },
         remark: { type: 'string', required: true, max: 1000, trim: true }
       })
@@ -36,8 +36,8 @@ class CompanyController extends Controller {
     }
 
     const result = await service.company.create({
-      startTime,
-      endTime,
+      startDate,
+      endDate,
       companyName,
       remark
     })
@@ -68,8 +68,8 @@ class CompanyController extends Controller {
 
     try {
       ctx.validate({
-        startTime: { type: 'dateTime', required: true },
-        endTime: { type: 'dateTime', required: true },
+        startDate: { type: 'date', required: true },
+        endDate: { type: 'date', required: true },
         companyName: { type: 'string', required: true, max: 200, trim: true },
         remark: { type: 'string', required: true, max: 1000, trim: true }
       })
@@ -83,15 +83,15 @@ class CompanyController extends Controller {
     }
 
     const {
-      startTime,
-      endTime,
+      startDate,
+      endDate,
       companyName,
       remark
     } = ctx.request.body
     try {
       await service.company.updateById(id, {
-        startTime,
-        endTime,
+        startDate,
+        endDate,
         companyName,
         remark
       })
