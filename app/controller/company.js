@@ -4,7 +4,7 @@ const Controller = require('egg').Controller
 
 class CompanyController extends Controller {
   async index() {
-    const { ctx, service, app } = this
+    const { ctx, service } = this
 
     const result = await service.company.findAllByUid()
     ctx.print = result
@@ -16,15 +16,17 @@ class CompanyController extends Controller {
       startDate,
       endDate,
       companyName,
-      remark
+      remark,
+      amount
     } = ctx.request.body
 
     try {
       ctx.validate({
         startDate: { type: 'date', required: true },
-        endDate: { type: 'date', required: true },
+        endDate: { type: 'date', required: false },
         companyName: { type: 'string', required: true, max: 200, trim: true },
-        remark: { type: 'string', required: true, max: 1000, trim: true }
+        remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
+        amount: { type: 'number', required: true }
       })
     } catch (e) {
       ctx.print = {
@@ -39,7 +41,8 @@ class CompanyController extends Controller {
       startDate,
       endDate,
       companyName,
-      remark
+      remark,
+      amount
     })
     ctx.print = {
       msg: '新增成功',
@@ -69,9 +72,10 @@ class CompanyController extends Controller {
     try {
       ctx.validate({
         startDate: { type: 'date', required: true },
-        endDate: { type: 'date', required: true },
+        endDate: { type: 'date', required: false },
         companyName: { type: 'string', required: true, max: 200, trim: true },
-        remark: { type: 'string', required: true, max: 1000, trim: true }
+        remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
+        amount: { type: 'number', required: true }
       })
     } catch (e) {
       ctx.print = {
@@ -86,14 +90,16 @@ class CompanyController extends Controller {
       startDate,
       endDate,
       companyName,
-      remark
+      remark,
+      amount
     } = ctx.request.body
     try {
       await service.company.updateById(id, {
         startDate,
         endDate,
         companyName,
-        remark
+        remark,
+        amount
       })
       ctx.print = null
     } catch {

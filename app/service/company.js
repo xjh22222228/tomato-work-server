@@ -19,7 +19,7 @@ class CompanyService extends Service {
         uid,
       },
       raw: true,
-      order: [['startTime', 'DESC']],
+      order: [['startDate', 'DESC']],
     })
   }
 
