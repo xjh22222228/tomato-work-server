@@ -22,11 +22,11 @@ class CompanyController extends Controller {
 
     try {
       ctx.validate({
-        startDate: { type: 'date', required: true },
+        startDate: { type: 'date' },
         endDate: { type: 'date', required: false },
-        companyName: { type: 'string', required: true, max: 200, trim: true },
+        companyName: { type: 'string', max: 200, trim: true },
         remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
-        amount: { type: 'number', required: true, convertType: 'int' }
+        amount: { type: 'number' }
       })
     } catch (e) {
       ctx.print = {
@@ -71,11 +71,11 @@ class CompanyController extends Controller {
 
     try {
       ctx.validate({
-        startDate: { type: 'date', required: true },
+        startDate: { type: 'date' },
         endDate: { type: 'date', required: false },
-        companyName: { type: 'string', required: true, max: 200, trim: true },
+        companyName: { type: 'string', max: 200, trim: true },
         remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
-        amount: { type: 'number', required: true, convertType: 'int' }
+        amount: { type: 'number' }
       })
     } catch (e) {
       ctx.print = {
