@@ -26,7 +26,7 @@ class CompanyController extends Controller {
         endDate: { type: 'date', required: false },
         companyName: { type: 'string', required: true, max: 200, trim: true },
         remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
-        amount: { type: 'number', required: true }
+        amount: { type: 'number', required: true, convertType: 'int' }
       })
     } catch (e) {
       ctx.print = {
@@ -75,7 +75,7 @@ class CompanyController extends Controller {
         endDate: { type: 'date', required: false },
         companyName: { type: 'string', required: true, max: 200, trim: true },
         remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
-        amount: { type: 'number', required: true }
+        amount: { type: 'number', required: true, convertType: 'int' }
       })
     } catch (e) {
       ctx.print = {
