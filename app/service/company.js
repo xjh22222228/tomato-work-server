@@ -52,19 +52,16 @@ class CompanyService extends Service {
   }
 
   /**
-   * 根据用户ID更新数据
-   * @param {Number|Array} [uid]
-   * @param {Object} updateFields
-   * @param {Object} [where]
+   * 更新单位信息
    * @return {Promise}
    */
-  async updateByUid(uid, updateFields) {
+  async updateById(id, updateFields) {
     const { ctx } = this
-    uid = uid ?? ctx.user.uid
 
     return ctx.model.Company.update(updateFields, {
       where: {
-        uid,
+        uid: ctx.user.uid,
+        id
       }
     })
   }
