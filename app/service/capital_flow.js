@@ -245,6 +245,8 @@ class CapitalFlow extends Service {
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
     })
+
+    return result
   }
 }
 
