@@ -224,6 +224,28 @@ class CapitalFlow extends Service {
       where: { uid, id }
     })
   }
+
+  // 统计金额分组
+  async findAmountGroup(startDate, endDate) {
+    const { ctx, app } = this
+    const uid = ctx.user.uid
+
+    const SQLQuery = `
+      SELECT 
+      SUM(f.price), t.type, t.name
+      FROM capital_flows AS f
+      INNER JOIN capital_flow_types as t
+      ON f.uid = ? AND t.id = f.type_id
+      AND DATE(f.created_at) >= ? AND DATE(f.created_at) <= ?
+      GROUP BY t.type, t.name;
+    `
+
+    const result = await ctx.model.query(SQLQuery, {
+      replacements: [uid, startDate, endDate],
+      raw: true,
+      type: app.Sequelize.QueryTypes.SELECT
+    })
+  }
 }
 
 module.exports = CapitalFlow

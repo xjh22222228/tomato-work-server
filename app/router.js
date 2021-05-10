@@ -42,7 +42,8 @@ module.exports = app => {
 
   // 资金流动
   router.resources('capitalFlow', '/api/capitalFlow', userRequired, capitalFlow)
-  router.get('/api/capitalFlow/price', userRequired, capitalFlow.sumPrice)
+  router.get('/api/capitalFlow/amount', userRequired, capitalFlow.sumAmount)
+  router.get('/api/capitalFlow/amount/group', userRequired, capitalFlow.amountGroup)
 
   // 备忘录
   router.resources('memorandum', '/api/memorandum', userRequired, memorandum)

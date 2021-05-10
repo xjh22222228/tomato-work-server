@@ -142,7 +142,7 @@ class CapitalFlow extends Controller {
   }
 
   // 统计金额
-  async sumPrice() {
+  async sumAmount() {
     const { ctx, service } = this
     const { startDate, endDate } = ctx.query
 
@@ -152,6 +152,15 @@ class CapitalFlow extends Controller {
     } catch {
       ctx.print = { errorCode: 2 }
     }
+  }
+
+  // 统计金额分组
+  async amountGroup() {
+    const { ctx, service } = this
+    const { startDate, endDate } = ctx.query
+
+    const result = await service.capitalFlow.findAmountGroup(startDate, endDate)
+    ctx.print = result
   }
 }
 
