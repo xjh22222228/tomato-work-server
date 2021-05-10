@@ -232,7 +232,7 @@ class CapitalFlow extends Service {
 
     const SQLQuery = `
       SELECT 
-      SUM(f.price), t.type, t.name
+      SUM(f.price) as amount, t.type, t.name
       FROM capital_flows AS f
       INNER JOIN capital_flow_types as t
       ON f.uid = ? AND t.id = f.type_id
