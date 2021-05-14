@@ -35,7 +35,7 @@ module.exports = app => {
       },
       comment: '外键ID'
     },
-    remarks: {
+    remark: {
       type: STRING(250),
       allowNull: false,
       defaultValue: '',

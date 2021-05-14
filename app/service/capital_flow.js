@@ -94,7 +94,7 @@ class CapitalFlow extends Service {
 
     const result = await ctx.model.CapitalFlow.findAndCountAll({
       attributes: [
-        'id', 'uid', 'price', 'date', 'typeId', 'remarks', 'createdAt', 'updatedAt',
+        'id', 'uid', 'price', 'date', 'typeId', 'remark', 'createdAt', 'updatedAt',
         [app.Sequelize.col('capitalFlowType.name'), 'name'],
         [app.Sequelize.col('capitalFlowType.type'), 'type'],
       ],
@@ -111,7 +111,7 @@ class CapitalFlow extends Service {
             startDate
           )
         ],
-        remarks: {
+        remark: {
           [ctx.Op.like]: `%${keyword}%`
         },
         uid
@@ -148,7 +148,7 @@ class CapitalFlow extends Service {
             startDate
           )
         ],
-        remarks: {
+        remark: {
           [ctx.Op.like]: `%${keyword}%`
         },
         uid

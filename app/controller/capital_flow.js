@@ -60,7 +60,7 @@ class CapitalFlow extends Controller {
         date: { type: 'datetime' },
         typeId: { type: 'string' },
         price: { type: 'number' },
-        remarks: { type: 'string?', min: 0, max: 250 },
+        remark: { type: 'string?', min: 0, max: 250 },
       }, ctx.request.body)
     } catch (e) {
       ctx.print = {
@@ -71,14 +71,14 @@ class CapitalFlow extends Controller {
       return
     }
 
-    const { date, typeId, price, remarks } = ctx.request.body
+    const { date, typeId, price, remark } = ctx.request.body
 
     try {
       const result = await service.capitalFlow.create({
         createdAt: date,
         typeId,
         price,
-        remarks
+        remark
       })
       ctx.print = {
         ...result,
@@ -109,7 +109,7 @@ class CapitalFlow extends Controller {
         date: { type: 'datetime' },
         typeId: { type: 'string' },
         price: { type: 'number' },
-        remarks: { type: 'string?', min: 0, max: 250 },
+        remark: { type: 'string?', min: 0, max: 250 },
       }, ctx.request.body)
     } catch (e) {
       ctx.print = {
@@ -120,14 +120,14 @@ class CapitalFlow extends Controller {
       return
     }
 
-    const { date, typeId, price, remarks } = ctx.request.body
+    const { date, typeId, price, remark } = ctx.request.body
 
     try {
       const result = await service.capitalFlow.updateById(id, {
         createdAt: date,
         typeId,
         price,
-        remarks
+        remark
       })
       ctx.print = {
         ...result,
