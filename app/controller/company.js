@@ -15,6 +15,7 @@ class CompanyController extends Controller {
     const {
       startDate,
       endDate,
+      expectLeaveDate,
       companyName,
       remark,
       amount
@@ -41,6 +42,7 @@ class CompanyController extends Controller {
     const result = await service.company.create({
       startDate,
       endDate,
+      expectLeaveDate,
       companyName,
       remark,
       amount
@@ -91,6 +93,7 @@ class CompanyController extends Controller {
     const {
       startDate,
       endDate,
+      expectLeaveDate,
       companyName,
       remark,
       amount
@@ -99,6 +102,7 @@ class CompanyController extends Controller {
       await service.company.updateById(id, {
         startDate,
         endDate,
+        expectLeaveDate,
         companyName,
         remark,
         amount
