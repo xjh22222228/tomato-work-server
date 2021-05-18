@@ -38,6 +38,10 @@ module.exports = app => {
       type: DATE,
       comment: '离职日期, null 为至今'
     },
+    expectLeaveDate: {
+      type: DATE,
+      comment: '期望（计划）离职日期'
+    },
     remark: {
       type: TEXT,
       allowNull: false,

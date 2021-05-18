@@ -24,6 +24,7 @@ class CompanyController extends Controller {
       ctx.validate({
         startDate: { type: 'date' },
         endDate: { type: 'date', required: false },
+        expectLeaveDate: { type: 'date', required: false },
         companyName: { type: 'string', max: 200, trim: true },
         remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
         amount: { type: 'number' }
@@ -73,6 +74,7 @@ class CompanyController extends Controller {
       ctx.validate({
         startDate: { type: 'date' },
         endDate: { type: 'date', required: false },
+        expectLeaveDate: { type: 'date', required: false },
         companyName: { type: 'string', max: 200, trim: true },
         remark: { type: 'string', max: 1000, trim: true, default: '', required: false },
         amount: { type: 'number' }
