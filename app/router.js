@@ -16,7 +16,8 @@ module.exports = app => {
     memorandum,
     innerMessage,
     todoList,
-    company
+    company,
+    log
   } = controller
 
   require('./router/user')(app)
@@ -56,4 +57,7 @@ module.exports = app => {
 
   // 公司单位
   router.resources('company', '/api/company', userRequired, company)
+
+  // 日志管理
+  router.resources('log', '/api/log', userRequired, log)
 }
