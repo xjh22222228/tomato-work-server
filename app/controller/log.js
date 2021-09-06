@@ -30,9 +30,9 @@ class LogController extends Controller {
     try {
       ctx.validate({
         doneContent: { type: 'string' },
-        undoneContent: { type: 'string' },
+        undoneContent: { type: 'string', required: false },
         planContent: { type: 'string' },
-        summaryContent: { type: 'string' },
+        summaryContent: { type: 'string', required: false },
         companyId: { type: 'string', required: true },
         logType: { type: 'number', required: true, convertType: 'int' }
       })
@@ -81,9 +81,9 @@ class LogController extends Controller {
     try {
       ctx.validate({
         doneContent: { type: 'string' },
-        undoneContent: { type: 'string' },
+        undoneContent: { type: 'string', required: false },
         planContent: { type: 'string' },
-        summaryContent: { type: 'string' },
+        summaryContent: { type: 'string', required: false },
         companyId: { type: 'string', required: true },
         logType: { type: 'number', required: true, convertType: 'int' }
       })
