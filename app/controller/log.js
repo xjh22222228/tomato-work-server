@@ -5,6 +5,25 @@ const Controller = require('egg').Controller
 class LogController extends Controller {
   async index() {
     const { ctx, service } = this
+
+    try {
+      ctx.validate({
+        pageNo: { type: 'number', required: false, convertType: 'int' },
+        pageSize: { type: 'number', required: false, convertType: 'int' },
+        startDate: { type: 'string', required: false },
+        endDate: { type: 'string', required: false },
+        companyId: { type: 'string', required: false },
+        logType: { type: 'number', required: false, convertType: 'int' },
+      })
+    } catch (e) {
+      ctx.print = {
+        errorCode: 400,
+        msg: e.message,
+        errorMsg: e
+      }
+      return
+    }
+
     const result = await service.log.findAllByUid(ctx.query)
     ctx.print = result
   }

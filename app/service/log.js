@@ -16,6 +16,12 @@ class LogService extends Service {
     const uid = ctx.user.uid
     const pageNo = Number(query.pageNo) || 0
     const pageSize = Number(query.pageSize) || Number.MAX_SAFE_INTEGER
+    const {
+      startDate = '1970-01-01',
+      endDate = '2099-01-01',
+      companyId,
+      logType
+    } = query
 
     const SQL_ROWS = `
     SELECT
@@ -32,9 +38,12 @@ class LogService extends Service {
         c.company_name as companyName
     FROM logs AS l
     LEFT JOIN company AS c ON l.company_id = c.id
-    WHERE l.uid = ?
+    WHERE l.uid = :uid
+      AND DATE(l.created_at) BETWEEN :startDate AND :endDate
+      AND ${companyId === '-1' ? '1=1' : 'l.company_id = :companyId'}
+      AND ${logType === '-1' ? '1=1' : 'l.log_type = :logType'}
     ORDER BY l.created_at DESC
-    LIMIT ?, ?;
+    LIMIT :pageNo, :pageSize;
     `
 
     const SQL_COUNT = `
@@ -42,16 +51,33 @@ class LogService extends Service {
         l.id
     FROM logs AS l
     LEFT JOIN company AS c ON l.company_id = c.id
-    WHERE l.uid = ?
+    WHERE l.uid = :uid
+      AND DATE(l.created_at) BETWEEN ":startDate" AND ":endDate"
+      AND ${companyId === '-1' ? '1=1' : 'l.company_id = :companyId'}
+      AND ${logType === '-1' ? '1=1' : 'l.log_type = :logType'}
     `
 
     const queyRows = ctx.model.query(SQL_ROWS, {
-      replacements: [uid, pageNo, pageSize * (pageNo + 1)],
+      replacements: {
+        uid,
+        pageNo,
+        pageSize: pageSize * (pageNo + 1),
+        startDate,
+        endDate,
+        companyId,
+        logType
+      },
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
     })
     const queryCount = ctx.model.query(SQL_COUNT, {
-      replacements: [uid],
+      replacements: {
+        uid,
+        startDate,
+        endDate,
+        companyId,
+        logType
+      },
       raw: true,
       type: app.Sequelize.QueryTypes.SELECT
     })
