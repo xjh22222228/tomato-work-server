@@ -10,9 +10,9 @@ class CapitalFlow extends Controller {
       ctx.validate({
         pageNo: { type: 'int?', convertType: 'int', default: 0 },
         pageSize: { type: 'int?', convertType: 'int', default: 30 },
-        startDate: { type: 'date', default: new Date(1970, 1, 1) },
+        startDate: { type: 'date?', default: new Date(1970, 1, 1) },
         // 希望能活到今日，并且能看到此时写的代码
-        endDate: { type: 'date', default: new Date(2099, 12, 28) },
+        endDate: { type: 'date?', default: new Date(2099, 12, 28) },
         sort: { type: 'string?', default: 'createdAt-desc' }
       }, ctx.query)
     } catch (e) {
