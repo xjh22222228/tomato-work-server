@@ -43,8 +43,6 @@ module.exports = app => {
     },
     imgs: {
       type: TEXT('long'),
-      allowNull: false,
-      defaultValue: '',
       comment: '图片地址，由于条件有限，只存储base64'
     }
   }, {
