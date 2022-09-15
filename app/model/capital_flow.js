@@ -1,5 +1,5 @@
 module.exports = app => {
-  const { INTEGER, STRING, UUIDV4, UUID, DECIMAL, BIGINT } = app.Sequelize
+  const { INTEGER, STRING, UUIDV4, UUID, DECIMAL, BIGINT, TEXT } = app.Sequelize
 
   const Schema = app.model.define('capital_flow', {
     id: {
@@ -40,6 +40,12 @@ module.exports = app => {
       allowNull: false,
       defaultValue: '',
       comment: '备注信息'
+    },
+    imgs: {
+      type: TEXT(),
+      allowNull: false,
+      defaultValue: '',
+      comment: '图片地址，由于条件有限，只存储base64'
     }
   }, {
     underscored: true,

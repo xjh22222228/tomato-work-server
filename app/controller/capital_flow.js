@@ -32,7 +32,7 @@ class CapitalFlow extends Controller {
       typeNameId,
       type,
       keyword,
-      sort
+      sort,
     } = ctx.query
 
     try {
@@ -44,7 +44,7 @@ class CapitalFlow extends Controller {
         endDate,
         typeNameId,
         type,
-        keyword
+        keyword,
       })
       ctx.print = result
     } catch (e) {
@@ -62,6 +62,7 @@ class CapitalFlow extends Controller {
         typeId: { type: 'string' },
         price: { type: 'number' },
         remark: { type: 'string?', min: 0, max: 250 },
+        imgs: { type: 'string?', default: '' },
       }, ctx.request.body)
     } catch (e) {
       ctx.print = {
@@ -72,14 +73,15 @@ class CapitalFlow extends Controller {
       return
     }
 
-    const { date, typeId, price, remark } = ctx.request.body
+    const { date, typeId, price, remark, imgs } = ctx.request.body
 
     try {
       const result = await service.capitalFlow.create({
         createdAt: date,
         typeId,
         price,
-        remark
+        remark,
+        imgs
       })
       ctx.print = {
         ...result,
@@ -88,6 +90,13 @@ class CapitalFlow extends Controller {
     } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' }
     }
+  }
+
+  async show() {
+    const { ctx, service } = this
+    const { id } = ctx.params
+    const result = await service.capitalFlow.findByPk(id)
+    ctx.print = result
   }
 
   async destroy() {
@@ -111,6 +120,7 @@ class CapitalFlow extends Controller {
         typeId: { type: 'string' },
         price: { type: 'number' },
         remark: { type: 'string?', min: 0, max: 250 },
+        imgs: { type: 'string?', default: '' }
       }, ctx.request.body)
     } catch (e) {
       ctx.print = {
@@ -121,14 +131,15 @@ class CapitalFlow extends Controller {
       return
     }
 
-    const { date, typeId, price, remark } = ctx.request.body
+    const { date, typeId, price, remark, imgs } = ctx.request.body
 
     try {
       const result = await service.capitalFlow.updateById(id, {
         createdAt: date,
         typeId,
         price,
-        remark
+        remark,
+        imgs
       })
       ctx.print = {
         ...result,
