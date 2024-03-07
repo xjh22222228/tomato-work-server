@@ -54,13 +54,13 @@ mysql -u root -p
 git clone --depth=1 https://github.com/xjh22222228/tomato-work-server.git
 
 # Install
-yarn
+pnpm i
 
 # Port: 7003
-yarn dev
+npm run dev
 
 # Build start
-yarn start
+npm run start
 ```
 
 ---
