@@ -5,8 +5,7 @@
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
-module.exports = appInfo => {
-
+module.exports = (appInfo) => {
   const config = {}
 
   config.keys = appInfo.name + '_1557145862828_145'
@@ -15,8 +14,8 @@ module.exports = appInfo => {
 
   config.cluster = {
     listen: {
-      port: 7003
-    }
+      port: 7003,
+    },
   }
 
   config.bodyParser = {
@@ -25,12 +24,12 @@ module.exports = appInfo => {
   }
 
   config.security = {
-    csrf: false
+    csrf: false,
   }
 
   config.passportLocal = {
     usernameField: 'loginName',
-    passwordField: 'password'
+    passwordField: 'password',
   }
 
   config.title = 'Tomato Work'
@@ -39,11 +38,11 @@ module.exports = appInfo => {
   config.sequelize = {
     dialect: 'mysql',
     database: 'tomato_work',
-    host: '127.0.0.1',
-    port: 3306,
+    host: '8.134.210.237',
+    port: 5555,
     username: 'root',
-    password: 'a123123..',
-    timezone: '+08:00'
+    password: '123saaf30qka',
+    timezone: '+08:00',
   }
 
   // github配置信息 [可选, 默认使用作者的信息, 但启动端口不可修改]
@@ -53,7 +52,7 @@ module.exports = appInfo => {
     callbackURL: 'http://localhost:7001/api/passport/github/callback',
     redirectURL: '/',
     successRedirect: '/api/passport/github/success',
-    failureRedirect: '/?state=0'
+    failureRedirect: '/?state=0',
   }
 
   // 邮箱配置信息 [可选, 默认使用测试账号]
@@ -63,8 +62,8 @@ module.exports = appInfo => {
     secure: false,
     auth: {
       user: 'tomatowork@2980.com',
-      pass: 'a123456'
-    }
+      pass: 'a123456',
+    },
   }
 
   // 自己邮箱, 用于通知报告
@@ -73,7 +72,8 @@ module.exports = appInfo => {
   config.cors = {
     origin: '*',
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
-    allowHeaders: 'Content-Type,X-Requested-With,Authorization,Origin,Accept,cancelRequest,isLoading,errorAlert,successAlert,token'
+    allowHeaders:
+      'Content-Type,X-Requested-With,Authorization,Origin,Accept,cancelRequest,isLoading,errorAlert,successAlert,token',
   }
 
   return config

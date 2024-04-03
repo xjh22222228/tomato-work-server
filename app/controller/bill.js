@@ -2,24 +2,26 @@
 
 const Controller = require('egg').Controller
 
-class CapitalFlow extends Controller {
-
+class Bill extends Controller {
   async index() {
     const { ctx, service } = this
     try {
-      ctx.validate({
-        pageNo: { type: 'int?', convertType: 'int', default: 0 },
-        pageSize: { type: 'int?', convertType: 'int', default: 30 },
-        startDate: { type: 'date?', default: new Date(1970, 1, 1) },
-        // 希望能活到今日，并且能看到此时写的代码
-        endDate: { type: 'date?', default: new Date(2099, 12, 28) },
-        sort: { type: 'string?', default: 'createdAt-desc' }
-      }, ctx.query)
+      ctx.validate(
+        {
+          pageNo: { type: 'int?', convertType: 'int', default: 0 },
+          pageSize: { type: 'int?', convertType: 'int', default: 30 },
+          startDate: { type: 'date?', default: new Date(1970, 1, 1) },
+          // 希望能活到今日，并且能看到此时写的代码
+          endDate: { type: 'date?', default: new Date(2099, 12, 28) },
+          sort: { type: 'string?', default: 'createdAt-desc' },
+        },
+        ctx.query
+      )
     } catch (e) {
       ctx.print = {
         errorCode: 400,
         msg: e.message,
-        errorMsg: e
+        errorMsg: e,
       }
       return
     }
@@ -36,7 +38,7 @@ class CapitalFlow extends Controller {
     } = ctx.query
 
     try {
-      const result = await service.capitalFlow.findAndCountAllByUid({
+      const result = await service.bill.findAndCountAllByUid({
         offset: pageNo * pageSize,
         limit: pageSize,
         sort: sort.split('-'),
@@ -57,18 +59,21 @@ class CapitalFlow extends Controller {
     const { ctx, service } = this
 
     try {
-      ctx.validate({
-        date: { type: 'datetime' },
-        typeId: { type: 'string' },
-        price: { type: 'number' },
-        remark: { type: 'string?', min: 0, max: 250 },
-        imgs: { type: 'string?', default: '' },
-      }, ctx.request.body)
+      ctx.validate(
+        {
+          date: { type: 'datetime' },
+          typeId: { type: 'string' },
+          price: { type: 'number' },
+          remark: { type: 'string?', min: 0, max: 250 },
+          imgs: { type: 'string?', default: '' },
+        },
+        ctx.request.body
+      )
     } catch (e) {
       ctx.print = {
         errorCode: 400,
         msg: e.message,
-        errorMsg: e
+        errorMsg: e,
       }
       return
     }
@@ -76,16 +81,16 @@ class CapitalFlow extends Controller {
     const { date, typeId, price, remark, imgs } = ctx.request.body
 
     try {
-      const result = await service.capitalFlow.create({
+      const result = await service.bill.create({
         createdAt: date,
         typeId,
         price,
         remark,
-        imgs
+        imgs,
       })
       ctx.print = {
         ...result,
-        msg: '创建成功'
+        msg: '创建成功',
       }
     } catch {
       ctx.print = { errorCode: 3, msg: '创建失败' }
@@ -95,7 +100,7 @@ class CapitalFlow extends Controller {
   async show() {
     const { ctx, service } = this
     const { id } = ctx.params
-    const result = await service.capitalFlow.findByPk(id)
+    const result = await service.bill.findByPk(id)
     ctx.print = result
   }
 
@@ -103,10 +108,10 @@ class CapitalFlow extends Controller {
     const { ctx, service } = this
     const id = ctx.params.id
 
-    const result = await service.capitalFlow.deleteById(id)
+    const result = await service.bill.deleteById(id)
     ctx.print = {
       ...result,
-      msg: '删除成功'
+      msg: '删除成功',
     }
   }
 
@@ -115,18 +120,21 @@ class CapitalFlow extends Controller {
     const id = ctx.params.id
 
     try {
-      ctx.validate({
-        date: { type: 'datetime' },
-        typeId: { type: 'string' },
-        price: { type: 'number' },
-        remark: { type: 'string?', min: 0, max: 250 },
-        imgs: { type: 'string?', default: '' }
-      }, ctx.request.body)
+      ctx.validate(
+        {
+          date: { type: 'datetime' },
+          typeId: { type: 'string' },
+          price: { type: 'number' },
+          remark: { type: 'string?', min: 0, max: 250 },
+          imgs: { type: 'string?', default: '' },
+        },
+        ctx.request.body
+      )
     } catch (e) {
       ctx.print = {
         errorCode: 400,
         msg: e.message,
-        errorMsg: e
+        errorMsg: e,
       }
       return
     }
@@ -134,21 +142,21 @@ class CapitalFlow extends Controller {
     const { date, typeId, price, remark, imgs } = ctx.request.body
 
     try {
-      const result = await service.capitalFlow.updateById(id, {
+      const result = await service.bill.updateById(id, {
         createdAt: date,
         typeId,
         price,
         remark,
-        imgs
+        imgs,
       })
       ctx.print = {
         ...result,
-        msg: '保存成功'
+        msg: '保存成功',
       }
     } catch {
       ctx.print = {
         errorCode: 5,
-        msg: '更新失败'
+        msg: '更新失败',
       }
     }
   }
@@ -159,7 +167,7 @@ class CapitalFlow extends Controller {
     const { startDate, endDate } = ctx.query
 
     try {
-      const result = await service.capitalFlow.findSumPriceByDate(startDate, endDate)
+      const result = await service.bill.findSumPriceByDate(startDate, endDate)
       ctx.print = result
     } catch {
       ctx.print = { errorCode: 2 }
@@ -171,9 +179,9 @@ class CapitalFlow extends Controller {
     const { ctx, service } = this
     const { startDate, endDate } = ctx.query
 
-    const result = await service.capitalFlow.findAmountGroup(startDate, endDate)
+    const result = await service.bill.findAmountGroup(startDate, endDate)
     ctx.print = result
   }
 }
 
-module.exports = CapitalFlow
+module.exports = Bill

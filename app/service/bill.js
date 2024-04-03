@@ -3,12 +3,11 @@
 const Service = require('egg').Service
 const dayjs = require('dayjs')
 
-class CapitalFlow extends Service {
-
+class Bill extends Service {
   async create(data) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlow.create({ uid, ...data })
+    return ctx.model.Bill.create({ uid, ...data })
   }
 
   /**
@@ -19,7 +18,8 @@ class CapitalFlow extends Service {
   async findSumPriceByDate(startDate, endDate) {
     const { ctx, app } = this
     const uid = ctx.user.uid
-    startDate = startDate || dayjs().startOf('hour').subtract(7, 'd').format('YYYY-MM-DD')
+    startDate =
+      startDate || dayjs().startOf('hour').subtract(7, 'd').format('YYYY-MM-DD')
     endDate = endDate || dayjs().format('YYYY-MM-DD')
 
     const SQLQuery = `
@@ -27,8 +27,8 @@ class CapitalFlow extends Service {
       SUM(a.price) AS price,
       b.type,
       DATE(a.created_at) AS date
-      from capital_flows AS a,
-      capital_flow_types AS b
+      from bills AS a,
+      bill_types AS b
       WHERE a.type_id = b.id AND a.uid = ? AND DATE(a.created_at) >= ? AND DATE(a.created_at) <= ? 
       GROUP BY b.type,
       DATE(a.created_at)
@@ -38,7 +38,7 @@ class CapitalFlow extends Service {
     const result = await ctx.model.query(SQLQuery, {
       replacements: [uid, startDate, endDate],
       raw: true,
-      type: app.Sequelize.QueryTypes.SELECT
+      type: app.Sequelize.QueryTypes.SELECT,
     })
 
     // 两个日期的时间差
@@ -53,17 +53,17 @@ class CapitalFlow extends Service {
         date: dayjs(startDate).add(i, 'd').format('YYYY-MM-DD'),
         price: 0,
         name: '收入',
-        type: 1
+        type: 1,
       }
       data.push(payload, {
         ...payload,
         name: '支出',
-        type: 2
+        type: 2,
       })
     }
 
-    result.forEach(item => {
-      const idx = data.findIndex(el => el.date === item.date)
+    result.forEach((item) => {
+      const idx = data.findIndex((el) => el.date === item.date)
 
       if (~idx) {
         if (item.type === 1) {
@@ -84,97 +84,104 @@ class CapitalFlow extends Service {
     const offset = options.offset || 0
     const limit = options.limit || Number.MAX_SAFE_INTEGER
 
-    const capitalFlowTypeWhere = {
+    const billTypeWhere = {
       id: typeNameId,
-      type
-    };
+      type,
+    }
 
-    (!typeNameId && delete capitalFlowTypeWhere.id);
-    (!type && delete capitalFlowTypeWhere.type)
+    !typeNameId && delete billTypeWhere.id
+    !type && delete billTypeWhere.type
 
-    const result = await ctx.model.CapitalFlow.findAndCountAll({
+    const result = await ctx.model.Bill.findAndCountAll({
       attributes: [
-        'id', 'uid', 'price',
-        'date', 'typeId', 'remark',
-        'createdAt', 'updatedAt',
-        [app.Sequelize.col('capitalFlowType.name'), 'name'],
-        [app.Sequelize.col('capitalFlowType.type'), 'type'],
+        'id',
+        'uid',
+        'price',
+        'date',
+        'typeId',
+        'remark',
+        'createdAt',
+        'updatedAt',
+        [app.Sequelize.col('billType.name'), 'name'],
+        [app.Sequelize.col('billType.type'), 'type'],
       ],
       where: {
         [ctx.Op.and]: [
           app.Sequelize.where(
-            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            app.Sequelize.fn('DATE', app.Sequelize.col('bill.created_at')),
             '<=',
             endDate
           ),
           app.Sequelize.where(
-            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            app.Sequelize.fn('DATE', app.Sequelize.col('bill.created_at')),
             '>=',
             startDate
-          )
+          ),
         ],
         remark: {
-          [ctx.Op.like]: `%${keyword}%`
+          [ctx.Op.like]: `%${keyword}%`,
         },
-        uid
+        uid,
       },
-      include: [{
-        model: ctx.model.CapitalFlowType,
-        as: 'capitalFlowType',
-        where: capitalFlowTypeWhere
-      }],
-      order: [
-        sort
+      include: [
+        {
+          model: ctx.model.BillType,
+          as: 'billType',
+          where: billTypeWhere,
+        },
       ],
+      order: [sort],
       raw: true,
       offset,
-      limit
+      limit,
     })
 
     // 计算资金
-    const amount = await ctx.model.CapitalFlow.findAll({
+    const amount = await ctx.model.Bill.findAll({
       attributes: [
         [app.Sequelize.fn('sum', app.Sequelize.col('price')), 'price'],
-        [app.Sequelize.col('capitalFlowType.type'), 'type'],
+        [app.Sequelize.col('billType.type'), 'type'],
       ],
       where: {
         [ctx.Op.and]: [
           app.Sequelize.where(
-            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            app.Sequelize.fn('DATE', app.Sequelize.col('bill.created_at')),
             '<=',
             endDate
           ),
           app.Sequelize.where(
-            app.Sequelize.fn('DATE', app.Sequelize.col('capital_flow.created_at')),
+            app.Sequelize.fn('DATE', app.Sequelize.col('bill.created_at')),
             '>=',
             startDate
-          )
+          ),
         ],
         remark: {
-          [ctx.Op.like]: `%${keyword}%`
+          [ctx.Op.like]: `%${keyword}%`,
         },
-        uid
+        uid,
       },
-      include: [{
-        attributes: [],
-        model: ctx.model.CapitalFlowType,
-        as: 'capitalFlowType',
-        where: {
-          ...capitalFlowTypeWhere,
-          uid
-        }
-      }],
+      include: [
+        {
+          attributes: [],
+          model: ctx.model.BillType,
+          as: 'billType',
+          where: {
+            ...billTypeWhere,
+            uid,
+          },
+        },
+      ],
       raw: true,
-      group: 'capitalFlowType.type'
+      group: 'billType.type',
     })
 
     const amountParams = {
       consumption: 0,
       income: 0,
-      available: 0
+      available: 0,
     }
 
-    amount.forEach(item => {
+    amount.forEach((item) => {
       if (item.type === 1) {
         amountParams.income = item.price
       } else {
@@ -183,11 +190,13 @@ class CapitalFlow extends Service {
       return item
     })
 
-    amountParams.available = (amountParams.income - amountParams.consumption).toFixed(2)
+    amountParams.available = (
+      amountParams.income - amountParams.consumption
+    ).toFixed(2)
 
     return {
       ...result,
-      ...amountParams
+      ...amountParams,
     }
   }
 
@@ -195,7 +204,10 @@ class CapitalFlow extends Service {
   async findByPk(id) {
     const { ctx } = this
     const uid = ctx.user.uid
-    const result = await ctx.model.CapitalFlow.findByPk(id, { where: { uid }, raw: true })
+    const result = await ctx.model.Bill.findByPk(id, {
+      where: { uid },
+      raw: true,
+    })
     return result
   }
 
@@ -206,10 +218,12 @@ class CapitalFlow extends Service {
     const { ctx } = this
     const uid = ctx.user.uid
     id = String(id).split(',')
-    return ctx.model.CapitalFlow.destroy({ where: {
-      uid,
-      id: { [ctx.Op.in]: id }
-    }})
+    return ctx.model.Bill.destroy({
+      where: {
+        uid,
+        id: { [ctx.Op.in]: id },
+      },
+    })
   }
 
   /**
@@ -218,8 +232,8 @@ class CapitalFlow extends Service {
   async findOneByName(name) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlow.findOne({
-      where: { name, uid }
+    return ctx.model.Bill.findOne({
+      where: { name, uid },
     })
   }
 
@@ -230,8 +244,8 @@ class CapitalFlow extends Service {
   async updateById(id, updateFields) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlow.update(updateFields, {
-      where: { uid, id }
+    return ctx.model.Bill.update(updateFields, {
+      where: { uid, id },
     })
   }
 
@@ -243,8 +257,8 @@ class CapitalFlow extends Service {
     const SQLQuery = `
       SELECT 
       SUM(f.price) as amount, t.type, t.name
-      FROM capital_flows AS f
-      INNER JOIN capital_flow_types as t
+      FROM bills AS f
+      INNER JOIN bill_types as t
       ON f.uid = ? AND t.id = f.type_id
       AND DATE(f.created_at) >= ? AND DATE(f.created_at) <= ?
       GROUP BY t.type, t.name;
@@ -253,11 +267,11 @@ class CapitalFlow extends Service {
     const result = await ctx.model.query(SQLQuery, {
       replacements: [uid, startDate, endDate],
       raw: true,
-      type: app.Sequelize.QueryTypes.SELECT
+      type: app.Sequelize.QueryTypes.SELECT,
     })
 
     return result
   }
 }
 
-module.exports = CapitalFlow
+module.exports = Bill

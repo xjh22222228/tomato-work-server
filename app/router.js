@@ -3,7 +3,7 @@
 /**
  * @param {Egg.Application} app - egg application
  */
-module.exports = app => {
+module.exports = (app) => {
   const { router, controller, middleware } = app
   const userRequired = middleware.userRequired()
   const {
@@ -11,13 +11,13 @@ module.exports = app => {
     system,
     task,
     reminder,
-    capitalFlowType,
-    capitalFlow,
+    billType,
+    bill,
     memorandum,
     innerMessage,
     todoList,
     company,
-    log
+    log,
   } = controller
 
   require('./router/user')(app)
@@ -39,18 +39,23 @@ module.exports = app => {
   router.resources('reminder', '/api/reminder', userRequired, reminder)
 
   // 资金流动类型
-  router.resources('capitalFlowType', '/api/capitalFlowType', userRequired, capitalFlowType)
+  router.resources('billType', '/api/billType', userRequired, billType)
 
   // 资金流动
-  router.resources('capitalFlow', '/api/capitalFlow', userRequired, capitalFlow)
-  router.get('/api/capitalFlow/amount/statistics', userRequired, capitalFlow.sumAmount)
-  router.get('/api/capitalFlow/amount/group', userRequired, capitalFlow.amountGroup)
+  router.resources('bill', '/api/bill', userRequired, bill)
+  router.get('/api/bill/amount/statistics', userRequired, bill.sumAmount)
+  router.get('/api/bill/amount/group', userRequired, bill.amountGroup)
 
   // 备忘录
   router.resources('memorandum', '/api/memorandum', userRequired, memorandum)
 
   // 站内消息
-  router.resources('innerMessage', '/api/innerMessage', userRequired, innerMessage)
+  router.resources(
+    'innerMessage',
+    '/api/innerMessage',
+    userRequired,
+    innerMessage
+  )
 
   // 活动清单
   router.resources('todoList', '/api/todoList', userRequired, todoList)

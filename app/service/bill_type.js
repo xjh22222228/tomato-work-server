@@ -2,23 +2,20 @@
 
 const Service = require('egg').Service
 
-class CapitalFlowType extends Service {
-
+class BillType extends Service {
   async create(data) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlowType.create({ uid, ...data })
+    return ctx.model.BillType.create({ uid, ...data })
   }
 
   async findAllByUid(options) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlowType.findAll({
+    return ctx.model.BillType.findAll({
       where: { uid },
-      order: [
-        ['type', 'DESC']
-      ],
-      ...options
+      order: [['type', 'DESC']],
+      ...options,
     })
   }
 
@@ -29,12 +26,14 @@ class CapitalFlowType extends Service {
     const { ctx } = this
     const uid = ctx.user.uid
     id = String(id).split(',')
-    return ctx.model.CapitalFlowType.destroy({ where: {
-      uid,
-      id: {
-        [ctx.Op.in]: id
-      }
-    } })
+    return ctx.model.BillType.destroy({
+      where: {
+        uid,
+        id: {
+          [ctx.Op.in]: id,
+        },
+      },
+    })
   }
 
   /**
@@ -43,8 +42,8 @@ class CapitalFlowType extends Service {
   async findOneByName(name) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlowType.findOne({
-      where: { name, uid }
+    return ctx.model.BillType.findOne({
+      where: { name, uid },
     })
   }
 
@@ -55,10 +54,10 @@ class CapitalFlowType extends Service {
   async updateById(id, updateFields) {
     const { ctx } = this
     const uid = ctx.user.uid
-    return ctx.model.CapitalFlowType.update(updateFields, {
-      where: { uid, id }
+    return ctx.model.BillType.update(updateFields, {
+      where: { uid, id },
     })
   }
 }
 
-module.exports = CapitalFlowType
+module.exports = BillType
