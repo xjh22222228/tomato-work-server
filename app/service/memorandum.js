@@ -4,7 +4,6 @@ const Service = require('egg').Service
 const { markdown } = require('js-ant')
 
 class Memorandum extends Service {
-
   async create(data) {
     const { ctx } = this
     const uid = ctx.user.uid
@@ -16,13 +15,11 @@ class Memorandum extends Service {
     const uid = ctx.user.uid
     let result = await ctx.model.Memorandum.findAll({
       where: { uid },
-      order: [
-        ['createdAt', 'DESC']
-      ],
-      raw: true
+      order: [['updatedAt', 'DESC']],
+      raw: true,
     })
 
-    result = result.map(item => {
+    result = result.map((item) => {
       item.html = markdown.render(item.markdown)
       return item
     })
@@ -33,7 +30,10 @@ class Memorandum extends Service {
   async findByPk(id) {
     const { ctx } = this
     const uid = ctx.user.uid
-    const result = await ctx.model.Memorandum.findByPk(id, { where: { uid }, raw: true })
+    const result = await ctx.model.Memorandum.findByPk(id, {
+      where: { uid },
+      raw: true,
+    })
     result.html = markdown.render(result.markdown)
     return result
   }
