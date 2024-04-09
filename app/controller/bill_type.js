@@ -82,7 +82,7 @@ class BillType extends Controller {
       const result = await service.billType.deleteById(id)
       ctx.print = { ...result, msg: '删除成功' }
     } catch {
-      ctx.print = { errorCode: 4 }
+      ctx.print = { errorCode: 4, msg: '删除失败，不存在或存在关联' }
     }
   }
 
