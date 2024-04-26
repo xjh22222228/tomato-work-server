@@ -47,6 +47,10 @@ class UserController extends Controller {
       ctx.print = { errorCode: 400 }
       return
     }
+    if (ctx.user.loginName === 'test') {
+      ctx.print = { errorCode: 3, msg: '测试账号不可修改' }
+      return
+    }
     try {
       const userInfo = await ctx.service.user.updateUser(uid, { password })
       ctx.print = { msg: '更新成功', userInfo: userInfo }
