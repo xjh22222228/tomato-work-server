@@ -38,10 +38,10 @@ module.exports = (appInfo) => {
   config.sequelize = {
     dialect: 'mysql',
     database: 'tomato_work',
-    host: '8.134.210.237',
-    port: 5555,
+    host: 'localhost',
+    port: 3306,
     username: 'root',
-    password: '123saaf30qka',
+    password: '123456',
     timezone: '+08:00',
   }
 
