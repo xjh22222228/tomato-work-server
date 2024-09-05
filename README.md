@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/xjh22222228/tomato-work/master/public/poster.png" width="150" />
+  <img src="https://raw.githubusercontent.com/xjh22222228/tomato-work/master/public/logo.svg" width="150" />
   <br />
   <b>Tomato Work 个人事务管理系统</b>
   <p align="center">
@@ -14,7 +14,7 @@
 
 ## Built with
 
-- [Node.js >= 14](https://nodejs.org/en/)
+- [Node.js >= 18](https://nodejs.org/en/)
 - [Egg.js](https://eggjs.org/zh-cn/intro/)
 - [MySQL](https://www.mysql.com/)
 - [Sequelize](https://github.com/sequelize/sequelize)
