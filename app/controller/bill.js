@@ -15,7 +15,7 @@ class Bill extends Controller {
           endDate: { type: 'date?', default: new Date(2099, 12, 28) },
           sort: { type: 'string?', default: 'createdAt-desc' },
         },
-        ctx.query
+        ctx.request.body
       )
     } catch (e) {
       ctx.print = {
@@ -35,7 +35,7 @@ class Bill extends Controller {
       type,
       keyword,
       sort,
-    } = ctx.query
+    } = ctx.request.body
 
     try {
       const result = await service.bill.findAndCountAllByUid({

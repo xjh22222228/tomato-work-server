@@ -43,6 +43,7 @@ module.exports = (app) => {
 
   // 资金流动
   router.resources('bill', '/api/bill', userRequired, bill)
+  router.post('/api/bill/get', userRequired, bill.index)
   router.get('/api/bill/amount/statistics', userRequired, bill.sumAmount)
   router.get('/api/bill/amount/group', userRequired, bill.amountGroup)
 
