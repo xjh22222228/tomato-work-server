@@ -3,21 +3,28 @@
 const Service = require('egg').Service
 const qs = require('querystring')
 const validator = require('validator')
+const axios = require('axios')
 
 class MailService extends Service {
-
   /**
    * 微信推送
    */
   wechatPush(data) {
     if (!data) return
-    const { ctx } = this
-    const params = qs.stringify({
-      text: data.subject || '无标题',
-      desp: data.text || data.html || '无内容'
-    })
+    const params = {
+      msgtype: 'markdown',
+      markdown: {
+        content: `
+# 标题：${data.subject || '无标题'}
 
-    ctx.curl(`https://sc.ftqq.com/${data.sckey}.send?${params}`)
+${data.text || data.html || '无内容'}
+`,
+      },
+    }
+    axios.post(
+      `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${data.sckey}`,
+      params
+    )
   }
 
   // 注册通知
@@ -47,7 +54,9 @@ class MailService extends Service {
         ctx.logger.info(`邮箱: ${data.to} 发送成功`)
         return result
       } catch (err) {
-        ctx.logger.error(`邮箱：${data.to} 发送失败，原因：账号错误或超出邮件发送频率。`)
+        ctx.logger.error(
+          `邮箱：${data.to} 发送失败，原因：账号错误或超出邮件发送频率。`
+        )
         if (i <= 0) {
           return Promise.reject(err)
         }
@@ -63,7 +72,7 @@ class MailService extends Service {
       const data = await service.reminder.findAllNotSend()
       const user = {}
       // 合并同一用户多个事项
-      data.forEach(item => {
+      data.forEach((item) => {
         const { email, content, id, sckey } = item
 
         if (email in user) {
@@ -73,7 +82,7 @@ class MailService extends Service {
           user[email] = {
             content: [content],
             ids: [id],
-            sckey
+            sckey,
           }
         }
       })
@@ -91,13 +100,12 @@ class MailService extends Service {
           to: email,
           subject: `您有${content.length}项提醒事项 - ${config.title}`,
           html,
-          sckey
+          sckey,
         }
 
         service.mail.wechatPush(data)
 
-        service.mail.send(data)
-        .then(() => {
+        service.mail.send(data).then(() => {
           ctx.logger.debug(`${email} 发送成功!`)
           service.reminder.updateTypeById(ids, 2)
         })
