@@ -1,7 +1,6 @@
 'use strict'
 
 const Service = require('egg').Service
-const qs = require('querystring')
 const validator = require('validator')
 const axios = require('axios')
 
@@ -10,14 +9,14 @@ class MailService extends Service {
    * 微信推送
    */
   wechatPush(data) {
-    if (!data) return
+    if (!data.sckey) return
     const params = {
       msgtype: 'markdown',
       markdown: {
         content: `
-# 标题：${data.subject || '无标题'}
+# ${data.subject || ''}
 
-${data.text || data.html || '无内容'}
+${data.markdown || ''}
 `,
       },
     }
@@ -91,9 +90,11 @@ ${data.text || data.html || '无内容'}
       for (let email in user) {
         const { content, ids, sckey } = user[email]
         let html = ''
+        let markdown = ''
 
         content.forEach((text, idx) => {
           html += `<h2>${idx + 1}：${text}</h2>`
+          markdown += `${idx + 1}：${text}\n`
         })
 
         const data = {
@@ -101,6 +102,7 @@ ${data.text || data.html || '无内容'}
           subject: `您有${content.length}项提醒事项 - ${config.title}`,
           html,
           sckey,
+          markdown,
         }
 
         service.mail.wechatPush(data)
