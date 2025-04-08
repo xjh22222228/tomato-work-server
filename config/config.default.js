@@ -46,9 +46,11 @@ module.exports = (appInfo) => {
   }
 
   // github配置信息 [可选, 默认使用作者的信息, 但启动端口不可修改]
+  // 本地调试使用下面的配置，部署到线上你需要去GitHub申请一个OAuth Application
   config.passportGithub = {
     key: '489b39e1f91d934128c8',
     secret: '9ec2cf95bee7f1451792ce8124075cce7b66450d',
+    // http://localhost:7001 是客户端的链接，如果线上就填写你的域名
     callbackURL: 'http://localhost:7001/api/passport/github/callback',
     redirectURL: '/',
     successRedirect: '/api/passport/github/success',

@@ -22,26 +22,8 @@
 
 ## MySQL Setup
 
-Simple MySQL install and config
-
-Run file `sql.sql`
-
-```sql
-# Install mysql
-sudo apt install mysql-server
-systemctl status mysql.service
-
-# Adjusting User Authentication
-sudo mysql
-mysql > SELECT user,authentication_string,plugin,host FROM mysql.user;
-mysql > ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
-
-# Create a database for tomato work
-mysql > CREATE DATABASE tomato_work
-
-# Later you can login to mysql via
-mysql -u root -p
-```
+- 创建数据库 `tomato_work`
+- 运行根目录 `sql.sql`
 
 ## Build Setup
 
@@ -59,6 +41,16 @@ npm run dev
 
 # Build start
 npm run start
+```
+
+## 部署
+
+复制 `config/config.default.js` 到 `config/config.product.js`, 生产环境是运行 `config/config.product.js` 配置文件，默认是没有的。
+
+启动
+
+```bash
+npm run start:prod
 ```
 
 ---
