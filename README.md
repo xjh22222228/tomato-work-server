@@ -12,6 +12,11 @@
   </p>
 </p>
 
+
+## 说明
+由于一些原因，这个项目之前是由 [Egg](https://github.com/xjh22222228/tomato-work/tree/egg) 框架编写，对应前端源代码 [tomato-work-client](https://github.com/xjh22222228/tomato-work/tree/egg)，如果你想学习或了解 [Egg.js](https://www.eggjs.org/) 框架这是不错的选择。
+
+
 ## MySQL Setup
 
 - 创建数据库 `tomato_work`

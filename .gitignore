@@ -1,7 +1,8 @@
 # compiled output
-/dist/*
-!/dist/src/
-!/dist/src/**
+/dist
+# /dist/*
+# !/dist/src/
+# !/dist/src/**
 /build
 
 # Logs
