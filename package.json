@@ -5,15 +5,24 @@
   "author": "xiejiahe",
   "private": true,
   "license": "MIT",
+  "homepage": "https://github.com/xjh22222228/tomato-work-server",
+  "bugs": {
+    "url": "https://github.com/xjh22222228/tomato-work-server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xjh22222228/tomato-work-server.git"
+  },
   "scripts": {
+    "pm2": "pm2 start ecosystem.config.cjs",
     "init": "ts-node scripts/init.ts",
-    "build": "nest build",
+    "build": "npm run init && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "cross-env NODE_ENV=local nest start --watch",
-    "start:dev": "cross-env NODE_ENV=development nest start --watch",
-    "start:prod": "cross-env NODE_ENV=production node dist/src/main",
+    "start": "npm run init && cross-env NODE_ENV=local nest start --watch",
+    "start:dev": "npm run init && cross-env NODE_ENV=development nest start --watch",
+    "start:prod": "npm run init && cross-env NODE_ENV=production node dist/src/main",
     "prebuild:prod": "rimraf dist",
-    "build:prod": "cross-env NODE_ENV=production nest build",
+    "build:prod": "npm run init && cross-env NODE_ENV=production nest build",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:generate": "cross-env NODE_ENV=local ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d typeorm.config.ts",
     "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create",

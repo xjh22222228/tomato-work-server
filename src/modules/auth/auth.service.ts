@@ -1,4 +1,9 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
@@ -138,12 +143,15 @@ export class AuthService {
         // 创建新用户
         user = await this.usersService.create(userInfo);
       }
-
-      const { password: _, ...result } = user;
-      return {
-        token: accessToken,
-        user: result,
-      };
+      if (user) {
+        const { password: _, ...result } = user;
+        return {
+          token: accessToken,
+          user: result,
+        };
+      } else {
+        throw new InternalServerErrorException('创建用户失败');
+      }
     } catch (error) {
       throw new HttpException(
         error.message || 'GitHub登录失败',

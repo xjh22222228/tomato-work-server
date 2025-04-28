@@ -38,14 +38,11 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async findOne(uid: number): Promise<User> {
+  async findOne(uid: number): Promise<User | null> {
     const numericUid = typeof uid === 'string' ? Number(uid) : uid;
     const user = await this.usersRepository.findOne({
       where: { uid: numericUid },
     });
-    if (!user) {
-      throw new NotFoundException('用户不存在');
-    }
     return user;
   }
 
@@ -84,7 +81,10 @@ export class UsersService {
     return user || null;
   }
 
-  async update(uid: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(
+    uid: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<User | null> {
     await this.usersRepository.update({ uid }, updateUserDto);
     return this.findOne(uid);
   }
