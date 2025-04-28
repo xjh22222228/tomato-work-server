@@ -12,14 +12,6 @@
   </p>
 </p>
 
-## Built with
-
-- [Node.js >= 18](https://nodejs.org/en/)
-- [Egg.js](https://eggjs.org/zh-cn/intro/)
-- [MySQL](https://www.mysql.com/)
-- [Sequelize](https://github.com/sequelize/sequelize)
-- [js-ant](https://github.com/xjh22222228/js-ant)
-
 ## MySQL Setup
 
 - 创建数据库 `tomato_work`
@@ -27,7 +19,7 @@
 
 ## Build Setup
 
-启动项目之前请配置数据库信息 config/config.default.js
+启动项目之前请配置数据库信息 `.env.development`
 
 ```bash
 # Download
@@ -37,7 +29,7 @@ git clone --depth=1 https://github.com/xjh22222228/tomato-work-server.git
 pnpm i
 
 # Port: 7003
-npm run dev
+npm run start:dev
 
 # Build start
 npm run start
@@ -45,12 +37,17 @@ npm run start
 
 ## 部署
 
-复制 `config/config.default.js` 到 `config/config.product.js`, 生产环境是运行 `config/config.product.js` 配置文件，默认是没有的。
+复制 `.env.development` 到 `.env.production`
 
 启动
 
 ```bash
+npm run build:prod
+
+
 npm run start:prod
+# or
+pm2 start ecosystem.config.cjs
 ```
 
 ---
