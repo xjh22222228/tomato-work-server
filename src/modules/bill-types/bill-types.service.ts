@@ -36,7 +36,10 @@ export class BillTypesService {
   }
 
   async findAll(uid: number): Promise<BillType[]> {
-    const billTypes = this.billTypeRepository.findBy({ uid })
+    const billTypes = this.billTypeRepository.find({
+      where: { uid },
+      order: { type: 'DESC' },
+    })
     return billTypes
   }
 
