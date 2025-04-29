@@ -17,7 +17,7 @@
     "pm2": "pm2 start ecosystem.config.cjs",
     "init": "ts-node scripts/init.ts",
     "build": "npm run init && nest build",
-    "format": "prettier --write .",
+    "format": "prettier --write \"**/*.{ts,cjs,mjs}\"",
     "start": "npm run init && cross-env NODE_ENV=local nest start --watch",
     "start:dev": "npm run init && cross-env NODE_ENV=development nest start --watch",
     "start:prod": "npm run init && cross-env NODE_ENV=production node dist/src/main",
