@@ -1,15 +1,15 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator'
 
 export class CreateUserConfigureDto {
   @IsOptional()
   @IsBoolean()
-  isTaskNotify?: boolean;
+  isTaskNotify?: boolean
 
   @IsOptional()
   @IsBoolean()
-  isMatterNotify?: boolean;
+  isMatterNotify?: boolean
 
   @IsOptional()
   @IsString()
-  serverChanSckey?: string;
+  serverChanSckey?: string
 }

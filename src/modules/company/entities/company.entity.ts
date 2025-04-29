@@ -1,24 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { DateEntity } from '@/entities/date.entity';
-import { dateTransformer } from '@/utils/transformerUtils';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { DateEntity } from '@/entities/date.entity'
+import { dateTransformer } from '@/utils/transformerUtils'
 
 @Entity('company')
 export class Company extends DateEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string
 
   @Column()
-  uid: number;
+  uid: number
 
   @Column({ name: 'company_name' })
-  companyName: string;
+  companyName: string
 
   @Column({
     name: 'start_date',
     type: 'datetime',
     transformer: dateTransformer(),
   })
-  startDate: Date;
+  startDate: Date
 
   @Column({
     name: 'end_date',
@@ -26,13 +26,13 @@ export class Company extends DateEntity {
     nullable: true,
     transformer: dateTransformer(),
   })
-  endDate: Date;
+  endDate: Date
 
   @Column({ type: 'text' })
-  remark: string;
+  remark: string
 
   @Column({ type: 'decimal', precision: 19, scale: 2 })
-  amount: number;
+  amount: number
 
   @Column({
     name: 'expect_leave_date',
@@ -40,5 +40,5 @@ export class Company extends DateEntity {
     nullable: true,
     transformer: dateTransformer(),
   })
-  expectLeaveDate: Date;
+  expectLeaveDate: Date
 }

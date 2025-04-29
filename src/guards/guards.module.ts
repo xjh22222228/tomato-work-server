@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { UserAuthGuard } from './user-auth.guard';
+import { Module } from '@nestjs/common'
+import { UserAuthGuard } from './user-auth.guard'
 
 @Module({
   providers: [UserAuthGuard],

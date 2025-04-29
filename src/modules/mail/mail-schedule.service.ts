@@ -1,10 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
-import { MailService } from './mail.service';
+import { Injectable, Logger } from '@nestjs/common'
+import { Cron } from '@nestjs/schedule'
+import { MailService } from './mail.service'
 
 @Injectable()
 export class MailScheduleService {
-  private readonly logger = new Logger(MailScheduleService.name);
+  private readonly logger = new Logger(MailScheduleService.name)
 
   constructor(private mailService: MailService) {}
 
@@ -13,11 +13,11 @@ export class MailScheduleService {
    */
   @Cron('0 * * * * *')
   async handleCron() {
-    this.logger.debug('定时任务 - 检查提醒事项');
+    this.logger.debug('定时任务 - 检查提醒事项')
     try {
-      await this.mailService.sendReminder();
+      await this.mailService.sendReminder()
     } catch (error) {
-      this.logger.error('发送提醒邮件失败', error);
+      this.logger.error('发送提醒邮件失败', error)
     }
   }
 }

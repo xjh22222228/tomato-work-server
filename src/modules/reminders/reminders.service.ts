@@ -1,19 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository, InjectDataSource } from '@nestjs/typeorm';
-import { Between, Repository, In, LessThan, DataSource } from 'typeorm';
-import type { FindManyOptions } from 'typeorm';
-import { CreateReminderDto } from './dto/create-reminder.dto';
-import { UpdateReminderDto } from './dto/update-reminder.dto';
-import { Reminder } from './entities/reminder.entity';
-import { User } from '../users/entities/user.entity';
-import { GetReminderDto } from './dto/get-reminder.dto';
-import * as dayjs from 'dayjs';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { InjectRepository, InjectDataSource } from '@nestjs/typeorm'
+import { Between, Repository, In, LessThan, DataSource } from 'typeorm'
+import type { FindManyOptions } from 'typeorm'
+import { CreateReminderDto } from './dto/create-reminder.dto'
+import { UpdateReminderDto } from './dto/update-reminder.dto'
+import { Reminder } from './entities/reminder.entity'
+import { User } from '../users/entities/user.entity'
+import { GetReminderDto } from './dto/get-reminder.dto'
+import * as dayjs from 'dayjs'
 
 interface NotificationItem {
-  email: string;
-  content: string;
-  id: string;
-  sckey?: string;
+  email: string
+  content: string
+  id: string
+  sckey?: string
 }
 
 @Injectable()
@@ -34,9 +34,9 @@ export class RemindersService {
     const newReminder = this.remindersRepository.create({
       ...createReminderDto,
       uid,
-    });
+    })
 
-    return this.remindersRepository.save(newReminder);
+    return this.remindersRepository.save(newReminder)
   }
 
   async findAll(
@@ -45,64 +45,65 @@ export class RemindersService {
   ): Promise<{ rows: Reminder[]; count: number }> {
     const startDate = getReminderDto.startDate
       ? dayjs(getReminderDto.startDate).valueOf()
-      : dayjs().startOf('year').valueOf();
+      : dayjs().startOf('year').valueOf()
     const endDate = getReminderDto.endDate
       ? dayjs(getReminderDto.endDate).endOf('day').valueOf()
-      : dayjs().endOf('year').valueOf();
+      : dayjs().endOf('year').valueOf()
 
     const where: Partial<Reminder> = {
       uid,
       date: Between(startDate, endDate) as unknown as BigInt,
-    };
+    }
     const queryOptions: FindManyOptions = {
       where,
       order: { date: 'DESC' },
-    };
+    }
 
-    const { pageNo, pageSize, type } = getReminderDto;
+    const { pageNo, pageSize, type } = getReminderDto
 
     if (type) {
-      where.type = type;
+      where.type = type
     }
     if (pageNo != null && pageSize != null) {
-      queryOptions.skip = pageNo * pageSize;
-      queryOptions.take = pageSize;
+      queryOptions.skip = pageNo * pageSize
+      queryOptions.take = pageSize
     }
 
     const [rows, count] =
-      await this.remindersRepository.findAndCount(queryOptions);
+      await this.remindersRepository.findAndCount(queryOptions)
 
     return {
       rows,
       count,
-    };
+    }
   }
 
   async findOne(id: string, uid: number): Promise<Reminder> {
     const reminder = await this.remindersRepository.findOne({
       where: { id, uid },
-    });
+    })
 
     if (!reminder) {
-      throw new NotFoundException('提醒事项不存在');
+      throw new NotFoundException('提醒事项不存在')
     }
 
-    return reminder;
+    return reminder
   }
 
   async update(
     uid: number,
     updateReminderDto: UpdateReminderDto,
   ): Promise<Reminder> {
-    const { id, ...updateData } = updateReminderDto;
-    await this.remindersRepository.update({ id, uid }, updateData);
-    return this.findOne(id, uid);
+    const { id, ...updateData } = updateReminderDto
+    await this.remindersRepository.update({ id, uid }, updateData)
+    return this.findOne(id, uid)
   }
 
   async remove(id: string, uid: number): Promise<void> {
-    const result = await this.remindersRepository.delete({ id, uid });
+    const ids = id.split(',')
+    const result = await this.remindersRepository.delete({ id: In(ids), uid })
     if (result.affected === 0) {
-      throw new NotFoundException('提醒事项不存在');
+      throw new NotFoundException('提醒事项不存在')
     }
   }
 
@@ -118,9 +119,9 @@ export class RemindersService {
       FROM reminders AS r, users AS u, user_configures as c
       WHERE r.type = 1 AND u.email != "" AND r.uid = u.uid AND c.uid = r.uid AND r.date <= ?`,
       [Date.now()],
-    );
+    )
 
-    return reminders;
+    return reminders
   }
 
   /**
@@ -129,6 +130,6 @@ export class RemindersService {
    * @param type 更新的状态值
    */
   async updateTypeById(ids: string[], type: number): Promise<void> {
-    await this.remindersRepository.update({ id: In(ids) }, { type });
+    await this.remindersRepository.update({ id: In(ids) }, { type })
   }
 }

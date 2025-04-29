@@ -4,46 +4,46 @@ import {
   IsOptional,
   IsString,
   IsNumber,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreateUserDto {
   @IsOptional()
   @IsNumber()
-  uid?: number;
+  uid?: number
 
   @IsOptional()
   @IsString()
-  provider?: string;
+  provider?: string
 
   @IsNotEmpty()
   @IsString()
-  username: string;
+  username: string
 
   @IsNotEmpty()
   @IsString()
-  password: string;
+  password: string
 
   @IsOptional()
   @IsEmail()
-  email?: string;
+  email?: string
 
   @IsOptional()
   @IsString()
-  avatarUrl?: string;
+  avatarUrl?: string
 
   @IsOptional()
   @IsString()
-  location?: string;
+  location?: string
 
   @IsOptional()
   @IsString()
-  bio?: string;
+  bio?: string
 
   @IsOptional()
   @IsString()
-  ipAddr?: string;
+  ipAddr?: string
 
   @IsOptional()
   @IsString()
-  token?: string;
+  token?: string
 }

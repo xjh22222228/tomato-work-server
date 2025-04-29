@@ -1,43 +1,43 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import * as nodemailer from 'nodemailer';
-import axios from 'axios';
-import { RemindersService } from '../reminders/reminders.service';
+import { Injectable, Logger } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import * as nodemailer from 'nodemailer'
+import axios from 'axios'
+import { RemindersService } from '../reminders/reminders.service'
 
 interface MailData {
-  to: string;
-  subject: string;
-  html?: string;
-  text?: string;
-  markdown?: string;
-  sckey?: string;
+  to: string
+  subject: string
+  html?: string
+  text?: string
+  markdown?: string
+  sckey?: string
 }
 
 interface ReminderItem {
-  email: string;
-  content: string;
-  id: string;
-  sckey?: string;
+  email: string
+  content: string
+  id: string
+  sckey?: string
 }
 
 interface ReminderUser {
   [email: string]: {
-    content: string[];
-    ids: string[];
-    sckey?: string;
-  };
+    content: string[]
+    ids: string[]
+    sckey?: string
+  }
 }
 
 @Injectable()
 export class MailService {
-  private readonly logger = new Logger(MailService.name);
-  private transporter: nodemailer.Transporter;
+  private readonly logger = new Logger(MailService.name)
+  private transporter: nodemailer.Transporter
 
   constructor(
     private configService: ConfigService,
     private remindersService: RemindersService,
   ) {
-    this.initTransporter();
+    this.initTransporter()
   }
 
   private initTransporter() {
@@ -49,14 +49,14 @@ export class MailService {
         user: this.configService.get<string>('MAIL_USER'),
         pass: this.configService.get<string>('MAIL_PASS'),
       },
-    });
+    })
   }
 
   /**
    * 微信推送
    */
   async wechatPush(data: MailData) {
-    if (!data.sckey) return;
+    if (!data.sckey) return
 
     const params = {
       msgtype: 'markdown',
@@ -67,15 +67,15 @@ export class MailService {
 ${data.markdown || ''}
 `,
       },
-    };
+    }
 
     try {
       await axios.post(
         `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${data.sckey}`,
         params,
-      );
+      )
     } catch (error) {
-      this.logger.error(`微信推送失败: ${error.message}`);
+      this.logger.error(`微信推送失败: ${error.message}`)
     }
   }
 
@@ -83,14 +83,14 @@ ${data.markdown || ''}
    * 注册通知
    */
   async register(loginName: string) {
-    const adminEmail = this.configService.get<string>('ADMIN_EMAIL');
-    if (!adminEmail) return;
+    const adminEmail = this.configService.get<string>('ADMIN_EMAIL')
+    if (!adminEmail) return
 
     await this.send({
       to: adminEmail,
       subject: '用户注册通知',
       html: `用户：${loginName} 成功注册了本站`,
-    });
+    })
   }
 
   /**
@@ -98,7 +98,7 @@ ${data.markdown || ''}
    * @param data 邮件数据
    */
   async send(data: MailData) {
-    let retries = 3;
+    let retries = 3
 
     // 尝试发送 retries 次
     while (retries--) {
@@ -109,15 +109,15 @@ ${data.markdown || ''}
           subject: data.subject,
           html: data.html,
           text: data.text,
-        };
+        }
 
-        const result = await this.transporter.sendMail(mailOptions);
-        this.logger.log(`邮箱: ${data.to} 发送成功`);
-        return result;
+        const result = await this.transporter.sendMail(mailOptions)
+        this.logger.log(`邮箱: ${data.to} 发送成功`)
+        return result
       } catch (err) {
-        this.logger.error(`邮箱：${data.to} 发送失败，原因：${err.message}`);
+        this.logger.error(`邮箱：${data.to} 发送失败，原因：${err.message}`)
         if (retries <= 0) {
-          throw err;
+          throw err
         }
       }
     }
@@ -128,39 +128,39 @@ ${data.markdown || ''}
    */
   async sendReminder() {
     try {
-      const appTitle = this.configService.get<string>('APP_TITLE');
+      const appTitle = this.configService.get<string>('APP_TITLE')
 
       // 获取未发送的提醒事项
-      const reminderItems = await this.remindersService.findAllNotSend();
+      const reminderItems = await this.remindersService.findAllNotSend()
 
-      const user: ReminderUser = {};
+      const user: ReminderUser = {}
 
       // 合并同一用户多个事项
       reminderItems.forEach((item) => {
-        const { email, content, id, sckey } = item;
+        const { email, content, id, sckey } = item
 
         if (email in user) {
-          user[email].content.push(content);
-          user[email].ids.push(id);
+          user[email].content.push(content)
+          user[email].ids.push(id)
         } else {
           user[email] = {
             content: [content],
             ids: [id],
             sckey,
-          };
+          }
         }
-      });
+      })
 
       // 推送
       for (let email in user) {
-        const { content, ids, sckey } = user[email];
-        let html = '';
-        let markdown = '';
+        const { content, ids, sckey } = user[email]
+        let html = ''
+        let markdown = ''
 
         content.forEach((text, idx) => {
-          html += `<h2>${idx + 1}：${text}</h2>`;
-          markdown += `${idx + 1}：${text}\n`;
-        });
+          html += `<h2>${idx + 1}：${text}</h2>`
+          markdown += `${idx + 1}：${text}\n`
+        })
 
         const mailData = {
           to: email,
@@ -168,23 +168,23 @@ ${data.markdown || ''}
           html,
           sckey,
           markdown,
-        };
+        }
 
         // 微信推送
-        await this.wechatPush(mailData);
+        await this.wechatPush(mailData)
 
         // 邮件推送
         try {
-          await this.send(mailData);
-          this.logger.log(`${email} 发送成功!`);
+          await this.send(mailData)
+          this.logger.log(`${email} 发送成功!`)
           // 更新提醒状态
-          await this.remindersService.updateTypeById(ids, 2);
+          await this.remindersService.updateTypeById(ids, 2)
         } catch (error) {
-          this.logger.error(`发送提醒邮件失败: ${error.message}`);
+          this.logger.error(`发送提醒邮件失败: ${error.message}`)
         }
       }
     } catch (err) {
-      this.logger.error(`发送提醒事项失败: ${err.message}`);
+      this.logger.error(`发送提醒事项失败: ${err.message}`)
     }
   }
 }

@@ -4,18 +4,18 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreateInnerMessageDto {
   @IsNotEmpty()
   @IsString()
-  content: string;
+  content: string
 
   @IsOptional()
   @IsNumber()
-  type?: number;
+  type?: number
 
   @IsOptional()
   @IsBoolean()
-  hasRead?: boolean;
+  hasRead?: boolean
 }

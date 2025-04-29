@@ -1,31 +1,31 @@
-import { IsString, Matches, IsOptional, IsNumber } from 'class-validator';
-import { dateValidator } from '@/utils/validatorUtils';
-import { PaginationDto } from '@/dtos/pagination.dto';
+import { IsString, Matches, IsOptional, IsNumber } from 'class-validator'
+import { dateValidator } from '@/utils/validatorUtils'
+import { PaginationDto } from '@/dtos/pagination.dto'
 
 export class GetBillDto extends PaginationDto {
   @Matches(dateValidator.REGEXP, { message: dateValidator.MESSAGE })
   @IsString()
   @IsOptional()
-  startDate?: string;
+  startDate?: string
 
   @Matches(dateValidator.REGEXP, { message: dateValidator.MESSAGE })
   @IsString()
   @IsOptional()
-  endDate?: string;
+  endDate?: string
 
   @IsString()
   @IsOptional()
-  typeId?: string;
+  typeId?: string
 
   @IsNumber()
   @IsOptional()
-  type?: number;
+  type?: number
 
   @IsString()
   @IsOptional()
-  keyword?: string;
+  keyword?: string
 
   @IsString()
   @IsOptional()
-  sort?: string;
+  sort?: string
 }

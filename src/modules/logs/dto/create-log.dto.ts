@@ -5,32 +5,32 @@ import {
   Min,
   Max,
   IsOptional,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreateLogDto {
   @IsNotEmpty()
   @IsString()
-  companyId: string;
+  companyId: string
 
   @IsNotEmpty()
   @IsNumber()
   @Min(1)
   @Max(3)
-  logType: number;
+  logType: number
 
   @IsString()
   @IsOptional()
-  doneContent: string = '';
+  doneContent: string = ''
 
   @IsString()
   @IsOptional()
-  undoneContent: string = '';
+  undoneContent: string = ''
 
   @IsString()
   @IsOptional()
-  planContent: string = '';
+  planContent: string = ''
 
   @IsOptional()
   @IsString()
-  summaryContent: string = '';
+  summaryContent: string = ''
 }

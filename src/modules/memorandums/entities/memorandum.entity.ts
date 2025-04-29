@@ -1,20 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { DateEntity } from '@/entities/date.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { DateEntity } from '@/entities/date.entity'
 
 @Entity('memorandums')
 export class Memorandum extends DateEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string
 
   @Column()
-  uid: number;
+  uid: number
 
   @Column({ name: 'sort_index', default: 0 })
-  sortIndex: number;
+  sortIndex: number
 
   @Column()
-  title: string;
+  title: string
 
   @Column({ type: 'longtext', nullable: true })
-  markdown: string;
+  markdown: string
 }

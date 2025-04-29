@@ -4,18 +4,18 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-} from 'typeorm';
-import { BillType } from '../../bill-types/entities/bill-type.entity';
-import { DateEntity } from '@/entities/date.entity';
-import { numberTransformer } from '@/utils/transformerUtils';
+} from 'typeorm'
+import { BillType } from '../..//bill-types/entities/bill-type.entity'
+import { DateEntity } from '@/entities/date.entity'
+import { numberTransformer } from '@/utils/transformerUtils'
 
 @Entity('bills')
 export class Bill extends DateEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string
 
   @Column()
-  uid: number;
+  uid: number
 
   @Column({
     type: 'decimal',
@@ -24,21 +24,21 @@ export class Bill extends DateEntity {
     default: 0,
     transformer: numberTransformer(),
   })
-  price: number;
+  price: number
 
   @Column({ type: 'bigint', transformer: numberTransformer() })
-  date: number;
+  date: number
 
   @Column({ name: 'type_id' })
-  typeId: string;
+  typeId: string
 
   @Column({ length: 250, default: '' })
-  remark: string;
+  remark: string
 
   @Column({ type: 'text', nullable: true })
-  imgs: string;
+  imgs: string
 
   @ManyToOne(() => BillType)
   @JoinColumn({ name: 'type_id' })
-  billType: BillType;
+  billType: BillType
 }

@@ -1,15 +1,15 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class CreateMemorandumDto {
   @IsNotEmpty()
   @IsString()
-  title: string;
+  title: string
 
   @IsOptional()
   @IsString()
-  markdown?: string;
+  markdown?: string
 
   @IsOptional()
   @IsNumber()
-  sortIndex?: number;
+  sortIndex?: number
 }

@@ -1,5 +1,5 @@
-import { Controller, Post } from '@nestjs/common';
-import { SystemService } from './system.service';
+import { Controller, Post } from '@nestjs/common'
+import { SystemService } from './system.service'
 
 @Controller('system')
 export class SystemController {
@@ -7,6 +7,6 @@ export class SystemController {
 
   @Post('info')
   async getSystemInfo() {
-    return this.systemService.getSystemInfo();
+    return this.systemService.getSystemInfo()
   }
 }

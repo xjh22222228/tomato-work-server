@@ -4,49 +4,49 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from 'typeorm'
 
 @Entity('users')
 export class User {
   @PrimaryColumn()
-  uid: number;
+  uid: number
 
   @Column({ default: 'github' })
-  provider: string;
+  provider: string
 
   @Column({ name: 'login_name', default: '' })
-  loginName: string;
+  loginName: string
 
   @Column({ default: '' })
-  username: string;
+  username: string
 
   @Column({ default: '' })
-  password: string;
+  password: string
 
   @Column({ default: '' })
-  token: string;
+  token: string
 
   @Column({ name: 'avatar_url', default: '' })
-  avatarUrl: string;
+  avatarUrl: string
 
   @Column({ default: '' })
-  location: string;
+  location: string
 
   @Column({ default: '' })
-  bio: string;
+  bio: string
 
   @Column({ default: '' })
-  email: string;
+  email: string
 
   @Column({ name: 'ip_addr', default: '' })
-  ipAddr: string;
+  ipAddr: string
 
   @Column({ default: 1 })
-  role: number;
+  role: number
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt: Date
 }

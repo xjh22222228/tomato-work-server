@@ -6,29 +6,29 @@ import {
   IsString,
   IsUUID,
   MaxLength,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+} from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class CreateBillDto {
   @IsNotEmpty()
   @IsDate()
   @Type(() => Date)
-  date: Date;
+  date: Date
 
   @IsNotEmpty()
   @IsUUID()
-  typeId: string;
+  typeId: string
 
   @IsNotEmpty()
   @IsNumber()
-  price: number;
+  price: number
 
   @IsOptional()
   @IsString()
   @MaxLength(250)
-  remark?: string;
+  remark?: string
 
   @IsOptional()
   @IsString()
-  imgs?: string;
+  imgs?: string
 }

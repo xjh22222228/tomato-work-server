@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
-import { CreateUserConfigureDto } from './dto/create-user-configure.dto';
-import { UpdateUserConfigureDto } from './dto/update-user-configure.dto';
-import { UserConfigure } from './entities/user-configure.entity';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { v4 as uuidv4 } from 'uuid'
+import { CreateUserConfigureDto } from './dto/create-user-configure.dto'
+import { UpdateUserConfigureDto } from './dto/update-user-configure.dto'
+import { UserConfigure } from './entities/user-configure.entity'
 
 @Injectable()
 export class UserConfiguresService {
@@ -16,7 +16,7 @@ export class UserConfiguresService {
   async findOrCreate(uid: number): Promise<UserConfigure> {
     let userConfigure = await this.userConfiguresRepository.findOne({
       where: { uid },
-    });
+    })
 
     if (!userConfigure) {
       userConfigure = this.userConfiguresRepository.create({
@@ -24,23 +24,23 @@ export class UserConfiguresService {
         isTaskNotify: true,
         isMatterNotify: true,
         serverChanSckey: '',
-      });
+      })
 
-      await this.userConfiguresRepository.save(userConfigure);
+      await this.userConfiguresRepository.save(userConfigure)
     }
 
-    return userConfigure;
+    return userConfigure
   }
 
   async update(
     uid: number,
     updateUserConfigureDto: UpdateUserConfigureDto,
   ): Promise<UserConfigure> {
-    const userConfigure = await this.findOrCreate(uid);
+    const userConfigure = await this.findOrCreate(uid)
     const updatedUserConfigure = Object.assign(
       userConfigure,
       updateUserConfigureDto,
-    );
-    return this.userConfiguresRepository.save(updatedUserConfigure);
+    )
+    return this.userConfiguresRepository.save(updatedUserConfigure)
   }
 }

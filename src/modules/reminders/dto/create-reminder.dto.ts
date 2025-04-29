@@ -5,31 +5,31 @@ import {
   IsString,
   Min,
   Max,
-} from 'class-validator';
-import { Transform } from 'class-transformer';
-import * as dayjs from 'dayjs';
+} from 'class-validator'
+import { Transform } from 'class-transformer'
+import * as dayjs from 'dayjs'
 
 export class CreateReminderDto {
   @IsNotEmpty()
   @IsString()
-  content: string;
+  content: string
 
   @IsNotEmpty()
   @IsNumber()
   @Transform(({ value }) => {
-    if (typeof value === 'number') return value;
+    if (typeof value === 'number') return value
 
     try {
-      return dayjs(value).valueOf();
+      return dayjs(value).valueOf()
     } catch (error) {
-      return value;
+      return value
     }
   })
-  date: number;
+  date: number
 
   @IsOptional()
   @IsNumber()
   @Min(1)
   @Max(2)
-  type?: number = 1;
+  type?: number = 1
 }

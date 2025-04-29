@@ -4,30 +4,30 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreateCompanyDto {
   @IsNotEmpty()
   @IsString()
-  companyName: string;
+  companyName: string
 
   @IsNotEmpty()
   @IsDateString()
-  startDate: string;
+  startDate: string
 
   @IsOptional()
   @IsDateString()
-  endDate?: string;
+  endDate?: string
 
   @IsNotEmpty()
   @IsString()
-  remark: string;
+  remark: string
 
   @IsNotEmpty()
   @IsNumber()
-  amount: number;
+  amount: number
 
   @IsOptional()
   @IsDateString()
-  expectLeaveDate?: string;
+  expectLeaveDate?: string
 }

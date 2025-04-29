@@ -1,15 +1,15 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core'
+import { ValidationPipe } from '@nestjs/common'
+import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule)
 
   // 设置全局前缀
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api')
 
   // 启用CORS
-  app.enableCors();
+  app.enableCors()
 
   // 配置全局验证管道
   app.useGlobalPipes(
@@ -18,10 +18,10 @@ async function bootstrap() {
       transform: true,
       // forbidNonWhitelisted: true,
     }),
-  );
+  )
 
-  const port = process.env.PORT || 7001;
-  await app.listen(port, '0.0.0.0');
-  console.log(`Server running on http://localhost:${port}`);
+  const port = process.env.PORT || 7001
+  await app.listen(port, '0.0.0.0')
+  console.log(`Server running on http://localhost:${port}`)
 }
-bootstrap();
+bootstrap()

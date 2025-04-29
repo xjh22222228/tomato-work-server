@@ -5,25 +5,25 @@ import {
   IsString,
   Min,
   Max,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreateTaskDto {
   @IsNotEmpty()
   @IsString()
-  content: string;
+  content: string
 
   @IsNotEmpty()
   @IsNumber()
-  date: number;
+  date: number
 
   @IsOptional()
   @IsNumber()
   @Min(1)
   @Max(4)
-  type?: number;
+  type?: number
 
   @IsOptional()
   @IsNumber()
   @Min(0)
-  count?: number;
+  count?: number
 }

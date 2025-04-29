@@ -4,28 +4,28 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from 'typeorm'
 
 @Entity('inner_messages')
 export class InnerMessage {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string
 
   @Column()
-  uid: number;
+  uid: number
 
   @Column()
-  content: string;
+  content: string
 
   @Column({ default: 0, comment: '消息类型, 0=系统消息' })
-  type: number;
+  type: number
 
   @Column({ name: 'has_read', default: false })
-  hasRead: boolean;
+  hasRead: boolean
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt: Date
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt: Date
 }

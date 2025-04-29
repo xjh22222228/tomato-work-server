@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
-import { CreateInnerMessageDto } from './dto/create-inner-message.dto';
-import { UpdateInnerMessageDto } from './dto/update-inner-message.dto';
-import { InnerMessage } from './entities/inner-message.entity';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { v4 as uuidv4 } from 'uuid'
+import { CreateInnerMessageDto } from './dto/create-inner-message.dto'
+import { UpdateInnerMessageDto } from './dto/update-inner-message.dto'
+import { InnerMessage } from './entities/inner-message.entity'
 
 @Injectable()
 export class InnerMessagesService {
@@ -23,35 +23,35 @@ export class InnerMessagesService {
       id: uuidv4(),
       type: createInnerMessageDto.type || 0,
       hasRead: createInnerMessageDto.hasRead || false,
-    });
+    })
 
-    return this.innerMessagesRepository.save(newInnerMessage);
+    return this.innerMessagesRepository.save(newInnerMessage)
   }
 
   async findAll(uid: number): Promise<InnerMessage[]> {
     return this.innerMessagesRepository.find({
       where: { uid },
       order: { createdAt: 'DESC' },
-    });
+    })
   }
 
   async findUnread(uid: number): Promise<InnerMessage[]> {
     return this.innerMessagesRepository.find({
       where: { uid, hasRead: false },
       order: { createdAt: 'DESC' },
-    });
+    })
   }
 
   async findOne(id: string, uid: number): Promise<InnerMessage> {
     const innerMessage = await this.innerMessagesRepository.findOne({
       where: { id, uid },
-    });
+    })
 
     if (!innerMessage) {
-      throw new NotFoundException('消息不存在');
+      throw new NotFoundException('消息不存在')
     }
 
-    return innerMessage;
+    return innerMessage
   }
 
   async update(
@@ -59,24 +59,24 @@ export class InnerMessagesService {
     uid: number,
     updateInnerMessageDto: UpdateInnerMessageDto,
   ): Promise<InnerMessage> {
-    const innerMessage = await this.findOne(id, uid);
+    const innerMessage = await this.findOne(id, uid)
     const updatedInnerMessage = Object.assign(
       innerMessage,
       updateInnerMessageDto,
-    );
-    return this.innerMessagesRepository.save(updatedInnerMessage);
+    )
+    return this.innerMessagesRepository.save(updatedInnerMessage)
   }
 
   async markAsRead(id: string, uid: number): Promise<InnerMessage> {
-    const innerMessage = await this.findOne(id, uid);
-    innerMessage.hasRead = true;
-    return this.innerMessagesRepository.save(innerMessage);
+    const innerMessage = await this.findOne(id, uid)
+    innerMessage.hasRead = true
+    return this.innerMessagesRepository.save(innerMessage)
   }
 
   async remove(id: string, uid: number): Promise<void> {
-    const result = await this.innerMessagesRepository.delete({ id, uid });
+    const result = await this.innerMessagesRepository.delete({ id, uid })
     if (result.affected === 0) {
-      throw new NotFoundException('消息不存在');
+      throw new NotFoundException('消息不存在')
     }
   }
 }

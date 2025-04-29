@@ -1,6 +1,6 @@
-import * as markdownit from 'markdown-it';
-import anchor from 'markdown-it-anchor';
-import hljs from 'highlight.js';
+import * as markdownit from 'markdown-it'
+import anchor from 'markdown-it-anchor'
+import hljs from 'highlight.js'
 
 const config = {
   html: true,
@@ -9,23 +9,23 @@ const config = {
   highlight: function (str: string, lang: string) {
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return hljs.highlight(str, { language: lang }).value;
+        return hljs.highlight(str, { language: lang }).value
       } catch {
-        return str;
+        return str
       }
     }
 
-    return '';
+    return ''
   },
-};
+}
 
-const md = markdownit(config).use(anchor);
+const md = markdownit(config).use(anchor)
 
 const defaultRender =
   md.renderer.rules.link_open ||
   function (tokens, idx, options, env, self) {
-    return self.renderToken(tokens, idx, options);
-  };
+    return self.renderToken(tokens, idx, options)
+  }
 
 md.renderer.rules.link_open = function (
   tokens: any[],
@@ -34,18 +34,18 @@ md.renderer.rules.link_open = function (
   env: any,
   self,
 ) {
-  const aIndex = tokens[idx].attrIndex('target');
-  const isAnchor = tokens[idx].attrs[0][1].startsWith('#');
+  const aIndex = tokens[idx].attrIndex('target')
+  const isAnchor = tokens[idx].attrs[0][1].startsWith('#')
 
   if (!isAnchor) {
     if (aIndex < 0) {
-      tokens[idx].attrPush(['target', '_blank']);
+      tokens[idx].attrPush(['target', '_blank'])
     } else {
-      tokens[idx].attrs[aIndex][1] = '_blank';
+      tokens[idx].attrs[aIndex][1] = '_blank'
     }
   }
 
-  return defaultRender(tokens, idx, options, env, self);
-};
+  return defaultRender(tokens, idx, options, env, self)
+}
 
-export default md;
+export default md

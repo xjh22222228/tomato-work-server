@@ -2,12 +2,12 @@ import {
   Injectable,
   ConflictException,
   NotFoundException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+} from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { User } from './entities/user.entity'
 
 @Injectable()
 export class UsersService {
@@ -20,35 +20,35 @@ export class UsersService {
     // 检查用户名或UID是否已存在
     const existingUser = await this.usersRepository.findOne({
       where: [{ username: createUserDto.username }, { uid: createUserDto.uid }],
-    });
+    })
 
     if (existingUser) {
-      throw new ConflictException('用户名或用户ID已存在');
+      throw new ConflictException('用户名或用户ID已存在')
     }
 
     // 创建新用户
     const newUser = this.usersRepository.create({
       ...createUserDto,
-    });
+    })
 
-    return this.usersRepository.save(newUser);
+    return this.usersRepository.save(newUser)
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find()
   }
 
   async findOne(uid: number): Promise<User | null> {
-    const numericUid = typeof uid === 'string' ? Number(uid) : uid;
+    const numericUid = typeof uid === 'string' ? Number(uid) : uid
     const user = await this.usersRepository.findOne({
       where: { uid: numericUid },
-    });
-    return user;
+    })
+    return user
   }
 
   async findByLoginName(loginName: string): Promise<User | null> {
-    const user = await this.usersRepository.findOne({ where: { loginName } });
-    return user || null;
+    const user = await this.usersRepository.findOne({ where: { loginName } })
+    return user || null
   }
 
   /**
@@ -66,8 +66,8 @@ export class UsersService {
         loginName,
         password,
       },
-    });
-    return user || null;
+    })
+    return user || null
   }
 
   /**
@@ -76,16 +76,16 @@ export class UsersService {
    * @returns 用户信息或 null
    */
   async findByToken(token: string): Promise<User | null> {
-    if (!token) return null;
-    const user = await this.usersRepository.findOne({ where: { token } });
-    return user || null;
+    if (!token) return null
+    const user = await this.usersRepository.findOne({ where: { token } })
+    return user || null
   }
 
   async update(
     uid: number,
     updateUserDto: UpdateUserDto,
   ): Promise<User | null> {
-    await this.usersRepository.update({ uid }, updateUserDto);
-    return this.findOne(uid);
+    await this.usersRepository.update({ uid }, updateUserDto)
+    return this.findOne(uid)
   }
 }

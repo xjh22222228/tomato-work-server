@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { DateEntity } from '@/entities/date.entity';
-import { dateTransformer } from '@/utils/transformerUtils';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { DateEntity } from '@/entities/date.entity'
+import { dateTransformer } from '@/utils/transformerUtils'
 
 export const enum TaskType {
   PENDING = 1,
@@ -12,24 +12,24 @@ export const enum TaskType {
 @Entity('tasks')
 export class Task extends DateEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: string
 
   @Column()
-  uid: number;
+  uid: number
 
   @Column()
-  content: string;
+  content: string
 
   @Column({ type: 'bigint', transformer: dateTransformer() })
-  date: number;
+  date: number
 
   @Column({
     type: 'tinyint',
     default: TaskType.PENDING,
     comment: '进度类型: 1=待作业, 2=作业中, 3=已完成, 4=未完成',
   })
-  type: number;
+  type: number
 
   @Column({ type: 'tinyint', default: 0, comment: '待办优先级, 0-5' })
-  count: number;
+  count: number
 }
