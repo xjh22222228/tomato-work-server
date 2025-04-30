@@ -21,9 +21,9 @@ import { GuardsModule } from './guards/guards.module'
 import { CommonModule } from './modules/common/common.module'
 import { GlobalModulesModule } from './global-modules/global-modules.module'
 import { SystemModule } from './modules/system/system.module'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as dotenv from 'dotenv'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 
 const productPath = path.resolve('.env.production')
 const developmentPath = path.resolve('.env.development')
@@ -54,7 +54,7 @@ export const configuration = () => {
     }
   }
   if (getEnvFilePath()) {
-    const env = dotenv.config({ path: getEnvFilePath() }).parsed
+    const env = dotenv.parse(fs.readFileSync(getEnvFilePath() as string))
     if (env) {
       return {
         ...env,
