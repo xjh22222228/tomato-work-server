@@ -22,25 +22,55 @@ import { CommonModule } from './modules/common/common.module'
 import { GlobalModulesModule } from './global-modules/global-modules.module'
 import { SystemModule } from './modules/system/system.module'
 import * as path from 'path'
+import * as dotenv from 'dotenv'
+import * as fs from 'fs'
 
-function getEnvFilePath() {
+const productPath = path.resolve('.env.production')
+const developmentPath = path.resolve('.env.development')
+const localPath = path.resolve('.env.local')
+
+function getEnvFilePath(): string | undefined {
   const env = process.env.NODE_ENV
-  if (env === 'production') {
-    return path.resolve('.env.production')
-  } else if (env === 'development') {
-    return path.resolve('.env.development')
-  } else {
-    return path.resolve('.env.local')
+  const existsProductPath = fs.existsSync(productPath)
+  const existsDevelopmentPath = fs.existsSync(developmentPath)
+  const existsLocalPath = fs.existsSync(localPath)
+  if (env === 'production' && existsProductPath) {
+    return productPath
+  } else if (env === 'development' && existsDevelopmentPath) {
+    return developmentPath
+  } else if (env === 'local' && existsLocalPath) {
+    return localPath
   }
 }
 
-console.log(getEnvFilePath())
+export const configuration = () => {
+  const parsedEnv = dotenv.parse<Record<string, string>>(
+    fs.readFileSync(developmentPath),
+  )
+  const envMap = {}
+  for (const k in parsedEnv) {
+    if (process.env[k]) {
+      envMap[k] = process.env[k]
+    }
+  }
+  if (getEnvFilePath()) {
+    const env = dotenv.config({ path: getEnvFilePath() }).parsed
+    if (env) {
+      return {
+        ...env,
+        ...envMap,
+      }
+    }
+  }
+
+  return envMap
+}
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: getEnvFilePath(),
+      load: [configuration],
     }),
     ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({

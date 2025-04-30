@@ -23,6 +23,16 @@ MySQL >= 8.0
 - 创建数据库 `tomato_work`
 - 运行根目录 `sql.sql`
 
+## 环境变量
+
+项目不自带 `.env.local` 和 `.env.production`, 需要自己 Copy `.env.development`
+
+- `.env.development` 开发环境 `npm run start:dev`
+- `.env.local` 开发环境 `npm run start`
+- `.env.production` 生产环境 `npm run start:prod`
+
+可以不使用文件环境变量，使用系统环境变量，已做兼容处理。
+
 ## Build Setup
 
 启动项目之前请配置数据库信息 `.env.development`
@@ -43,16 +53,10 @@ npm run start
 
 ## 部署
 
-复制 `.env.development` 到 `.env.production`
-
-启动
-
 ```bash
-npm run build:prod # 编译
+npm run build # 编译
 npm run pm2 # 启动
 ```
-
----
 
 ## License
 

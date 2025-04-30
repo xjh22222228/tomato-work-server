@@ -16,13 +16,12 @@
   "scripts": {
     "pm2": "pm2 start ecosystem.config.cjs",
     "init": "ts-node scripts/init.ts",
-    "build": "npm run init && nest build",
     "format": "prettier --write \"**/*.{ts,cjs,mjs}\"",
     "start": "npm run init && cross-env NODE_ENV=local nest start --watch",
     "start:dev": "npm run init && cross-env NODE_ENV=development nest start --watch",
     "start:prod": "npm run init && cross-env NODE_ENV=production node dist/src/main",
     "prebuild:prod": "rimraf dist",
-    "build:prod": "npm run init && cross-env NODE_ENV=production nest build",
+    "build": "npm run init && cross-env NODE_ENV=production nest build",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:generate": "cross-env NODE_ENV=local ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d typeorm.config.ts",
     "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create",
@@ -67,6 +66,7 @@
     "pm2": "^6.0.5",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
+    "serverless-http": "^3.2.0",
     "svg-captcha": "^1.4.0",
     "typeorm": "^0.3.22",
     "uuid": "^11.1.0"
