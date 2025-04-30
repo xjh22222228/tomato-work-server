@@ -28,7 +28,8 @@
     "migration:run:local": "cross-env NODE_ENV=local ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d typeorm.config.ts",
     "migration:run": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d typeorm.config.ts",
     "migration:revert": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d typeorm.config.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "netlify": "netlify dev"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,scss,md}": "npm run format"

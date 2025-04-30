@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from '../../src/app.module'
+import { AppModule } from '../../dist/src/app.module.js'
 import serverless from 'serverless-http'
 import { ValidationPipe } from '@nestjs/common'
 
