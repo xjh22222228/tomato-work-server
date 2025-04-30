@@ -1,13 +1,9 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/xjh22222228/tomato-work/master/public/logo.svg" width="150" />
+  <img src="https://raw.githubusercontent.com/xjh22222228/tomato-work/main/public/logo.svg" width="150" />
   <br />
   <b>Tomato Work 个人事务管理系统</b>
   <p align="center">
-    <a href="https://github.com/xjh22222228/tomato-work">
-      <img alt="Server" src="https://img.shields.io/static/v1.svg?label=&message=Client&style=flat-square&color=e8883a">
-    </a>
-    <a href="https://github.com/xjh22222228/tomato-work-server/stargazers"><img src="https://img.shields.io/github/stars/xjh22222228/tomato-work-server" alt="Stars"/></a>
-    <img src="https://img.shields.io/github/package-json/v/xjh22222228/tomato-work-server" />
+    <a href="https://github.com/xjh22222228/tomato-work"><img alt="Server" src="https://img.shields.io/static/v1.svg?label=&message=Client&style=flat-square&color=e8883a"></a>
     <img src="https://img.shields.io/github/license/xjh22222228/tomato-work-server" />
   </p>
 </p>
