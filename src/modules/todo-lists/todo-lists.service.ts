@@ -84,7 +84,7 @@ export class TodoListsService {
     updateTodoListDto: UpdateTodoListDto,
   ): Promise<TodoList> {
     const { id, ...updateData } = updateTodoListDto
-    await this.todoListsRepository.update({ uid }, updateData)
+    await this.todoListsRepository.update({ uid, id }, updateData)
     return this.findOne(id, uid)
   }
 
