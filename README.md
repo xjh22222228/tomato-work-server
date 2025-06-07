@@ -54,6 +54,14 @@ npm run build # 编译
 npm run pm2 # 启动
 ```
 
+## SQL迁移
+
+```bash
+$ npm run migration:generate -- migrations/sql
+
+$ npm run migration:run
+```
+
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)

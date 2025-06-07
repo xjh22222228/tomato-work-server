@@ -13,7 +13,18 @@ export class Reminder extends DateEntity {
   @Column()
   content: string
 
-  @Column({ type: 'bigint', transformer: dateTransformer() })
+  @Column({
+    length: 20,
+    comment: 'cron表达式',
+    default: null,
+  })
+  cron: string
+
+  @Column({
+    type: 'bigint',
+    transformer: dateTransformer(),
+    comment: '提醒时间',
+  })
   date: BigInt
 
   @Column({

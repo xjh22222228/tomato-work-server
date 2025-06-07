@@ -1,6 +1,7 @@
+import { PartialType } from '@nestjs/mapped-types'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository, InjectDataSource } from '@nestjs/typeorm'
-import { Between, Repository, In, LessThan, DataSource } from 'typeorm'
+import { Between, Repository, In, DataSource } from 'typeorm'
 import type { FindManyOptions } from 'typeorm'
 import { CreateReminderDto } from './dto/create-reminder.dto'
 import { UpdateReminderDto } from './dto/update-reminder.dto'
@@ -8,12 +9,15 @@ import { Reminder } from './entities/reminder.entity'
 import { User } from '../users/entities/user.entity'
 import { GetReminderDto } from './dto/get-reminder.dto'
 import * as dayjs from 'dayjs'
+import { isCronExpressionMatch, getNextCronExecution } from '@/utils/cronUtils'
 
 interface NotificationItem {
   email: string
   content: string
   id: string
   sckey?: string
+  cron?: string
+  date?: number
 }
 
 @Injectable()
@@ -115,7 +119,7 @@ export class RemindersService {
     // 获取所有已到提醒时间且状态为"待提醒"(type=1)的提醒事项
     const reminders: NotificationItem[] = await this.dataSource.query(
       `SELECT
-      r.content, r.id, u.email, c.server_chan_sckey AS sckey
+      r.content, r.id, r.cron, u.email, c.server_chan_sckey AS sckey
       FROM reminders AS r, users AS u, user_configures as c
       WHERE r.type = 1 AND u.email != "" AND r.uid = u.uid AND c.uid = r.uid AND r.date <= ?`,
       [Date.now()],
@@ -129,7 +133,13 @@ export class RemindersService {
    * @param ids 提醒ID列表
    * @param type 更新的状态值
    */
-  async updateTypeById(ids: string[], type: number): Promise<void> {
-    await this.remindersRepository.update({ id: In(ids) }, { type })
+  async updateByIds(
+    ids: string[],
+    updateReminderDto: Omit<UpdateReminderDto, 'id'>,
+  ): Promise<void> {
+    await this.remindersRepository.update(
+      { id: In(ids) },
+      { ...updateReminderDto },
+    )
   }
 }

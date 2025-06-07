@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config'
 import * as nodemailer from 'nodemailer'
 import axios from 'axios'
 import { RemindersService } from '../reminders/reminders.service'
+import { getNextCronExecution } from '@/utils/cronUtils'
 
 interface MailData {
   to: string
@@ -13,18 +14,12 @@ interface MailData {
   sckey?: string
 }
 
-interface ReminderItem {
-  email: string
-  content: string
-  id: string
-  sckey?: string
-}
-
 interface ReminderUser {
   [email: string]: {
     content: string[]
     ids: string[]
     sckey?: string
+    cron?: string
   }
 }
 
@@ -137,7 +132,7 @@ ${data.markdown || ''}
 
       // 合并同一用户多个事项
       reminderItems.forEach((item) => {
-        const { email, content, id, sckey } = item
+        const { email, content, id, sckey, cron } = item
 
         if (email in user) {
           user[email].content.push(content)
@@ -147,13 +142,14 @@ ${data.markdown || ''}
             content: [content],
             ids: [id],
             sckey,
+            cron,
           }
         }
       })
 
       // 推送
       for (let email in user) {
-        const { content, ids, sckey } = user[email]
+        const { content, ids, sckey, cron } = user[email]
         let html = ''
         let markdown = ''
 
@@ -175,10 +171,16 @@ ${data.markdown || ''}
 
         // 邮件推送
         try {
-          await this.send(mailData)
           this.logger.log(`${email} 发送成功!`)
-          // 更新提醒状态
-          await this.remindersService.updateTypeById(ids, 2)
+          if (cron) {
+            const date = getNextCronExecution(cron)
+            if (date) {
+              await this.remindersService.updateByIds(ids, { date })
+            }
+          } else {
+            await this.remindersService.updateByIds(ids, { type: 2 })
+          }
+          await this.send(mailData)
         } catch (error) {
           this.logger.error(`发送提醒邮件失败: ${error.message}`)
         }
