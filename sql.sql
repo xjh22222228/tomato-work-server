@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Ace SQL dump
-# 版本号： 20090
+# 版本号： 20094
 #
 # https://sequel-ace.com/
 # https://github.com/Sequel-Ace/Sequel-Ace
 #
-# 主机: 8.134.210.237 (MySQL 5.7.44)
+# 主机: localhost (MySQL 8.3.0)
 # 数据库: tomato_work
-# 生成时间: 2025-04-28 14:19:18 +0000
+# 生成时间: 2025-06-08 07:11:35 +0000
 # ************************************************************
 
 
@@ -22,6 +22,8 @@ SET NAMES utf8mb4;
 
 # 转储表 bill_types
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `bill_types`;
 
 CREATE TABLE `bill_types` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -38,6 +40,8 @@ CREATE TABLE `bill_types` (
 
 # 转储表 bills
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `bills`;
 
 CREATE TABLE `bills` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -59,6 +63,8 @@ CREATE TABLE `bills` (
 # 转储表 company
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `company`;
+
 CREATE TABLE `company` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -78,6 +84,8 @@ CREATE TABLE `company` (
 # 转储表 inner_messages
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `inner_messages`;
+
 CREATE TABLE `inner_messages` (
   `id` varchar(36) NOT NULL,
   `uid` int NOT NULL,
@@ -93,6 +101,8 @@ CREATE TABLE `inner_messages` (
 
 # 转储表 logs
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `logs`;
 
 CREATE TABLE `logs` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -113,6 +123,8 @@ CREATE TABLE `logs` (
 # 转储表 memorandums
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `memorandums`;
+
 CREATE TABLE `memorandums` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -126,8 +138,24 @@ CREATE TABLE `memorandums` (
 
 
 
+# 转储表 migrations
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `migrations`;
+
+CREATE TABLE `migrations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `timestamp` bigint NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+
+
 # 转储表 reminders
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `reminders`;
 
 CREATE TABLE `reminders` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -135,8 +163,9 @@ CREATE TABLE `reminders` (
   `id` varchar(36) NOT NULL,
   `uid` int NOT NULL,
   `content` varchar(255) NOT NULL,
-  `date` bigint NOT NULL,
+  `date` bigint NOT NULL COMMENT '提醒时间',
   `type` tinyint NOT NULL DEFAULT '1' COMMENT '事项类型, 1=待提醒, 2=已提醒',
+  `cron` varchar(20) DEFAULT NULL COMMENT 'cron表达式',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -144,6 +173,8 @@ CREATE TABLE `reminders` (
 
 # 转储表 tasks
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `tasks`;
 
 CREATE TABLE `tasks` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -162,6 +193,8 @@ CREATE TABLE `tasks` (
 # 转储表 todo_lists
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `todo_lists`;
+
 CREATE TABLE `todo_lists` (
   `id` varchar(36) NOT NULL,
   `uid` int NOT NULL,
@@ -176,6 +209,8 @@ CREATE TABLE `todo_lists` (
 
 # 转储表 user_configures
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `user_configures`;
 
 CREATE TABLE `user_configures` (
   `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -194,23 +229,24 @@ CREATE TABLE `user_configures` (
 # 转储表 users
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE `users` (
-  `id` char(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '',
   `uid` int NOT NULL,
-  `provider` varchar(10) NOT NULL DEFAULT 'github',
-  `login_name` varchar(50) NOT NULL DEFAULT '',
-  `username` varchar(50) NOT NULL DEFAULT '',
-  `password` varchar(32) NOT NULL DEFAULT '',
   `token` varchar(255) NOT NULL DEFAULT '',
-  `avatar_url` varchar(255) NOT NULL DEFAULT '',
-  `location` varchar(255) NOT NULL DEFAULT '',
-  `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `email` varchar(50) NOT NULL DEFAULT '',
-  `ip_addr` varchar(20) NOT NULL DEFAULT '',
-  `role` tinyint(1) NOT NULL DEFAULT '1' COMMENT '权限，1=正常',
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  `avatar_url` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `bio` varchar(255) DEFAULT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `provider` varchar(255) NOT NULL DEFAULT 'github',
+  `login_name` varchar(255) NOT NULL DEFAULT '',
+  `username` varchar(255) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) DEFAULT NULL,
+  `ip_addr` varchar(255) DEFAULT NULL,
+  `role` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
