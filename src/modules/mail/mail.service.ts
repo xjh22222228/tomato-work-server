@@ -93,6 +93,10 @@ ${data.markdown || ''}
    * @param data 邮件数据
    */
   async send(data: MailData) {
+    if (!data.to) {
+      return
+    }
+
     let retries = 3
 
     // 尝试发送 retries 次
@@ -127,7 +131,7 @@ ${data.markdown || ''}
 
       // 获取未发送的提醒事项
       const reminderItems = await this.remindersService.findAllNotSend()
-
+      this.logger.log(`待发送数量: ${reminderItems.length}`)
       const user: ReminderUser = {}
 
       // 合并同一用户多个事项
@@ -166,12 +170,7 @@ ${data.markdown || ''}
           markdown,
         }
 
-        // 微信推送
-        await this.wechatPush(mailData)
-
-        // 邮件推送
         try {
-          this.logger.log(`${email} 发送成功!`)
           if (cron) {
             const date = getNextCronExecution(cron)
             if (date) {
@@ -180,7 +179,11 @@ ${data.markdown || ''}
           } else {
             await this.remindersService.updateByIds(ids, { type: 2 })
           }
-          await this.send(mailData)
+
+          await Promise.allSettled([
+            this.wechatPush(mailData),
+            this.send(mailData),
+          ])
         } catch (error) {
           this.logger.error(`发送提醒邮件失败: ${error.message}`)
         }

@@ -121,7 +121,7 @@ export class RemindersService {
       `SELECT
       r.content, r.id, r.cron, u.email, c.server_chan_sckey AS sckey
       FROM reminders AS r, users AS u, user_configures as c
-      WHERE r.type = 1 AND u.email != "" AND r.uid = u.uid AND c.uid = r.uid AND r.date <= ?`,
+      WHERE r.type = 1 AND r.uid = u.uid AND c.uid = r.uid AND r.date <= ?`,
       [Date.now()],
     )
 

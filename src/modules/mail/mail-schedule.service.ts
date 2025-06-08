@@ -14,10 +14,6 @@ export class MailScheduleService {
   @Cron('0 * * * * *')
   async handleCron() {
     this.logger.debug('定时任务 - 检查提醒事项')
-    try {
-      await this.mailService.sendReminder()
-    } catch (error) {
-      this.logger.error('发送提醒邮件失败', error)
-    }
+    await this.mailService.sendReminder()
   }
 }
