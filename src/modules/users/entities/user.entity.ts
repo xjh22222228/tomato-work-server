@@ -26,19 +26,19 @@ export class User {
   @Column({ default: '' })
   token: string
 
-  @Column({ name: 'avatar_url', default: '' })
+  @Column({ name: 'avatar_url', nullable: true })
   avatarUrl: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   location: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   bio: string
 
-  @Column({ default: '' })
+  @Column({ nullable: true })
   email: string
 
-  @Column({ name: 'ip_addr', default: '' })
+  @Column({ name: 'ip_addr', nullable: true })
   ipAddr: string
 
   @Column({ default: 1 })
