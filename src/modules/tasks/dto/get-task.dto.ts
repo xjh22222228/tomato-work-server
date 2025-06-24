@@ -1,4 +1,4 @@
-import { IsOptional, IsString, Matches } from 'class-validator'
+import { IsString, Matches } from 'class-validator'
 import { dateValidator } from '@/utils/validatorUtils'
 
 export class GetTaskDto {

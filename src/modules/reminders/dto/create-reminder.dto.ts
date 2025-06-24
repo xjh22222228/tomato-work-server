@@ -6,7 +6,6 @@ import {
   Min,
   Max,
   ValidateIf,
-  ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
   registerDecorator,
@@ -17,18 +16,18 @@ import { isValidCronExpression, getNextCronExecution } from '@/utils/cronUtils'
 
 @ValidatorConstraint({ name: 'isValidCron', async: false })
 export class IsValidCronConstraint implements ValidatorConstraintInterface {
-  validate(value: string, args: ValidationArguments) {
+  validate(value: string) {
     return isValidCronExpression(value)
   }
 
-  defaultMessage(args: ValidationArguments) {
+  defaultMessage() {
     return '请输入有效的 cron 表达式，例如：0 9 * * *（每天早上9点）'
   }
 }
 
 // 创建装饰器
 export function IsValidCron() {
-  return function (object: Object, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isValidCron',
       target: object.constructor,
@@ -54,7 +53,7 @@ export class CreateReminderDto {
     const now = Date.now()
     try {
       return dayjs(value).valueOf() || now
-    } catch (error) {
+    } catch {
       return now
     }
   })

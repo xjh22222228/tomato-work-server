@@ -96,7 +96,7 @@ export class BillTypesService {
       if (result.affected === 0) {
         throw new NotFoundException('账单类型不存在或已删除')
       }
-    } catch (error: any) {
+    } catch {
       throw new InternalServerErrorException('请先删除账单关类型数据')
     }
   }

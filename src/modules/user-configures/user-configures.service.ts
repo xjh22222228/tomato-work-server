@@ -1,8 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { v4 as uuidv4 } from 'uuid'
-import { CreateUserConfigureDto } from './dto/create-user-configure.dto'
 import { UpdateUserConfigureDto } from './dto/update-user-configure.dto'
 import { UserConfigure } from './entities/user-configure.entity'
 

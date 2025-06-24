@@ -25,7 +25,7 @@ export class Reminder extends DateEntity {
     transformer: dateTransformer(),
     comment: '提醒时间',
   })
-  date: BigInt
+  date: number
 
   @Column({
     type: 'tinyint',

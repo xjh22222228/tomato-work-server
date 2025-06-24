@@ -48,7 +48,7 @@ export class BillsController {
       return {
         data: await this.billsService.findSumPriceByDate(uid, getBillDto),
       }
-    } catch (error) {
+    } catch {
       throw new BadRequestException('获取金额统计失败')
     }
   }
@@ -57,7 +57,7 @@ export class BillsController {
   amountGroup(@User('uid') uid: number, @Body() getBillDto: GetBillDto) {
     try {
       return this.billsService.findAmountGroup(uid, getBillDto)
-    } catch (error) {
+    } catch {
       throw new BadRequestException('获取分组统计失败')
     }
   }

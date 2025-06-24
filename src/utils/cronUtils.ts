@@ -10,7 +10,7 @@ export function isValidCronExpression(cronExpression: string): boolean {
   try {
     cronParser.CronExpressionParser.parse(cronExpression)
     return true
-  } catch (error) {
+  } catch {
     return false
   }
 }
@@ -29,7 +29,7 @@ export function isCronExpressionMatch(cronExpression: string): boolean {
     const interval = cronParser.CronExpressionParser.parse(cronExpression)
     const nextDate = interval.next()
     return nextDate.getTime() <= Date.now()
-  } catch (error) {
+  } catch {
     return false
   }
 }
@@ -39,7 +39,7 @@ export function getNextCronExecution(cronExpression: string): number | null {
     const interval = cronParser.CronExpressionParser.parse(cronExpression)
     const nextDate = interval.next()
     return nextDate.getTime()
-  } catch (error) {
+  } catch {
     return null
   }
 }

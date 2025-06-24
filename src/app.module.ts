@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule, type TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { ScheduleModule } from '@nestjs/schedule'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -47,6 +47,7 @@ export const configuration = () => {
   const parsedEnv = dotenv.parse<Record<string, string>>(
     fs.readFileSync(developmentPath),
   )
+
   const envMap = {}
   for (const k in parsedEnv) {
     if (process.env[k]) {
@@ -77,18 +78,20 @@ export const configuration = () => {
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        return {
+        const payload: TypeOrmModuleOptions = {
           type: 'mysql',
-          host: configService.get('DB_HOST'),
-          port: Number(configService.get<number>('DB_PORT')),
-          username: configService.get('DB_USERNAME'),
-          password: configService.get('DB_PASSWORD'),
-          database: configService.get('DB_DATABASE'),
+          host: configService.get('MYSQL_HOST'),
+          port: Number(configService.get<number>('MYSQL_PORT')),
+          username: configService.get('MYSQL_USERNAME'),
+          password: configService.get('MYSQL_PASSWORD'),
+          database: configService.get('MYSQL_DATABASE'),
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: configService.get('DB_SYNCHRONIZE') === 'true',
+          synchronize: configService.get('MYSQL_SYNCHRONIZE') === 'true',
           logging: ['query', 'error'],
           timezone: '+08:00',
         }
+        console.debug('TypeORM Config:', payload)
+        return payload
       },
     }),
     GlobalModulesModule,

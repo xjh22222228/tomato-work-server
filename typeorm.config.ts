@@ -39,11 +39,11 @@ console.log('ENV:', path.resolve(process.cwd(), envFilePath), process.env)
 
 export default new DataSource({
   type: 'mysql',
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  host: process.env.MYSQL_HOST,
+  port: Number(process.env.MYSQL_PORT),
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
   entities: [__dirname + '/src/**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   timezone: '+08:00',

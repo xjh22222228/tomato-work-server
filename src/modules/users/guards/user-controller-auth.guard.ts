@@ -42,7 +42,7 @@ export class UserControllerAuthGuard implements CanActivate {
       // 将用户信息附加到请求对象
       request['user'] = user
       return true
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('登录失效，请重新登录')
     }
   }

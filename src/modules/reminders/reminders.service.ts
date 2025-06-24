@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository, InjectDataSource } from '@nestjs/typeorm'
 import { Between, Repository, In, DataSource } from 'typeorm'
@@ -9,7 +8,6 @@ import { Reminder } from './entities/reminder.entity'
 import { User } from '../users/entities/user.entity'
 import { GetReminderDto } from './dto/get-reminder.dto'
 import * as dayjs from 'dayjs'
-import { isCronExpressionMatch, getNextCronExecution } from '@/utils/cronUtils'
 
 interface NotificationItem {
   email: string
@@ -56,7 +54,7 @@ export class RemindersService {
 
     const where: Partial<Reminder> = {
       uid,
-      date: Between(startDate, endDate) as unknown as BigInt,
+      date: Between(startDate, endDate) as unknown as number,
     }
     const queryOptions: FindManyOptions = {
       where,

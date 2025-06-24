@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common'
+import { Controller, Post, Body, UseGuards } from '@nestjs/common'
 import { UserAuthGuard } from '@/guards/user-auth.guard'
 import { User } from '@/decorators/user.decorator'
 import { TasksService } from './tasks.service'
