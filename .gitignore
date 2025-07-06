@@ -65,3 +65,4 @@ migrations/*.ts
 
 # Local Netlify folder
 .netlify
+gin-server

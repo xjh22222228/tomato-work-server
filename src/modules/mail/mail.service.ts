@@ -127,8 +127,6 @@ ${data.markdown || ''}
    */
   async sendReminder() {
     try {
-      const appTitle = this.configService.get<string>('APP_TITLE')
-
       // 获取未发送的提醒事项
       const reminderItems = await this.remindersService.findAllNotSend()
       this.logger.log(`待发送数量: ${reminderItems.length}`)
@@ -164,7 +162,7 @@ ${data.markdown || ''}
 
         const mailData = {
           to: email,
-          subject: `您有${content.length}项提醒事项 - ${appTitle}`,
+          subject: content.join('；'),
           html,
           sckey,
           markdown,
