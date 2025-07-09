@@ -147,11 +147,20 @@ ${data.markdown || ''}
             cron,
           }
         }
+
+        if (cron) {
+          const date = getNextCronExecution(cron)
+          if (date) {
+            this.remindersService.updateByIds([id], { date })
+          }
+        } else {
+          this.remindersService.updateByIds([id], { type: 2 })
+        }
       })
 
       // 推送
       for (let email in user) {
-        const { content, ids, sckey, cron } = user[email]
+        const { content, sckey } = user[email]
         let html = ''
         let markdown = ''
 
@@ -169,15 +178,6 @@ ${data.markdown || ''}
         }
 
         try {
-          if (cron) {
-            const date = getNextCronExecution(cron)
-            if (date) {
-              await this.remindersService.updateByIds(ids, { date })
-            }
-          } else {
-            await this.remindersService.updateByIds(ids, { type: 2 })
-          }
-
           await Promise.allSettled([
             this.wechatPush(mailData),
             this.send(mailData),
